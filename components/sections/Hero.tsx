@@ -16,18 +16,18 @@ import { useLanguage } from "@/hooks/useLanguage";
 const techStack = ["Flutter", "Dart", "Firebase", "Supabase", "REST APIs"];
 
 const stats = [
-  { value: "15+", label: "Projects",   labelAr: "مشروع"      },
-  { value: "2+",  label: "Years Exp.", labelAr: "سنوات خبرة" },
+  { value: "15+", label: "Projects", labelAr: "مشروع" },
+  { value: "2+", label: "Years Exp.", labelAr: "سنوات خبرة" },
 ];
 
 const socialLinks = [
-  { href: personalInfo.github,   icon: Github,   label: "GitHub"   },
+  { href: personalInfo.github, icon: Github, label: "GitHub" },
   { href: personalInfo.linkedin, icon: Linkedin, label: "LinkedIn" },
 ];
 
 const fadeUp = (delay = 0) => ({
-  initial:    { opacity: 0, y: 20 },
-  animate:    { opacity: 1, y: 0  },
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0 },
   transition: { delay, duration: 0.6, ease: [0.22, 1, 0.36, 1] },
 });
 
@@ -39,11 +39,11 @@ export default function Hero() {
     <section
       id="home"
       dir={isAr ? "rtl" : "ltr"}
-      className="relative bg-slate-950
+      className=" bg-slate-950
         /* Mobile: scrollable because content is stacked */
         min-h-screen overflow-x-hidden
         /* Desktop: locked to viewport */
-        lg:h-screen lg:overflow-hidden"
+        lg:h-screen overflow-hidden"
     >
       {/* ── noise ── */}
       <div
@@ -72,14 +72,19 @@ export default function Hero() {
       <motion.div
         className="pointer-events-none absolute -left-28 -top-10 h-[420px] w-[420px] rounded-full blur-[120px]"
         style={{ background: "rgba(56,189,248,.13)" }}
-        animate={{ scale: [1, 1.07, 1], opacity: [.6, 1, .6] }}
+        animate={{ scale: [1, 1.07, 1], opacity: [0.6, 1, 0.6] }}
         transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
       />
       <motion.div
         className="pointer-events-none absolute -bottom-16 right-0 h-80 w-80 rounded-full blur-[100px]"
         style={{ background: "rgba(129,140,248,.11)" }}
-        animate={{ scale: [1, 1.08, 1], opacity: [.5, .9, .5] }}
-        transition={{ duration: 9, delay: 1, repeat: Infinity, ease: "easeInOut" }}
+        animate={{ scale: [1, 1.08, 1], opacity: [0.5, 0.9, 0.5] }}
+        transition={{
+          duration: 9,
+          delay: 1,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
       />
 
       {/* ════════════════════════════════════════════════════════════
@@ -94,19 +99,30 @@ export default function Hero() {
           Rendered with flex-col; visible only below lg.
       ════════════════════════════════════════════════════════════ */}
       <div className="relative z-10 flex flex-col items-center px-5 pt-16 pb-24 sm:px-8 lg:hidden">
-
         {/* ── circular photo ── */}
         <motion.div
           initial={{ opacity: 0, scale: 0.88 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          className="mb-7 flex flex-col items-center"
+          className=" flex flex-col items-center"
         >
+          <motion.span
+            {...fadeUp(0.1)}
+            className="mt-8 inline-flex items-center gap-2 rounded-full border border-slate-700/80 bg-slate-900/80 px-4 py-1.5 font-mono text-[0.65rem] uppercase tracking-[0.22em] text-slate-300 backdrop-blur-sm"
+          >
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
+              <span className="relative h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,.8)]" />
+            </span>
+            {isAr ? "متاح للعمل الحر" : "Available for freelance"}
+          </motion.span>
+
           {/* glow ring */}
           <div
-            className="relative rounded-full p-[3px]"
+            className="relative rounded-full p-[3px] mt-10"
             style={{
-              background: "linear-gradient(140deg,#67e8f9,#38bdf8,#818cf8,#67e8f9)",
+              background:
+                "linear-gradient(140deg,#67e8f9,#38bdf8,#818cf8,#67e8f9)",
             }}
           >
             {/* inner white gap */}
@@ -127,26 +143,15 @@ export default function Hero() {
           />
         </motion.div>
 
-        {/* ── available badge ── */}
-        <motion.span
-          {...fadeUp(0.1)}
-          className="mb-4 inline-flex items-center gap-2 rounded-full border border-slate-700/80 bg-slate-900/80 px-4 py-1.5 font-mono text-[0.65rem] uppercase tracking-[0.22em] text-slate-300 backdrop-blur-sm"
-        >
-          <span className="relative flex h-2 w-2">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
-            <span className="relative h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,.8)]" />
-          </span>
-          {isAr ? "متاح للعمل الحر" : "Available for freelance"}
-        </motion.span>
-
         {/* ── name ── */}
         <motion.h1
           {...fadeUp(0.16)}
-          className="mb-1 text-center font-display font-extrabold leading-tight tracking-tight text-white"
+          className="-mt-10 mb-5 text-center font-display font-extrabold leading-tight tracking-tight text-white"
           style={{ fontSize: "clamp(1.9rem, 7vw, 2.8rem)" }}
         >
           {isAr ? personalInfo.nameAr : personalInfo.name}
         </motion.h1>
+        {/* ── available badge ── */}
 
         {/* ── title ── */}
         <motion.p
@@ -154,7 +159,8 @@ export default function Hero() {
           className="mb-4 text-center font-display font-bold tracking-tight"
           style={{
             fontSize: "clamp(1rem, 4.5vw, 1.5rem)",
-            background: "linear-gradient(100deg,#67e8f9 0%,#38bdf8 45%,#a78bfa 100%)",
+            background:
+              "linear-gradient(100deg,#67e8f9 0%,#38bdf8 45%,#a78bfa 100%)",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
             backgroundClip: "text",
@@ -197,8 +203,10 @@ export default function Hero() {
             rel="noopener noreferrer"
             className="group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-2xl px-7 py-3.5 text-sm font-bold text-slate-950 transition-all hover:scale-[1.02] active:scale-[.97]"
             style={{
-              background: "linear-gradient(135deg,#67e8f9 0%,#38bdf8 50%,#818cf8 100%)",
-              boxShadow: "0 0 28px -6px rgba(56,189,248,.55),0 4px 14px rgba(0,0,0,.25)",
+              background:
+                "linear-gradient(135deg,#67e8f9 0%,#38bdf8 50%,#818cf8 100%)",
+              boxShadow:
+                "0 0 28px -6px rgba(56,189,248,.55),0 4px 14px rgba(0,0,0,.25)",
             }}
           >
             <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/25 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
@@ -278,7 +286,6 @@ export default function Hero() {
       >
         {/* ── text column ── */}
         <div className="flex w-1/2 flex-col items-start gap-5 text-start xl:w-[52%]">
-
           {/* badge */}
           <motion.span
             {...fadeUp(0.08)}
@@ -306,7 +313,8 @@ export default function Hero() {
             className="font-display font-bold tracking-tight"
             style={{
               fontSize: "clamp(1.2rem, 2.5vw, 2.2rem)",
-              background: "linear-gradient(100deg,#67e8f9 0%,#38bdf8 45%,#a78bfa 100%)",
+              background:
+                "linear-gradient(100deg,#67e8f9 0%,#38bdf8 45%,#a78bfa 100%)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               backgroundClip: "text",
@@ -343,8 +351,10 @@ export default function Hero() {
               rel="noopener noreferrer"
               className="group relative inline-flex items-center gap-2 overflow-hidden rounded-2xl px-7 py-3.5 text-sm font-bold text-slate-950 transition-all hover:scale-[1.02] active:scale-[.97]"
               style={{
-                background: "linear-gradient(135deg,#67e8f9 0%,#38bdf8 50%,#818cf8 100%)",
-                boxShadow: "0 0 30px -6px rgba(56,189,248,.6),0 4px 16px rgba(0,0,0,.25)",
+                background:
+                  "linear-gradient(135deg,#67e8f9 0%,#38bdf8 50%,#818cf8 100%)",
+                boxShadow:
+                  "0 0 30px -6px rgba(56,189,248,.6),0 4px 16px rgba(0,0,0,.25)",
               }}
             >
               <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/25 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
@@ -404,7 +414,6 @@ export default function Hero() {
               }}
             >
               <div className="relative overflow-hidden rounded-[1.72rem] bg-slate-950/90 p-4 backdrop-blur-xl">
-
                 {/* photo */}
                 <div className="relative overflow-hidden rounded-[1.4rem] border border-white/[.07]">
                   <img
@@ -451,7 +460,6 @@ export default function Hero() {
                     </div>
                   ))}
                 </div>
-
               </div>
             </div>
           </div>
@@ -459,16 +467,20 @@ export default function Hero() {
       </div>
 
       {/* ── scroll indicator ── */}
-      <motion.button
+      {/* <motion.button
         type="button"
         aria-label="Scroll down"
-        onClick={() => document.getElementById("about")?.scrollIntoView({ behavior: "smooth" })}
+        onClick={() =>
+          document
+            .getElementById("about")
+            ?.scrollIntoView({ behavior: "smooth" })
+        }
         className="absolute bottom-6 left-1/2 -translate-x-1/2 rounded-full border border-slate-700/70 bg-slate-950/80 p-2.5 text-slate-500 backdrop-blur-sm transition-all hover:border-cyan-400/40 hover:text-cyan-300"
         animate={{ y: [0, 8, 0] }}
         transition={{ repeat: Infinity, duration: 2.5, ease: "easeInOut" }}
       >
         <ChevronDown size={20} />
-      </motion.button>
+      </motion.button> */}
     </section>
   );
 }
