@@ -1,21 +1,15 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  Github,
-  Download,
-  Play,
-  ChevronLeft,
-  ChevronRight,
-} from "lucide-react";
+import { Github, Download, Play } from "lucide-react";
 import { projects, Project } from "@/data/projects";
 import { useLanguage } from "@/hooks/useLanguage";
 import { cn } from "@/utils/cn";
 
 type Filter = "All" | "Mobile" | "Desktop";
 
-const filters = [
+const filters: { label: string; labelAr: string; value: Filter }[] = [
   { label: "All", labelAr: "الكل", value: "All" },
   { label: "Mobile", labelAr: "موبايل", value: "Mobile" },
   { label: "Desktop", labelAr: "سطح المكتب", value: "Desktop" },
@@ -29,7 +23,6 @@ const badgeColors: Record<string, { bg: string; text: string }> = {
 
 function ProjectCard({ project, index }: { project: Project; index: number }) {
   const { isAr } = useLanguage();
-
   const badgeStyle = badgeColors[project.badge ?? ""] ?? {
     bg: "rgba(148,163,184,0.16)",
     text: "#f8fafc",
@@ -38,70 +31,65 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
   return (
     <motion.div
       layout
-      initial={{ opacity: 0, y: 20, scale: 0.96 }}
+      initial={{ opacity: 0, y: 24, scale: 0.97 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
-      exit={{ opacity: 0, y: -10, scale: 0.96 }}
-      transition={{ duration: 0.3, delay: index * 0.04 }}
-      className="group flex-shrink-0 w-[280px] sm:w-[300px] md:w-[320px] xl:w-full h-[420px] sm:h-[440px] flex flex-col rounded-[26px] overflow-hidden border border-slate-700/70 bg-slate-950/85 backdrop-blur-xl shadow-[0_20px_60px_-40px_rgba(0,0,0,0.6)] transition-all duration-300 hover:-translate-y-1 hover:border-slate-500/40"
+      exit={{ opacity: 0, y: -12, scale: 0.95 }}
+      transition={{ duration: 0.35, delay: index * 0.05 }}
+      whileHover={{ y: -6 }}
+      className="group rounded-[28px] overflow-hidden border border-slate-700/70 bg-slate-950/85 shadow-[0_24px_80px_-50px_rgba(0,0,0,0.5)] backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:border-slate-500/40"
     >
-      {/* Image */}
       <div
-        className="relative aspect-[16/10] w-full bg-slate-900 overflow-hidden"
-        style={{
-          backgroundImage: `url('${project.imagePath}')`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
+        className="relative h-56 overflow-hidden bg-slate-900 bg-cover bg-center"
+        style={{ backgroundImage: `url('${project.imagePath}')` }}
       >
         <div className="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-transparent to-transparent" />
 
-        <div className="absolute left-3 top-3 text-xs px-3 py-1 rounded-full bg-slate-900/80 text-slate-200">
+        <div className="absolute left-4 top-4 rounded-full bg-slate-950/80 px-3 py-1.5 text-xs font-semibold text-slate-200 shadow-lg shadow-slate-950/20">
           {project.category}
         </div>
 
         {project.badge && (
           <div
-            className="absolute right-3 top-3 text-xs px-3 py-1 rounded-full"
-            style={{ backgroundColor: badgeStyle.bg, color: badgeStyle.text }}
+            className="absolute right-4 top-4 rounded-full px-3 py-1.5 text-xs font-semibold"
+            style={{ backgroundColor: badgeStyle.bg }}
           >
-            ★ {project.badge}
+            <span style={{ color: badgeStyle.text }}>★ {project.badge}</span>
           </div>
         )}
       </div>
 
-      {/* Content */}
-      <div className="p-5 flex flex-col flex-1 gap-3">
+      <div className="p-6 flex flex-col gap-4">
         <div>
-          <h3 className="text-lg font-semibold text-white">{project.title}</h3>
-
-          <p className="mt-2 text-sm text-slate-400 leading-6 line-clamp-3">
+          <h3 className="font-display text-xl font-semibold text-white transition-colors">
+            {project.title}
+          </h3>
+          <p className="mt-3 text-sm leading-7 text-slate-400">
             {project.description}
           </p>
         </div>
 
-        {/* Tech */}
-        <div className="flex flex-wrap gap-1.5">
+        <div className="flex flex-wrap gap-2">
           {project.technologies.map((tech) => (
             <span
-              key={tech}
-              className="text-[10px] px-2 py-1 rounded-full border border-slate-700/70 bg-slate-900/60 text-slate-300"
+              key={`${project.title}-${tech}`}
+              className="rounded-full border border-slate-700/70 bg-slate-900/60 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-300"
             >
               {tech}
             </span>
           ))}
         </div>
 
-        {/* Actions */}
-        <div className="mt-auto flex flex-wrap gap-2 pt-2">
+        <div className="mt-auto flex flex-wrap gap-3">
           {project.githubLink && (
             <motion.a
               href={project.githubLink}
               target="_blank"
-              className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-xl border border-slate-700 bg-slate-900 text-white hover:border-slate-500"
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-2xl border border-slate-700/80 bg-slate-900/75 px-4 py-2 text-xs font-semibold text-slate-100 transition hover:border-slate-500/40 hover:bg-slate-900/95"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
             >
-              <Github size={13} />
+              <Github size={14} />
               {isAr ? "الكود" : "Code"}
             </motion.a>
           )}
@@ -110,11 +98,12 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
             <motion.a
               href={project.apkLink}
               target="_blank"
-              className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-xl bg-cyan-500/10 text-cyan-300 hover:bg-cyan-500/20"
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-2xl bg-slate-800/80 px-4 py-2 text-xs font-semibold text-cyan-300 transition hover:bg-cyan-500/15"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
             >
-              <Download size={13} />
+              <Download size={14} />
               APK
             </motion.a>
           )}
@@ -123,11 +112,12 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
             <motion.a
               href={project.videoLink}
               target="_blank"
-              className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-xl bg-violet-500/10 text-violet-300 hover:bg-violet-500/20"
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-2xl bg-slate-800/80 px-4 py-2 text-xs font-semibold text-violet-300 transition hover:bg-violet-500/15"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
             >
-              <Play size={13} />
+              <Play size={14} />
               {isAr ? "فيديو" : "Video"}
             </motion.a>
           )}
@@ -140,87 +130,118 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
 export default function Projects() {
   const [activeFilter, setActiveFilter] = useState<Filter>("All");
   const [visibleCount, setVisibleCount] = useState(6);
-  const scrollRef = useRef<HTMLDivElement>(null);
   const { isAr } = useLanguage();
 
   const filtered = projects.filter(
-    (p) => activeFilter === "All" || p.category === activeFilter,
+    (project) => activeFilter === "All" || project.category === activeFilter,
   );
 
   const visibleProjects = filtered.slice(0, visibleCount);
   const hasMore = visibleCount < filtered.length;
 
-  const scroll = (dir: "left" | "right") => {
-    if (!scrollRef.current) return;
-    scrollRef.current.scrollBy({
-      left: dir === "left" ? -320 : 320,
-      behavior: "smooth",
-    });
+  const loadMore = () => {
+    setVisibleCount((prev) => Math.min(prev + 6, filtered.length));
   };
 
   return (
-    <section className="py-20 bg-slate-950 text-white relative overflow-hidden">
-      <div className="max-w-6xl mx-auto px-4">
-        {/* Header */}
-        <div className="text-center mb-10">
-          <h2 className="text-3xl md:text-5xl font-bold">
+    <section
+      id="projects"
+      className="section relative overflow-hidden bg-slate-950/95"
+    >
+      <div
+        className="absolute left-0 bottom-0 h-80 w-80 rounded-full blur-3xl opacity-10"
+        style={{
+          background:
+            "radial-gradient(circle, rgba(56,189,248,0.2), transparent)",
+        }}
+      />
+      <div className="container mx-auto px-6">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-12"
+        >
+          <p className="text-cyan-300 font-mono text-sm tracking-[0.28em] uppercase mb-3">
+            {isAr ? "أعمالي" : "My Work"}
+          </p>
+          <h2 className="font-display text-4xl md:text-5xl font-semibold text-white mb-4">
             {isAr ? "المشاريع" : "Projects"}
           </h2>
-        </div>
+          <p className="mx-auto max-w-2xl text-sm leading-7 text-slate-400">
+            {isAr
+              ? `عرض ${visibleProjects.length} من ${projects.length} مشروع مع الصور والوصلات الحقيقة. فرز مرتب حسب موبايل وسطح المكتب.`
+              : `Showing ${visibleProjects.length} of ${projects.length} projects with real images, clean cards, and action links.`}
+          </p>
+        </motion.div>
 
-        {/* Filters */}
-        <div className="flex justify-center gap-2 mb-8 flex-wrap">
-          {filters.map((f) => (
-            <button
-              key={f.value}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          className="flex flex-wrap justify-center gap-3 mb-12"
+        >
+          {filters.map((filter) => (
+            <motion.button
+              key={filter.value}
               onClick={() => {
-                setActiveFilter(f.value.toString() as Filter);
-                setVisibleCount(6);
+                setActiveFilter(filter.value);
+                setVisibleCount(6); // Reset visible count when filter changes
               }}
               className={cn(
-                "px-4 py-2 text-sm rounded-full",
-                activeFilter === f.value
-                  ? "bg-cyan-400 text-black"
-                  : "bg-slate-800 text-slate-300",
+                "relative rounded-full px-5 py-2.5 text-sm font-medium transition-all",
+                activeFilter === filter.value
+                  ? "bg-cyan-400 text-slate-950 shadow-lg shadow-cyan-400/20"
+                  : "border border-slate-700/70 bg-slate-900/70 text-slate-300 hover:border-slate-600/70 hover:bg-slate-900/90",
               )}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
             >
-              {isAr ? f.labelAr : f.label}
-            </button>
+              <span>{isAr ? filter.labelAr : filter.label}</span>
+              <span className="ml-2 inline-flex rounded-full bg-slate-900/70 px-2.5 py-1 text-[11px] font-semibold text-slate-300">
+                {filter.value === "All"
+                  ? projects.length
+                  : projects.filter(
+                      (project) => project.category === filter.value,
+                    ).length}
+              </span>
+            </motion.button>
           ))}
-        </div>
+        </motion.div>
 
-        {/* Arrows */}
-        <div className="flex justify-end gap-2 mb-3 xl:hidden">
-          <button onClick={() => scroll("left")}>
-            <ChevronLeft />
-          </button>
-          <button onClick={() => scroll("right")}>
-            <ChevronRight />
-          </button>
-        </div>
-
-        {/* Projects */}
-        <motion.div
-          ref={scrollRef}
-          className="flex gap-4 overflow-x-auto xl:grid xl:grid-cols-3 xl:overflow-visible xl:auto-rows-[1fr]"
-        >
-          <AnimatePresence>
-            {visibleProjects.map((project, i) => (
-              <ProjectCard key={project.title} project={project} index={i} />
+        <motion.div layout className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+          <AnimatePresence mode="popLayout">
+            {visibleProjects.map((project, index) => (
+              <ProjectCard
+                key={project.title}
+                project={project}
+                index={index}
+              />
             ))}
           </AnimatePresence>
         </motion.div>
 
-        {/* Load More */}
         {hasMore && (
-          <div className="flex justify-center mt-10">
-            <button
-              onClick={() => setVisibleCount((p) => p + 6)}
-              className="px-6 py-3 bg-slate-800 rounded-full"
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="mt-12 flex justify-center"
+          >
+            <motion.button
+              onClick={loadMore}
+              className="inline-flex items-center gap-3 rounded-full border border-slate-700/70 bg-slate-900/70 px-8 py-4 text-sm font-semibold text-slate-200 transition hover:border-cyan-400/40 hover:bg-slate-900/90 hover:text-white"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
             >
-              {isAr ? "عرض المزيد" : "Load More"}
-            </button>
-          </div>
+              <span>{isAr ? "عرض المزيد" : "Load More"}</span>
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                className="h-4 w-4 rounded-full border-2 border-slate-400 border-t-cyan-400"
+              />
+            </motion.button>
+          </motion.div>
         )}
       </div>
     </section>
