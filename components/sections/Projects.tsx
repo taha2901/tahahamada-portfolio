@@ -42,7 +42,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, y: -10, scale: 0.96 }}
       transition={{ duration: 0.3, delay: index * 0.04 }}
-      className="group flex-shrink-0 w-[280px] sm:w-[300px] md:w-[320px] xl:w-full h-[420px] sm:h-[440px] flex flex-col rounded-[26px] overflow-hidden border border-slate-700/70 bg-slate-950/85 backdrop-blur-xl shadow-[0_20px_60px_-40px_rgba(0,0,0,0.6)] transition-all duration-300 hover:-translate-y-1 hover:border-slate-500/40"
+      className="overflow-hidden group flex-shrink-0 w-[280px] sm:w-[300px] md:w-[320px] xl:w-full h-[420px] sm:h-[440px] flex flex-col rounded-[26px] border border-slate-700/70 bg-slate-950/85 backdrop-blur-xl shadow-[0_20px_60px_-40px_rgba(0,0,0,0.6)] transition-all duration-300 hover:-translate-y-1 hover:border-slate-500/40"
     >
       {/* Image */}
       <div
