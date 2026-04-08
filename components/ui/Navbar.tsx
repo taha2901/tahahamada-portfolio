@@ -31,14 +31,26 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
-  const [theme, setTheme] = useState<"light" | "dark">("dark");
+  const [theme, setTheme] = useState<"light" | "dark">(() => {
+  if (typeof window !== "undefined") {
+    const saved = localStorage.getItem("theme");
+    if (saved) return saved as "light" | "dark";
+
+    // fallback على system
+    return window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "light";
+  }
+  return "dark";
+});
 
   const { lang, toggleLang, isAr } = useLanguage();
   const items = navItems[lang];
 
   useEffect(() => {
-    document.documentElement.classList.toggle("dark", theme === "dark");
-  }, [theme]);
+  document.documentElement.classList.toggle("dark", theme === "dark");
+  localStorage.setItem("theme", theme);
+}, [theme]);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 40);
