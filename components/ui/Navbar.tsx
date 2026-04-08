@@ -2,8 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Sun, Moon, Globe } from "lucide-react";
-import { useTheme } from "@/hooks/useTheme";
+import { Menu, X, Globe } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguage";
 import { cn } from "@/utils/cn";
 
@@ -26,37 +25,55 @@ const navItems = {
   ],
 };
 
+const sectionIds = ["home", "about", "skills", "projects", "services", "contact"];
+
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
-  const { toggleTheme, isDark } = useTheme();
   const { lang, toggleLang, isAr } = useLanguage();
 
   const items = navItems[lang];
 
+  // ✅ scroll glass effect
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 40);
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // ✅ active section detection عن طريق offsetTop مباشرة — أدق من IntersectionObserver
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) setActiveSection(entry.target.id);
-        });
-      },
-      { threshold: 0.4 }
-    );
-    document.querySelectorAll("section[id]").forEach((s) => observer.observe(s));
-    return () => observer.disconnect();
+    const detectActive = () => {
+      // نقطة المرجع: ثلث الشاشة من فوق (مكان الناف بار تقريباً)
+      const triggerY = window.scrollY + window.innerHeight * 0.3;
+
+      let current = sectionIds[0];
+
+      for (const id of sectionIds) {
+        const el = document.getElementById(id);
+        if (!el) continue;
+        // getBoundingClientRect + scrollY أدق من offsetTop لو في nested layouts
+        const top = el.getBoundingClientRect().top + window.scrollY;
+        if (top <= triggerY) {
+          current = id;
+        }
+      }
+
+      setActiveSection(current);
+    };
+
+    window.addEventListener("scroll", detectActive, { passive: true });
+    // نشغله مرة عند mount عشان يحدد الـ active الصح من أول ما الصفحة تفتح
+    detectActive();
+
+    return () => window.removeEventListener("scroll", detectActive);
   }, []);
 
   const handleNavClick = (href: string) => {
-    setMobileOpen(false);
     const id = href.replace("#", "");
+    setActiveSection(id); // فوري قبل ما الـ scroll يحصل
+    setMobileOpen(false);
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   };
 
@@ -70,7 +87,7 @@ export default function Navbar() {
           "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
           scrolled
             ? "py-3 glass border-b border-white/5"
-            : "py-6 bg-transparent"
+            : "py-6 bg-transparent",
         )}
       >
         <div className="container mx-auto px-6 flex items-center justify-between">
@@ -91,7 +108,6 @@ export default function Navbar() {
             >
               TH
             </span>
-            <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-gradient-to-r from-brand-400 to-accent-purple group-hover:w-full transition-all duration-300 rounded-full" />
           </motion.button>
 
           {/* Desktop nav */}
@@ -99,24 +115,32 @@ export default function Navbar() {
             {items.map((item) => {
               const sectionId = item.href.replace("#", "");
               const isActive = activeSection === sectionId;
+
               return (
                 <button
                   key={item.href}
                   onClick={() => handleNavClick(item.href)}
                   className={cn(
-                    "relative px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200",
+                    "relative px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-200",
                     isActive
                       ? "text-brand-400 dark:text-brand-300"
-                      : "text-slate-400 hover:text-white dark:hover:text-white"
+                      : "text-slate-400 hover:text-white dark:hover:text-white",
                   )}
                 >
-                  {isActive && (
-                    <motion.span
-                      layoutId="activeNav"
-                      className="absolute inset-0 rounded-lg bg-brand-500/10 border border-brand-500/20"
-                      transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                    />
-                  )}
+                  {/* background مستقل لكل زرار — مش layoutId مشترك */}
+                  <AnimatePresence>
+                    {isActive && (
+                      <motion.span
+                        key={sectionId}
+                        initial={{ opacity: 0, scale: 0.85 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.85 }}
+                        transition={{ duration: 0.2, ease: "easeOut" }}
+                        className="absolute inset-0 rounded-lg bg-brand-500/10 border border-brand-500/20"
+                      />
+                    )}
+                  </AnimatePresence>
+
                   <span className="relative z-10">{item.label}</span>
                 </button>
               );
@@ -125,7 +149,6 @@ export default function Navbar() {
 
           {/* Controls */}
           <div className="flex items-center gap-2">
-            {/* Language */}
             <motion.button
               onClick={toggleLang}
               whileHover={{ scale: 1.05 }}
@@ -137,40 +160,6 @@ export default function Navbar() {
               <span className="font-mono text-xs">{isAr ? "EN" : "عر"}</span>
             </motion.button>
 
-            {/* Theme */}
-            <motion.button
-              onClick={toggleTheme}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="p-2 rounded-lg glass text-slate-300 hover:text-white transition-colors"
-              title="Toggle theme"
-            >
-              <AnimatePresence mode="wait">
-                {isDark ? (
-                  <motion.div
-                    key="sun"
-                    initial={{ rotate: -90, opacity: 0 }}
-                    animate={{ rotate: 0, opacity: 1 }}
-                    exit={{ rotate: 90, opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <Sun size={16} />
-                  </motion.div>
-                ) : (
-                  <motion.div
-                    key="moon"
-                    initial={{ rotate: 90, opacity: 0 }}
-                    animate={{ rotate: 0, opacity: 1 }}
-                    exit={{ rotate: -90, opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <Moon size={16} />
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.button>
-
-            {/* Mobile menu */}
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
               className="md:hidden p-2 rounded-lg glass text-slate-300 hover:text-white transition-colors"
@@ -191,18 +180,28 @@ export default function Navbar() {
             transition={{ duration: 0.2 }}
             className="fixed top-16 left-4 right-4 z-40 glass-strong rounded-2xl p-4 border border-white/10 md:hidden"
           >
-            {items.map((item, i) => (
-              <motion.button
-                key={item.href}
-                onClick={() => handleNavClick(item.href)}
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: i * 0.05 }}
-                className="w-full text-left px-4 py-3 rounded-xl text-slate-300 hover:text-white hover:bg-white/5 transition-all font-medium"
-              >
-                {item.label}
-              </motion.button>
-            ))}
+            {items.map((item, i) => {
+              const sectionId = item.href.replace("#", "");
+              const isActive = activeSection === sectionId;
+
+              return (
+                <motion.button
+                  key={item.href}
+                  onClick={() => handleNavClick(item.href)}
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.05 }}
+                  className={cn(
+                    "w-full text-left px-4 py-3 rounded-xl font-medium transition-all",
+                    isActive
+                      ? "text-brand-400 dark:text-brand-300 bg-brand-500/10"
+                      : "text-slate-300 hover:text-white hover:bg-white/5",
+                  )}
+                >
+                  {item.label}
+                </motion.button>
+              );
+            })}
           </motion.div>
         )}
       </AnimatePresence>
