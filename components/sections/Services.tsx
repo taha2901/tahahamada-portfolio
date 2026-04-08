@@ -37,7 +37,7 @@ export default function Services() {
         </motion.div>
 
         {/* Services grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="flex justify-center items-center flex-wrap gap-6">
           {services.map((service, i) => (
             <motion.div
               key={service.title}
@@ -46,7 +46,7 @@ export default function Services() {
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
               whileHover={{ y: -6, scale: 1.02 }}
-              className="gradient-border glass rounded-2xl p-7 group cursor-default"
+              className="gradient-border glass rounded-2xl p-7 group cursor-default w-[90%] md:w-[45%] lg:w-[30%] h-60"
             >
               {/* Icon */}
               <motion.div
