@@ -15,7 +15,7 @@ const techStack = ["Flutter", "Dart", "Firebase", "Supabase", "REST APIs"];
 
 const stats = [
   { value: "15+", label: "Projects", labelAr: "مشروع" },
-  { value: "2+", label: "Years Exp.", labelAr: "سنوات خبرة" },
+  { value: "1+", label: "Years Exp.", labelAr: "سنوات خبرة" },
 ];
 
 const socialLinks = [
