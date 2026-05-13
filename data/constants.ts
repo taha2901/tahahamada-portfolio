@@ -20,7 +20,7 @@ export const personalInfo = {
   whatsapp: "201061257703",
   github: "https://github.com/taha2901",
   linkedin: "https://www.linkedin.com/in/taha-hamada",
-  cv: "https://drive.google.com/file/d/1_ZfeTjeO1oxD6Tc1UIPJG4bCSwvodYCb/view?usp=drive_link",
+  cv: "https://drive.google.com/file/d/1Nt1z0ZRWcxL-Nf75UAjd9iVAFlkpmCzm/view?usp=drive_link",
 };
 
 export const skills = [

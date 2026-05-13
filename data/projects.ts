@@ -7,19 +7,10 @@ export type Project = {
   videoLink?: string;
   imagePath: string;
   badge?: string;
-  category: "Mobile" | "Desktop";
+  category: "Mobile" | "Desktop" | "Web";
 };
 
 export const projects: Project[] = [
-  {
-    title: "E-Learning Platform",
-    description: "Full-featured e-learning app with courses, videos, progress tracking, and certificates.",
-    technologies: ["Flutter", "Mobile", "Supabase", "API"],
-    imagePath: "/images/e_learning.png",
-    apkLink: "https://drive.google.com/file/d/1iAmiFS9Scwa_IJyPd8SpyygUfFytTbim/view",
-    videoLink: "https://drive.google.com/file/d/1rNMoGTE7pqAsTfGJJO5Q1brqA1RRD9PJ/view",
-    category: "Mobile",
-  },
   {
     title: "سلة | SallaX",
     description: "E-commerce app with cart, auth,watchlist, payment and google maps integration.",
@@ -29,6 +20,15 @@ export const projects: Project[] = [
     apkLink: "https://drive.google.com/file/d/1uaqcIQlU5rHjR5vHylyfur2UfFvxGCPU/view?usp=drive_link",
     videoLink: "https://drive.google.com/file/d/1H3ZVavLUyT4ofbVDEfMbYA-9k9MVCT53/view?usp=drive_link",
     badge: "Featured",
+    category: "Mobile",
+  },
+  {
+    title: "E-Learning Platform",
+    description: "Full-featured e-learning app with courses, videos, progress tracking, and certificates.",
+    technologies: ["Flutter", "Mobile", "Supabase", "API"],
+    imagePath: "/images/e_learning.png",
+    apkLink: "https://drive.google.com/file/d/1iAmiFS9Scwa_IJyPd8SpyygUfFytTbim/view",
+    videoLink: "https://drive.google.com/file/d/1rNMoGTE7pqAsTfGJJO5Q1brqA1RRD9PJ/view",
     category: "Mobile",
   },
   {
@@ -133,5 +133,14 @@ export const projects: Project[] = [
     videoLink: "https://drive.google.com/file/d/1pMMNzpvL_O-fYa5hH_QFJx_GuCIaHkjS/view",
     badge: "Design Only",
     category: "Desktop",
+  },
+  {
+    title: "Market Neurons",
+    description: "Business website providing detailed information for analysts to purchase fertilizers like urea, with an articles section.",
+    technologies: ["Next.js", "React", "Web"],
+    githubLink: "https://market-neurons.vercel.app/",
+    imagePath: "/images/market_neurons.png",
+    badge: "Live",
+    category: "Web",
   },
 ];

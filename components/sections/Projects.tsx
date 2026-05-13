@@ -2,23 +2,25 @@
 
 import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Github, Download, Play, ChevronLeft, ChevronRight } from "lucide-react";
+import { Github, Download, Play, ChevronLeft, ChevronRight, ExternalLink } from "lucide-react";
 import { projects, Project } from "@/data/projects";
 import { useLanguage } from "@/hooks/useLanguage";
 import { cn } from "@/utils/cn";
 
-type Filter = "All" | "Mobile" | "Desktop";
+type Filter = "All" | "Mobile" | "Desktop" | "Web";
 
 const filters = [
   { label: "All", labelAr: "الكل", value: "All" },
   { label: "Mobile", labelAr: "موبايل", value: "Mobile" },
   { label: "Desktop", labelAr: "سطح المكتب", value: "Desktop" },
+  { label: "Web", labelAr: "ويب", value: "Web" },
 ];
 
 const badgeColors: Record<string, { bg: string; text: string }> = {
   Featured: { bg: "rgba(56,189,248,0.16)", text: "#38bdf8" },
   Offline: { bg: "rgba(34,197,94,0.16)", text: "#22c55e" },
   "Design Only": { bg: "rgba(129,140,248,0.16)", text: "#a78bfa" },
+  Live: { bg: "rgba(239,68,68,0.16)", text: "#ef4444" },
 };
 
 function ProjectCard({ project, index }: { project: Project; index: number }) {
@@ -94,8 +96,14 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
             >
-              <Github size={13} />
-              {isAr ? "الكود" : "Code"}
+              {project.category === "Web" ? <ExternalLink size={13} /> : <Github size={13} />}
+              {project.category === "Web"
+                ? isAr
+                  ? "لايف"
+                  : "Live"
+                : isAr
+                ? "الكود"
+                : "Code"}
             </motion.a>
           )}
 
