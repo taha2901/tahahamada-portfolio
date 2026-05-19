@@ -12,11 +12,22 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    title: "Soferty",
+    description: "Sofrety is a modern food delivery mobile application built with Flutter, providing a seamless user experience for ordering meals from restaurants. The application includes online payment integration, Google Maps address selection, cart and favorites management, responsive UI, and clean state management using Bloc/Cubit architecture.",
+    technologies: ["Flutter", "Bloc", "Firebase", "OSM" , "Payment Gateway"],
+    githubLink: "https://github.com/taha2901/food_delivery_app",
+    imagePath: "/images/soferty.png",
+    apkLink: "https://drive.google.com/file/d/1t_hEgvn5gdxMt-7w8QGoB1Fa7CCsFfsH/view?usp=drive_link",
+    videoLink: "https://drive.google.com/file/d/1emgmVqeErqGAcY-EtGZKS4UazPnnxbyW/view?usp=sharing",
+    badge: "Featured",
+    category: "Mobile",
+  },
+  {
     title: "سلة | SallaX",
     description: "E-commerce app with cart, auth,watchlist, payment and google maps integration.",
     technologies: ["Flutter", "Bloc", "Sqlite", "API"],
     githubLink: "https://github.com/taha2901/ECE",
-    imagePath: "/images/store app.png",
+    imagePath: "/images/SallaX.png",
     apkLink: "https://drive.google.com/file/d/1uaqcIQlU5rHjR5vHylyfur2UfFvxGCPU/view?usp=drive_link",
     videoLink: "https://drive.google.com/file/d/1H3ZVavLUyT4ofbVDEfMbYA-9k9MVCT53/view?usp=drive_link",
     badge: "Featured",
