@@ -18,7 +18,7 @@ export const projects: Project[] = [
     githubLink: "https://github.com/taha2901/food_delivery_app",
     imagePath: "/images/soferty.png",
     apkLink: "https://drive.google.com/file/d/1t_hEgvn5gdxMt-7w8QGoB1Fa7CCsFfsH/view?usp=drive_link",
-    videoLink: "https://drive.google.com/file/d/1emgmVqeErqGAcY-EtGZKS4UazPnnxbyW/view?usp=sharing",
+    videoLink: "https://drive.google.com/file/d/1u7tRqu6Y36O-XhV4BsZwwT0wkmFBHZRy/view?usp=drivesdk",
     badge: "Featured",
     category: "Mobile",
   },
