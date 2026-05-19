@@ -12,7 +12,7 @@ export type Project = {
 
 export const projects: Project[] = [
   {
-    title: "Soferty",
+    title: "Sofrety",
     description: "Sofrety is a modern food delivery mobile application built with Flutter, providing a seamless user experience for ordering meals from restaurants. The application includes online payment integration, Google Maps address selection, cart and favorites management, responsive UI, and clean state management using Bloc/Cubit architecture.",
     technologies: ["Flutter", "Bloc", "Firebase", "OSM" , "Payment Gateway"],
     githubLink: "https://github.com/taha2901/food_delivery_app",
