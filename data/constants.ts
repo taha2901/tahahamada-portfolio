@@ -1,7 +1,7 @@
 import { projects } from "./projects";
 
 // ✏️ Edit this value to update years of experience across the entire site
-export const yearsOfExperience = 2;
+export const yearsOfExperience = 1;
 
 // Auto-calculated
 export const totalProjects = projects.length;
