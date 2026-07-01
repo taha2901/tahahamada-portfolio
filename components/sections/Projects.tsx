@@ -3,6 +3,7 @@
 import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Github, Download, Play, ChevronLeft, ChevronRight, ExternalLink } from "lucide-react";
+import Link from "next/link";
 import { projects, Project } from "@/data/projects";
 import { useLanguage } from "@/hooks/useLanguage";
 import { cn } from "@/utils/cn";
@@ -19,6 +20,7 @@ const filters = [
 const badgeColors: Record<string, { bg: string; text: string }> = {
   Featured: { bg: "rgba(56,189,248,0.16)", text: "#38bdf8" },
   Offline: { bg: "rgba(34,197,94,0.16)", text: "#22c55e" },
+  "Local-first": { bg: "rgba(34,197,94,0.16)", text: "#22c55e" },
   "Design Only": { bg: "rgba(129,140,248,0.16)", text: "#a78bfa" },
   Live: { bg: "rgba(239,68,68,0.16)", text: "#ef4444" },
 };
@@ -40,99 +42,125 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
       transition={{ duration: 0.3, delay: index * 0.04 }}
       className="overflow-hidden group flex-shrink-0 w-[280px] sm:w-[300px] md:w-[320px] xl:w-full h-[420px] sm:h-[440px] flex flex-col rounded-[26px] border border-slate-200 dark:border-slate-700/70 bg-white dark:bg-slate-950/85 backdrop-blur-xl shadow-[0_20px_60px_-40px_rgba(0,0,0,0.15)] dark:shadow-[0_20px_60px_-40px_rgba(0,0,0,0.6)] transition-all duration-300 hover:-translate-y-1 hover:border-slate-400/40 dark:hover:border-slate-500/40"
     >
-      {/* Image */}
-      <div
-        className="relative aspect-[16/10] w-full bg-slate-100 dark:bg-slate-900 overflow-hidden"
-        style={{
-          backgroundImage: `url('${project.imagePath}')`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-t from-white/90 dark:from-slate-950/95 via-transparent to-transparent" />
+      {/* Link to detail page for the image and text card body */}
+      <Link href={`/projects/${project.slug}`} className="flex flex-col flex-grow min-h-0">
+        {/* Image */}
+        <div
+          className="relative aspect-[16/10] w-full bg-slate-100 dark:bg-slate-900 overflow-hidden flex-shrink-0"
+          style={{
+            backgroundImage: `url('${project.images[0]}')`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        >
+          <div className="absolute inset-0 bg-gradient-to-t from-white/90 dark:from-slate-950/95 via-transparent to-transparent" />
 
-        <div className="absolute left-3 top-3 text-xs px-3 py-1 rounded-full bg-white/80 dark:bg-slate-900/80 text-slate-700 dark:text-slate-200">
-          {project.category}
-        </div>
-
-        {project.badge && (
-          <div
-            className="absolute right-3 top-3 text-xs px-3 py-1 rounded-full"
-            style={{ backgroundColor: badgeStyle.bg, color: badgeStyle.text }}
-          >
-            ★ {project.badge}
+          <div className="absolute left-3 top-3 text-xs px-3 py-1 rounded-full bg-white/80 dark:bg-slate-900/80 text-slate-700 dark:text-slate-200">
+            {project.category}
           </div>
-        )}
-      </div>
 
-      {/* Content */}
-      <div className="p-5 flex flex-col flex-1 gap-3">
-        <div>
-          <h3 className="text-lg font-semibold text-slate-900 dark:text-white">{project.title}</h3>
-          <p className="mt-2 text-sm text-slate-500 dark:text-slate-400 leading-6 line-clamp-3">
-            {project.description}
-          </p>
-        </div>
-
-        {/* Tech */}
-        <div className="flex flex-wrap gap-1.5">
-          {project.technologies.map((tech) => (
-            <span
-              key={tech}
-              className="text-[10px] px-2 py-1 rounded-full border border-slate-200 dark:border-slate-700/70 bg-slate-100 dark:bg-slate-900/60 text-slate-600 dark:text-slate-300"
+          {project.badge && (
+            <div
+              className="absolute right-3 top-3 text-xs px-3 py-1 rounded-full"
+              style={{ backgroundColor: badgeStyle.bg, color: badgeStyle.text }}
             >
-              {tech}
-            </span>
-          ))}
-        </div>
-
-        {/* Actions */}
-        <div className="mt-auto flex flex-wrap gap-2 pt-2">
-          {project.githubLink && (
-            <motion.a
-              href={project.githubLink}
-              target="_blank"
-              className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-900 text-slate-700 dark:text-white hover:border-slate-400 dark:hover:border-slate-500"
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-            >
-              {project.category === "Web" ? <ExternalLink size={13} /> : <Github size={13} />}
-              {project.category === "Web"
-                ? isAr
-                  ? "لايف"
-                  : "Live"
-                : isAr
-                ? "الكود"
-                : "Code"}
-            </motion.a>
-          )}
-
-          {project.apkLink && (
-            <motion.a
-              href={project.apkLink}
-              target="_blank"
-              className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-xl bg-cyan-500/10 text-cyan-600 dark:text-cyan-300 hover:bg-cyan-500/20"
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-            >
-              <Download size={13} />
-              APK
-            </motion.a>
-          )}
-
-          {project.videoLink && (
-            <motion.a
-              href={project.videoLink}
-              target="_blank"
-              className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-xl bg-violet-500/10 text-violet-600 dark:text-violet-300 hover:bg-violet-500/20"
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-            >
-              <Play size={13} />
-              {isAr ? "فيديو" : "Video"}
-            </motion.a>
+              ★ {project.badge}
+            </div>
           )}
         </div>
+
+        {/* Content */}
+        <div className="p-5 pb-0 flex flex-col flex-1 gap-2 min-h-0">
+          <div>
+            <h3 className="text-lg font-semibold text-slate-900 dark:text-white line-clamp-1">{project.title}</h3>
+            <p className="mt-1 text-xs text-slate-500 dark:text-slate-400 leading-5 line-clamp-3">
+              {isAr && project.descriptionAr ? project.descriptionAr : project.description}
+            </p>
+          </div>
+
+          {/* Tech */}
+          <div className="flex flex-wrap gap-1 overflow-hidden h-[54px] content-start">
+            {project.techStack.map((tech) => (
+              <span
+                key={tech}
+                className="text-[9px] px-2 py-0.5 rounded-full border border-slate-200 dark:border-slate-700/70 bg-slate-100 dark:bg-slate-900/60 text-slate-600 dark:text-slate-300"
+              >
+                {tech}
+              </span>
+            ))}
+          </div>
+        </div>
+      </Link>
+
+      {/* Actions (Always outside Link to prevent invalid nested a-tags) */}
+      <div className="px-5 pb-5 pt-2 mt-auto flex flex-wrap gap-1.5 flex-shrink-0">
+        <Link
+          href={`/projects/${project.slug}`}
+          className="flex items-center gap-1 text-[10px] px-2.5 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-900 text-slate-700 dark:text-white hover:border-slate-400 dark:hover:border-slate-500 transition-colors"
+        >
+          {isAr ? "التفاصيل" : "Details"}
+        </Link>
+
+        {project.githubUrl ? (
+          <motion.a
+            href={project.githubUrl}
+            target="_blank"
+            className="flex items-center gap-1 text-[10px] px-2.5 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-900 text-slate-700 dark:text-white hover:border-slate-400 dark:hover:border-slate-500"
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+          >
+            {project.category === "Web" ? <ExternalLink size={11} /> : <Github size={11} />}
+            {project.category === "Web"
+              ? isAr
+                ? "لايف"
+                : "Live"
+              : isAr
+              ? "الكود"
+              : "Code"}
+          </motion.a>
+        ) : project.slug === "beitna" ? (
+          <button
+            disabled
+            className="flex items-center gap-1 text-[10px] px-2.5 py-1.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-100/50 dark:bg-slate-900/50 text-slate-400 dark:text-slate-600 cursor-not-allowed opacity-60"
+          >
+            <Github size={11} />
+            {isAr ? "الكود (قريباً)" : "Code (Soon)"}
+          </button>
+        ) : null}
+
+        {project.apkUrl ? (
+          <motion.a
+            href={project.apkUrl}
+            target="_blank"
+            className="flex items-center gap-1 text-[10px] px-2.5 py-1.5 rounded-xl bg-cyan-500/10 text-cyan-600 dark:text-cyan-300 hover:bg-cyan-500/20"
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+          >
+            <Download size={11} />
+            APK
+          </motion.a>
+        ) : null}
+
+        {project.videoUrl ? (
+          <motion.a
+            href={project.videoUrl}
+            target="_blank"
+            className="flex items-center gap-1 text-[10px] px-2.5 py-1.5 rounded-xl bg-violet-500/10 text-violet-600 dark:text-violet-300 hover:bg-violet-500/20"
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+          >
+            <Play size={11} />
+            {isAr ? "فيديو" : "Video"}
+          </motion.a>
+        ) : project.slug === "beitna" ? (
+          <button
+            disabled
+            className="flex items-center gap-1 text-[10px] px-2.5 py-1.5 rounded-xl bg-violet-500/5 text-violet-400/50 dark:text-violet-900/30 border border-violet-500/5 cursor-not-allowed opacity-50"
+          >
+            <Play size={11} />
+            {isAr ? "فيديو (قريباً)" : "Video (Soon)"}
+          </button>
+        ) : null}
       </div>
     </motion.div>
   );

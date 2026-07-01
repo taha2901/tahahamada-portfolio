@@ -93,9 +93,9 @@ export default function About() {
                 : "Flutter developer about mobile experiences"}
             </h3>
 
-<p className="text-slate-600 dark:text-slate-400 text-sm">              {isAr
-                ? `أنا ${personalInfo.nameAr}، مطور Flutter بخبرة ${yearsOfExperience}+ سنوات في بناء تطبيقات موبايل عالية الجودة. أتخصص في Flutter وDart مع خبرة عميقة في Firebase وREST APIs وإدارة الحالة.`
-                : `I'm ${personalInfo.name}, a Flutter developer with ${yearsOfExperience}+ years building high-quality mobile applications. I specialize in Flutter & Dart with deep experience in Firebase, REST APIs, and state management patterns.`}
+            <p className="text-slate-600 dark:text-slate-400 text-sm">              {isAr
+              ? `أنا ${personalInfo.nameAr}، مطور Flutter بخبرة ${yearsOfExperience}+ سنوات في بناء تطبيقات موبايل عالية الجودة. أتخصص في Flutter وDart مع خبرة عميقة في Firebase وREST APIs وإدارة الحالة.`
+              : `I'm ${personalInfo.name}, a Flutter developer with ${yearsOfExperience}+ years building high-quality mobile applications. I specialize in Flutter & Dart with deep experience in Firebase, REST APIs, and state management patterns.`}
             </p>
 
             <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-base">
@@ -128,7 +128,7 @@ export default function About() {
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1, duration: 0.5 }}
                 whileHover={{ y: -4, scale: 1.02 }}
-className="
+                className="
 p-6 rounded-2xl text-center group cursor-default
 border transition-all duration-300
 

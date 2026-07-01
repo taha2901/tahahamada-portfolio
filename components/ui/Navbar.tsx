@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Globe, Sun, Moon } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
 import { useLanguage } from "@/hooks/useLanguage";
 import { cn } from "@/utils/cn";
 
@@ -44,6 +45,8 @@ export default function Navbar() {
   return "dark";
 });
 
+  const router = useRouter();
+  const pathname = usePathname();
   const { lang, toggleLang, isAr } = useLanguage();
   const items = navItems[lang];
 
@@ -81,9 +84,13 @@ export default function Navbar() {
 
   const handleNavClick = (href: string) => {
     const id = href.replace("#", "");
-    setActiveSection(id);
     setMobileOpen(false);
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    if (pathname !== "/") {
+      router.push("/" + href);
+    } else {
+      setActiveSection(id);
+      document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   return (
