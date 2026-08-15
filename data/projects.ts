@@ -85,8 +85,10 @@ export const projects: Project[] = [
     description: "A secure personal and household budget & expense manager with full privacy—all data stored locally on your device without external servers.",
     descriptionAr: "تطبيق لإدارة المصروفات والميزانية الشخصية والعائلية بخصوصية كاملة — كل البيانات مخزنة على الجهاز محلياً من غير أي سيرفر خارجي.",
     techStack: ["Flutter", "Sqlite", "Local-first", "PDF Export"],
+    githubUrl: "https://github.com/taha2901/beitna",
     images: ["/images/beitna.png"],
     apkUrl: "https://drive.google.com/file/d/1vH_UqYc9N6aL-5_9M5S0b7gL12345678/view?usp=sharing", // Active placeholder as requested
+    videoUrl: "https://drive.google.com/file/d/1yp0pQVlhbLIvBMYp3YVhQqGOKp-UuJRG/view",
     badge: "Local-first",
     category: "Mobile",
     problemSolved: "Most budgeting apps require signing up and sending sensitive financial records to cloud servers. Beitna solves this by storing all finances locally on-device, offering absolute privacy with full features like tracking, budgets, savings goals, and currency selection offline.",
