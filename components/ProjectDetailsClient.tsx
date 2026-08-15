@@ -3,15 +3,15 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { 
-  ArrowLeft, 
-  ArrowRight, 
-  Github, 
-  Download, 
-  Play, 
-  CheckCircle2, 
-  AlertCircle, 
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  ArrowLeft,
+  ArrowRight,
+  Github,
+  Download,
+  Play,
+  CheckCircle2,
+  AlertCircle,
   ExternalLink,
   Lock,
   Layers,
@@ -19,7 +19,12 @@ import {
   MonitorPlay,
   Cpu,
   UserRound,
-  Info
+  Info,
+  ChevronLeft,
+  ChevronRight,
+  Maximize2,
+  X,
+  MonitorDown
 } from "lucide-react";
 import Navbar from "@/components/ui/Navbar";
 import Footer from "@/components/sections/Footer";
@@ -31,19 +36,50 @@ export default function ProjectDetailsClient({ slug }: { slug: string }) {
   const router = useRouter();
   const { isAr } = useLanguage();
   const [project, setProject] = useState<Project | null>(null);
-  const [activeImage, setActiveImage] = useState<string>("");
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
 
   useEffect(() => {
     if (slug) {
       const foundProject = projects.find((p) => p.slug === slug);
       if (foundProject) {
         setProject(foundProject);
-        setActiveImage(foundProject.images[0]);
+        setActiveIndex(0);
+        setLightboxOpen(false);
       } else {
         router.push("/#projects");
       }
     }
   }, [slug, router]);
+
+  // Gallery keyboard controls: arrows always navigate, Escape closes the lightbox.
+  useEffect(() => {
+    if (!project) return;
+    const total = project.images.length;
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setLightboxOpen(false);
+        return;
+      }
+      if (total < 2) return;
+      if (e.key === "ArrowRight") setActiveIndex((i) => (i + 1) % total);
+      if (e.key === "ArrowLeft") setActiveIndex((i) => (i - 1 + total) % total);
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [project]);
+
+  // Lock body scroll while the fullscreen viewer is open.
+  useEffect(() => {
+    if (!lightboxOpen) return;
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = previous;
+    };
+  }, [lightboxOpen]);
 
   if (!project) {
     return (
@@ -58,6 +94,8 @@ export default function ProjectDetailsClient({ slug }: { slug: string }) {
 
   // Determine standard categories or fallbacks
   const statusBadge = project.badge || (project.category === "Web" ? "Live" : "Offline");
+  // Shipped / runnable states read green; everything else keeps the default cyan.
+  const statusIsGreen = statusBadge === "Production" || statusBadge === "Live Demo";
 
   // Localized texts
   const translations = {
@@ -82,12 +120,32 @@ export default function ProjectDetailsClient({ slug }: { slug: string }) {
     usernameLabel: isAr ? "المستخدم" : "Username",
     passwordLabel: isAr ? "كلمة السر" : "Password",
     privateRepoLabel: isAr ? "الكود خاص (مشروع عميل)" : "Private repository (client project)",
+    windowsBtn: isAr ? "تحميل نسخة Windows" : "Download for Windows",
+    prevImage: isAr ? "الصورة السابقة" : "Previous image",
+    nextImage: isAr ? "الصورة التالية" : "Next image",
+    expandImage: isAr ? "تكبير الصورة" : "Open full size",
+    closeImage: isAr ? "إغلاق" : "Close",
   };
 
-  const activeIndex = project.images.indexOf(activeImage);
+  const totalImages = project.images.length;
+  const activeImage = project.images[activeIndex] ?? project.images[0];
   const activeCaption = isAr
     ? project.imageCaptionsAr?.[activeIndex]
     : project.imageCaptions?.[activeIndex];
+
+  const goTo = (delta: number) =>
+    setActiveIndex((i) => (i + delta + totalImages) % totalImages);
+
+  // Long-form copy is authored with blank lines between paragraphs.
+  const paragraphs = (text: string) => text.split("\n\n").filter(Boolean);
+
+  const headerDescription = isAr
+    ? project.detailDescriptionAr ?? project.descriptionAr ?? project.description
+    : project.detailDescription ?? project.description;
+
+  const challengesText = isAr
+    ? project.challengesAr ?? project.challenges
+    : project.challenges;
 
   return (
     <>
@@ -114,9 +172,9 @@ export default function ProjectDetailsClient({ slug }: { slug: string }) {
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5 }}
-                className="relative aspect-[16/10] w-full rounded-3xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 shadow-xl"
+                className="group relative aspect-[16/10] w-full rounded-3xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 shadow-xl"
               >
-                <div 
+                <div
                   className="w-full h-full bg-slate-100 dark:bg-slate-900/90 transition-all duration-300"
                   style={{
                     backgroundImage: `url('${activeImage}')`,
@@ -124,37 +182,80 @@ export default function ProjectDetailsClient({ slug }: { slug: string }) {
                     backgroundPosition: project.imagePosition ?? "center",
                   }}
                 />
-                
+
+                {/* Click anywhere on the shot to open it full size */}
+                <button
+                  type="button"
+                  onClick={() => setLightboxOpen(true)}
+                  aria-label={translations.expandImage}
+                  className="absolute inset-0 cursor-zoom-in"
+                />
+
                 {/* Visual Glass Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/20 via-transparent to-transparent pointer-events-none" />
-                
+
                 {/* Category Floating Badge */}
-                <span className="absolute top-4 left-4 text-xs px-3 py-1.5 rounded-full font-medium bg-black/60 backdrop-blur-md text-white border border-white/10">
+                <span className="absolute top-4 left-4 text-xs px-3 py-1.5 rounded-full font-medium bg-black/60 backdrop-blur-md text-white border border-white/10 pointer-events-none">
                   {project.category}
                 </span>
-                
+
                 {/* Badge Floating Right */}
                 {project.badge && (
-                  <span className="absolute top-4 right-4 text-xs px-3 py-1.5 rounded-full font-medium bg-cyan-500/85 backdrop-blur-md text-white shadow-lg">
+                  <span className="absolute top-4 right-4 text-xs px-3 py-1.5 rounded-full font-medium bg-cyan-500/85 backdrop-blur-md text-white shadow-lg pointer-events-none">
                     ★ {project.badge}
                   </span>
+                )}
+
+                {/* Expand hint */}
+                <span className="absolute bottom-4 right-4 p-2 rounded-full bg-black/55 backdrop-blur-md text-white opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                  <Maximize2 size={14} />
+                </span>
+
+                {/* Prev / Next arrows — the left button always steps toward the visually
+                    previous slide, which is the next item when the page is RTL. */}
+                {totalImages > 1 && (
+                  <>
+                    <button
+                      type="button"
+                      onClick={() => goTo(isAr ? 1 : -1)}
+                      aria-label={isAr ? translations.nextImage : translations.prevImage}
+                      className="absolute left-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 hover:bg-black/70 backdrop-blur-md text-white transition-colors"
+                    >
+                      <ChevronLeft size={18} />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => goTo(isAr ? -1 : 1)}
+                      aria-label={isAr ? translations.prevImage : translations.nextImage}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 hover:bg-black/70 backdrop-blur-md text-white transition-colors"
+                    >
+                      <ChevronRight size={18} />
+                    </button>
+                    <span className="absolute bottom-4 left-4 text-[11px] font-mono px-2.5 py-1 rounded-full bg-black/55 backdrop-blur-md text-white pointer-events-none">
+                      {activeIndex + 1} / {totalImages}
+                    </span>
+                  </>
                 )}
               </motion.div>
 
               {/* Multi-Image Thumbnails Grid */}
-              {project.images.length > 1 && (
+              {totalImages > 1 && (
                 <div className="flex gap-2.5 overflow-x-auto py-2">
                   {project.images.map((img, i) => (
                     <button
                       key={img + i}
-                      onClick={() => setActiveImage(img)}
+                      onClick={() => setActiveIndex(i)}
+                      aria-label={
+                        (isAr ? project.imageCaptionsAr?.[i] : project.imageCaptions?.[i]) ??
+                        `${i + 1}`
+                      }
                       className={`relative w-20 h-14 rounded-xl overflow-hidden border-2 transition-all flex-shrink-0 ${
-                        activeImage === img 
-                          ? "border-cyan-400 scale-95 shadow-md" 
+                        activeIndex === i
+                          ? "border-cyan-400 scale-95 shadow-md"
                           : "border-slate-200 dark:border-slate-800 hover:border-slate-400"
                       }`}
                     >
-                      <div 
+                      <div
                         className="w-full h-full"
                         style={{
                           backgroundImage: `url('${img}')`,
@@ -193,7 +294,7 @@ export default function ProjectDetailsClient({ slug }: { slug: string }) {
                 </div>
 
                 <p className="text-slate-600 dark:text-slate-300 leading-7 text-sm md:text-base">
-                  {isAr && project.descriptionAr ? project.descriptionAr : project.description}
+                  {headerDescription}
                 </p>
 
                 {/* Role — makes the scope of my contribution explicit */}
@@ -271,9 +372,13 @@ export default function ProjectDetailsClient({ slug }: { slug: string }) {
                     </span>
                     <h2 className="text-xl font-bold text-slate-900 dark:text-white">{translations.overviewTitle}</h2>
                   </div>
-                  <p className="text-slate-600 dark:text-slate-300 text-sm md:text-base leading-7">
-                    {isAr && project.overviewAr ? project.overviewAr : project.overview}
-                  </p>
+                  <div className="text-slate-600 dark:text-slate-300 text-sm md:text-base leading-7 space-y-4">
+                    {paragraphs(
+                      (isAr && project.overviewAr ? project.overviewAr : project.overview) ?? "",
+                    ).map((para, idx) => (
+                      <p key={idx}>{para}</p>
+                    ))}
+                  </div>
                 </motion.div>
               )}
 
@@ -290,9 +395,15 @@ export default function ProjectDetailsClient({ slug }: { slug: string }) {
                   </span>
                   <h2 className="text-xl font-bold text-slate-900 dark:text-white">{translations.problemTitle}</h2>
                 </div>
-                <p className="text-slate-600 dark:text-slate-300 text-sm md:text-base leading-7">
-                  {isAr && project.problemSolvedAr ? project.problemSolvedAr : (project.problemSolved || project.description)}
-                </p>
+                <div className="text-slate-600 dark:text-slate-300 text-sm md:text-base leading-7 space-y-4">
+                  {paragraphs(
+                    (isAr && project.problemSolvedAr
+                      ? project.problemSolvedAr
+                      : project.problemSolved) || project.description,
+                  ).map((para, idx) => (
+                    <p key={idx}>{para}</p>
+                  ))}
+                </div>
               </motion.div>
 
               {/* Key Features List */}
@@ -310,18 +421,46 @@ export default function ProjectDetailsClient({ slug }: { slug: string }) {
                 </div>
                 <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {((isAr && project.keyFeaturesAr) ? project.keyFeaturesAr : (project.keyFeatures || [])).map((feat, idx) => {
+                    // A leading emoji becomes the feature's icon; features without one keep the check mark.
+                    const firstCodePoint = feat.codePointAt(0) ?? 0;
+                    const spaceIndex = feat.indexOf(" ");
+                    const startsWithEmoji =
+                      spaceIndex > 0 &&
+                      ((firstCodePoint >= 0x2000 && firstCodePoint <= 0x2bff) ||
+                        firstCodePoint >= 0x1f000);
+                    const emoji = startsWithEmoji ? feat.slice(0, spaceIndex) : null;
+                    const body = emoji ? feat.slice(spaceIndex + 1) : feat;
+
                     // "Label — details" renders the label in bold; plain features stay as-is.
-                    const dashIndex = feat.indexOf(" — ");
-                    const label = dashIndex > -1 ? feat.slice(0, dashIndex) : null;
-                    const details = dashIndex > -1 ? feat.slice(dashIndex + 3) : feat;
+                    const dashIndex = body.indexOf(" — ");
+                    const label = dashIndex > -1 ? body.slice(0, dashIndex) : null;
+                    const details = dashIndex > -1 ? body.slice(dashIndex + 3) : body;
 
                     return (
-                      <li key={idx} className="flex gap-3 items-start">
-                        <CheckCircle2 size={16} className="text-emerald-500 dark:text-emerald-400 mt-1 flex-shrink-0" />
+                      <li
+                        key={idx}
+                        className={
+                          emoji
+                            ? "flex gap-3 items-start p-4 rounded-2xl border border-slate-100 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-900/50"
+                            : "flex gap-3 items-start"
+                        }
+                      >
+                        {emoji ? (
+                          <span className="flex items-center justify-center w-9 h-9 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-base leading-none flex-shrink-0">
+                            {emoji}
+                          </span>
+                        ) : (
+                          <CheckCircle2 size={16} className="text-emerald-500 dark:text-emerald-400 mt-1 flex-shrink-0" />
+                        )}
                         <span className="text-slate-600 dark:text-slate-300 text-sm leading-6">
-                          {label && (
-                            <strong className="font-semibold text-slate-900 dark:text-white">{label} — </strong>
-                          )}
+                          {label &&
+                            (emoji ? (
+                              <strong className="block font-semibold text-slate-900 dark:text-white mb-0.5">
+                                {label}
+                              </strong>
+                            ) : (
+                              <strong className="font-semibold text-slate-900 dark:text-white">{label} — </strong>
+                            ))}
                           {details}
                         </span>
                       </li>
@@ -363,6 +502,7 @@ export default function ProjectDetailsClient({ slug }: { slug: string }) {
               )}
 
               {/* Challenges Section */}
+              {challengesText && (
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -376,25 +516,12 @@ export default function ProjectDetailsClient({ slug }: { slug: string }) {
                   <h2 className="text-xl font-bold text-slate-900 dark:text-white">{translations.challengesTitle}</h2>
                 </div>
                 <div className="text-slate-600 dark:text-slate-300 text-sm md:text-base leading-7 space-y-4">
-                  {isAr ? (
-                    project.challengesAr ? (
-                      <p>{project.challengesAr}</p>
-                    ) : (
-                      <p className="text-slate-400 italic">
-                        [ملاحظة: هذا النص مؤقت كعنصر نائب، سيتم استبداله بتفاصيل التحديات والدروس المستفادة لهذا المشروع لاحقاً.]
-                      </p>
-                    )
-                  ) : (
-                    project.challenges ? (
-                      <p>{project.challenges}</p>
-                    ) : (
-                      <p className="text-slate-400 italic">
-                        [Note: This is a placeholder section. Specific challenges and engineering lessons learned for this project will be updated here soon.]
-                      </p>
-                    )
-                  )}
+                  {paragraphs(challengesText).map((para, idx) => (
+                    <p key={idx}>{para}</p>
+                  ))}
                 </div>
               </motion.div>
+              )}
 
             </div>
 
@@ -420,7 +547,13 @@ export default function ProjectDetailsClient({ slug }: { slug: string }) {
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-slate-500 dark:text-slate-400">{translations.statusLabel}</span>
-                    <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-cyan-500/10 text-cyan-600 dark:text-cyan-300">
+                    <span
+                      className={`px-2.5 py-0.5 rounded-full text-xs font-semibold ${
+                        statusIsGreen
+                          ? "bg-emerald-500/10 text-emerald-700 dark:text-emerald-300"
+                          : "bg-cyan-500/10 text-cyan-600 dark:text-cyan-300"
+                      }`}
+                    >
                       {statusBadge}
                     </span>
                   </div>
@@ -473,7 +606,9 @@ export default function ProjectDetailsClient({ slug }: { slug: string }) {
                         className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl bg-emerald-800 text-white font-semibold hover:bg-emerald-700 transition-colors shadow-md"
                       >
                         <MonitorPlay size={18} />
-                        {translations.liveDemoBtn}
+                        {isAr
+                          ? project.liveDemoCtaLabelAr ?? translations.liveDemoBtn
+                          : project.liveDemoCtaLabel ?? translations.liveDemoBtn}
                       </a>
 
                       {(project.demoNote || project.demoCredentials) && (
@@ -532,6 +667,19 @@ export default function ProjectDetailsClient({ slug }: { slug: string }) {
                     </button>
                   )}
 
+                  {/* Windows Build Download */}
+                  {project.windowsReleaseUrl ? (
+                    <a
+                      href={project.windowsReleaseUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 font-semibold hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
+                    >
+                      <MonitorDown size={18} />
+                      {translations.windowsBtn}
+                    </a>
+                  ) : null}
+
                   {/* APK Download Action */}
                   {project.apkUrl ? (
                     <a
@@ -579,6 +727,73 @@ export default function ProjectDetailsClient({ slug }: { slug: string }) {
 
         </div>
       </main>
+
+      {/* Fullscreen screenshot viewer */}
+      <AnimatePresence>
+        {lightboxOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-[100] bg-slate-950/95 backdrop-blur-sm flex flex-col items-center justify-center p-4 md:p-8"
+            onClick={() => setLightboxOpen(false)}
+          >
+            <button
+              type="button"
+              onClick={() => setLightboxOpen(false)}
+              aria-label={translations.closeImage}
+              className="absolute top-4 right-4 p-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
+            >
+              <X size={20} />
+            </button>
+
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={activeImage}
+              alt={activeCaption ?? project.title}
+              onClick={(e) => e.stopPropagation()}
+              className="max-h-[82vh] max-w-full w-auto rounded-2xl shadow-2xl object-contain"
+            />
+
+            {activeCaption && (
+              <p className="mt-4 text-xs md:text-sm text-slate-300 text-center max-w-2xl">
+                {activeCaption}
+              </p>
+            )}
+
+            {totalImages > 1 && (
+              <>
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    goTo(isAr ? 1 : -1);
+                  }}
+                  aria-label={isAr ? translations.nextImage : translations.prevImage}
+                  className="absolute left-3 md:left-6 top-1/2 -translate-y-1/2 p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
+                >
+                  <ChevronLeft size={22} />
+                </button>
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    goTo(isAr ? -1 : 1);
+                  }}
+                  aria-label={isAr ? translations.prevImage : translations.nextImage}
+                  className="absolute right-3 md:right-6 top-1/2 -translate-y-1/2 p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
+                >
+                  <ChevronRight size={22} />
+                </button>
+                <span className="absolute bottom-5 left-1/2 -translate-x-1/2 text-[11px] font-mono px-3 py-1 rounded-full bg-white/10 text-white">
+                  {activeIndex + 1} / {totalImages}
+                </span>
+              </>
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <Footer />
       <BackToTop />

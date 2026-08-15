@@ -7,6 +7,9 @@ export type Project = {
   slug: string;
   description: string;
   descriptionAr?: string;
+  /** Longer intro shown under the title on the details page (falls back to `description`). */
+  detailDescription?: string;
+  detailDescriptionAr?: string;
   images: string[];
   /** Captions for the gallery images, in the same order as `images`. */
   imageCaptions?: string[];
@@ -17,8 +20,16 @@ export type Project = {
   githubUrl?: string;
   apkUrl?: string;
   videoUrl?: string;
+  /** Downloadable Windows build / GitHub release. */
+  windowsReleaseUrl?: string;
   /** Hosted, clickable version of the product (primary CTA when present). */
   liveDemoUrl?: string;
+  /** Short label for the live-demo chip on the project card (defaults to "Live Demo"). */
+  liveDemoLabel?: string;
+  liveDemoLabelAr?: string;
+  /** Label for the primary live-demo button on the details page. */
+  liveDemoCtaLabel?: string;
+  liveDemoCtaLabelAr?: string;
   demoCredentials?: { username: string; password: string };
   /** Hint shown next to the live demo, e.g. desktop-sized apps. */
   demoNote?: string;
@@ -46,6 +57,183 @@ export type Project = {
 };
 
 export const projects: Project[] = [
+  {
+    title: "POS System — Point of Sale for Retail",
+    titleAr: "نظام نقاط البيع — POS System",
+    shortTitle: "POS System",
+    shortTitleAr: "نظام نقاط البيع",
+    slug: "pos-system",
+    description:
+      "A complete Arabic point-of-sale system for sales, inventory, branches and reporting — built with Flutter for Windows desktop on a Feature-First architecture, with 20 independent modules and automated test coverage.",
+    descriptionAr:
+      "نظام نقاط بيع متكامل بالعربي لإدارة المبيعات والمخزون والفروع والتقارير — مبني بـ Flutter لسطح المكتب على Windows، بمعمارية Feature-First و20 وحدة مستقلة وتغطية اختبارات آلية.",
+    detailDescription:
+      "A full sales-management system for shops, supermarkets and pharmacies — entirely Arabic (RTL) and running as a Windows desktop application. It covers the whole working day, from opening the cashier's shift in the morning to closing it and reconciling the drawer, with 6 analytical reports and multi-branch inventory management.",
+    detailDescriptionAr:
+      "نظام إدارة مبيعات متكامل للمحلات والسوبر ماركت والصيدليات، عربي بالكامل (RTL)، بيشتغل كتطبيق سطح مكتب على Windows. بيغطي دورة العمل كاملة من فتح وردية الكاشير الصبح لحد إغلاقها وحساب عجز الدرج، مع 6 تقارير تحليلية وإدارة مخزون متعددة الفروع.",
+    techStack: ["Flutter", "Dart", "Windows Desktop", "Provider", "go_router", "fl_chart", "RTL"],
+    images: [
+      "/images/pos-system/01-pos-cover.png",
+      "/images/pos-system/02-dashboard.png",
+      "/images/pos-system/03-payment.png",
+      "/images/pos-system/04-invoice-tabs.png",
+      "/images/pos-system/15-returns.png",
+      "/images/pos-system/05-inventory.png",
+      "/images/pos-system/10-purchases.png",
+      "/images/pos-system/06-reports.png",
+      "/images/pos-system/13-reports-profit.png",
+      "/images/pos-system/07-products.png",
+      "/images/pos-system/08-permissions.png",
+      "/images/pos-system/09-loyalty.png",
+      "/images/pos-system/11-customers.png",
+      "/images/pos-system/12-expenses.png",
+      "/images/pos-system/16-branches.png",
+      "/images/pos-system/14-settings.png"
+    ],
+    imageCaptions: [
+      "Point of sale — catalog, cart and running total",
+      "Dashboard — KPIs, sales trend and payment methods",
+      "Payment dialog — four methods with instant change calculation",
+      "Parallel invoice tabs with held invoices",
+      "Returns — refunding items from a previous invoice",
+      "Inventory — per-item stock split across branches",
+      "Purchases — partially receiving a purchase order",
+      "Sales report — charts and daily breakdown",
+      "Profit & margin report per item",
+      "Product catalog — search, filters and sorting",
+      "Role permission matrix",
+      "Loyalty program and customer tiers",
+      "Customers and credit accounts",
+      "Expenses and the approval cycle",
+      "Branch management",
+      "Invoice settings and receipt preview"
+    ],
+    imageCaptionsAr: [
+      "شاشة نقطة البيع — الكتالوج والسلة وحساب الإجمالي",
+      "لوحة التحكم — المؤشرات واتجاه المبيعات وطرق الدفع",
+      "نافذة الدفع — أربع طرق وحساب فوري للباقي",
+      "فواتير متعددة بالتوازي مع الفواتير المعلّقة",
+      "المرتجعات — استرجاع من فاتورة سابقة",
+      "المخزون — أرصدة كل صنف موزّعة على الفروع",
+      "المشتريات — استلام أمر شراء جزئي",
+      "تقرير المبيعات — رسوم وتفصيل يومي",
+      "تقرير الأرباح والهوامش لكل صنف",
+      "كتالوج المنتجات — بحث وفلاتر وترتيب",
+      "مصفوفة صلاحيات الأدوار",
+      "برنامج الولاء وفئات العملاء",
+      "العملاء والحسابات الآجلة",
+      "المصروفات ودورة الاعتماد",
+      "إدارة الفروع",
+      "إعدادات الفاتورة ومعاينة الإيصال"
+    ],
+    liveDemoUrl: "https://pos-prototype-omega.vercel.app/",
+    liveDemoLabel: "Live Demo",
+    liveDemoLabelAr: "جرّب الديمو",
+    liveDemoCtaLabel: "Try the live demo",
+    liveDemoCtaLabelAr: "جرّب الديمو المباشر",
+    demoNote:
+      "The demo needs no sign-in — every screen is interactive with Arabic sample data, and you can add, edit and delete freely; everything is saved in your own browser.",
+    demoNoteAr:
+      "الديمو شغال من غير تسجيل دخول — كل الشاشات تفاعلية ببيانات تجريبية عربية، وتقدر تضيف وتعدّل وتحذف وكل حاجة بتتحفظ في متصفحك.",
+    // TODO: fill these in — the repository URL and the Windows release download.
+    // githubUrl: "https://github.com/taha2901/<repo>",
+    // windowsReleaseUrl: "https://github.com/taha2901/<repo>/releases/latest",
+    role: "Full-stack developer — I designed the design system from scratch (colors, typography, spacing, shadows), built the entire UI on a Feature-First architecture, wrote 53 automated tests, and set up a CI/CD pipeline on GitHub Actions that builds the Windows release automatically. The backend (REST API + database) is currently in development, by me as well.",
+    roleAr: "مطوّر Full-Stack — صمّمت نظام التصميم من الصفر (ألوان، تايبوجرافي، مسافات، ظلال) وبنيت الواجهة كاملة بمعمارية Feature-First، وكتبت 53 اختبار آلي، وظبّطت خط إنتاج CI/CD على GitHub Actions بيبني نسخة Windows تلقائيًا. الباك اند (REST API + قاعدة بيانات) قيد التطوير حاليًا بنفس يدي.",
+    status: "Personal project — available to try online.",
+    statusAr: "مشروع شخصي — متاح للتجربة أونلاين",
+    badge: "Live Demo",
+    category: "Desktop",
+    overview:
+      "POS System is a point-of-sale system built with Flutter for Windows desktop, entirely Arabic and right-to-left by design rather than a translated English interface. It is built on a Feature-First architecture of 20 independent modules — each with its own screens, widgets, models and controllers — over a shared `core` layer for the recurring elements.\n\nThe system manages sales, inventory, purchasing, customers, suppliers, employees, expenses and branches, and produces 6 analytical reports with period and branch filters. The most important screen — the cashier screen — is tuned for speed: a cashier can complete a whole invoice without touching the mouse, and work on several invoices in parallel during rush hour.",
+    overviewAr:
+      "«POS System» نظام نقاط بيع مبني بـ Flutter لسطح المكتب (Windows)، عربي بالكامل من اليمين لليسار مش ترجمة لواجهة إنجليزية. اتبنى بمعمارية Feature-First فيها 20 وحدة مستقلة، كل وحدة ليها الشاشات والويدجتس والموديلز والكونترولرز بتاعتها، مع طبقة `core` مشتركة للعناصر المتكررة.\n\nالنظام بيدير المبيعات والمخزون والمشتريات والعملاء والموردين والموظفين والمصروفات والفروع، وبيطلّع 6 تقارير تحليلية بفلاتر فترة وفرع. الشاشة الأهم — شاشة الكاشير — متظبطة للسرعة: الموظف يقدر يعمل فاتورة كاملة من غير ما يلمس الماوس، ويشتغل على أكتر من فاتورة بالتوازي في وقت الزحمة.",
+    problemSolved:
+      "Most point-of-sale systems out there are either English interfaces with half-finished Arabic bolted on, or web systems that are slow and stall the moment the connection drops, or dated programs that are painful to look at for a cashier sitting in front of them 12 hours a day.\n\nThe bigger problem: during rush hour the cashier is stuck holding one customer's invoice while they dig for their wallet, with the queue backed up behind them. Most systems force the cashier to either void the invoice or wait it out.\n\nThis system solves exactly that: multiple invoices open in parallel as tabs, any invoice can be held and recalled at any time, instant barcode search, and a payment pad that computes the change as you type. All of it in an Arabic interface that is easy on the eyes and designed from scratch for the cashier's screen.",
+    problemSolvedAr:
+      "معظم أنظمة نقاط البيع الموجودة إما واجهات إنجليزية متعرّبة بشكل ناقص، أو أنظمة ويب بطيئة بتقف لما النت يفصل، أو برامج قديمة شكلها متعب للكاشير اللي قاعد قدامها 12 ساعة.\n\nوالمشكلة الأكبر: في وقت الزحمة، الكاشير بيبقى ماسك فاتورة عميل واقف بيدوّر على محفظته، والطابور واقف وراه. أغلب الأنظمة بتجبره يلغي الفاتورة أو يستنى.\n\nالنظام ده بيحل الحتة دي بالتحديد: فواتير متعددة بالتوازي في تبويبات، وتعليق أي فاتورة واسترجاعها في أي وقت، وبحث فوري بالباركود، ولوحة دفع بتحسب الباقي وأنت بتكتب. كل ده في واجهة عربية مريحة للعين ومصمّمة من الصفر لشاشة الكاشير.",
+    stats: [
+      { label: "Independent features", labelAr: "Feature مستقلة", value: "20" },
+      { label: "Screens", labelAr: "شاشة", value: "30" },
+      { label: "Dart source files", labelAr: "ملف Dart", value: "472" },
+      { label: "Lines of code", labelAr: "سطر كود", value: "32,692" },
+      { label: "Widgets", labelAr: "Widget", value: "361" },
+      { label: "Automated tests", labelAr: "اختبار آلي", value: "53" },
+      { label: "Controllers", labelAr: "Controller", value: "28" },
+      { label: "Analytical reports", labelAr: "تقارير تحليلية", value: "6" }
+    ],
+    keyFeatures: [
+      "🛒 Fast cashier screen — instant search by name, code or barcode, a catalog split by category, and keyboard shortcuts (F2 to search, F4 to pay).",
+      "🗂 Parallel invoices — independent tabs let you serve more than one customer at the same time without voiding anything.",
+      "⏸ Hold & recall invoices — the customer leaves their cart and comes back, and the invoice returns exactly as it was, with its items, discount and customer.",
+      "🏷 Flexible discounts — a fixed amount or a percentage, with a live preview of the total before applying, and the percentage recalculating itself as the cart grows.",
+      "💵 Multi-method payment — cash, card, e-wallet and credit, via a number pad or straight from the keyboard, with instant change calculation.",
+      "📦 Multi-branch inventory — separate stock per branch, transfers between branches, and stock-taking that computes variances and their value at cost.",
+      "⚠️ Low-stock alerts — a minimum level per item, with suggested reorder quantities, their cost, and creating a purchase order straight from them.",
+      "🚚 Purchasing — purchase orders to suppliers, with full or partial receiving that updates inventory automatically and tracks the received percentage.",
+      "↩️ Returns — refunding items from a previous invoice as cash, as store credit, or by reversing the card transaction, with quantities returned to stock.",
+      "👥 Customers & credit accounts — a profile per customer with their purchase history, balance, points and progress toward the next loyalty tier.",
+      "🏅 Loyalty program — three tiers (Silver / Gold / Platinum) with points, perks, and redeeming points as a discount.",
+      "🤝 Suppliers — tracking payables, recording payments, and linking every supplier to their purchase orders.",
+      "🛡 Granular permissions — a permission matrix per role: 19 permissions across 5 groups (sales, inventory, purchasing, finance, administration).",
+      "🕐 Cashier shifts — opening with a float, and closing by comparing the counted cash against the expected amount to compute the shortage or surplus.",
+      "🧾 Expenses — operating items with an approval cycle, plus analysis by item and by branch.",
+      "📊 6 analytical reports — sales, profit and margins, product performance, inventory, payment methods and employee performance — all with period and branch filters.",
+      "🎁 Offers & discounts — three types: percentage, buy-and-get, and quantity discount — with start and end dates.",
+      "⚙️ Full settings — store details, tax rate, receipt layout with a live preview, and connected hardware."
+    ],
+    keyFeaturesAr: [
+      "🛒 شاشة كاشير سريعة — بحث فوري بالاسم أو الكود أو الباركود، كتالوج مقسّم بالفئات، ومختصرات كيبورد (F2 للبحث، F4 للدفع).",
+      "🗂 فواتير متعددة بالتوازي — تبويبات مستقلة تخليك تشتغل على أكتر من عميل في نفس الوقت من غير ما تلغي أي فاتورة.",
+      "⏸ تعليق الفواتير واسترجاعها — العميل يسيب عربيته ويرجع، والفاتورة بأصنافها وخصمها وعميلها بترجع زي ما هي.",
+      "🏷 خصم مرن — بمبلغ ثابت أو نسبة مئوية، مع معاينة حيّة للإجمالي قبل التطبيق، والنسبة بتتحدّث لوحدها لو السلة كبرت.",
+      "💵 دفع متعدد الطرق — كاش وبطاقة ومحفظة إلكترونية وآجل، بلوحة أرقام أو كتابة مباشرة من الكيبورد، وحساب فوري للباقي.",
+      "📦 مخزون متعدد الفروع — أرصدة منفصلة لكل فرع، تحويلات بين الفروع، وجرد بحساب الفروقات وقيمتها بالتكلفة.",
+      "⚠️ تنبيهات نقص المخزون — حد أدنى لكل صنف، مع اقتراح كميات إعادة الطلب وتكلفتها وإنشاء أمر شراء منها مباشرة.",
+      "🚚 المشتريات — أوامر شراء للموردين، واستلام كلي أو جزئي بيحدّث المخزون تلقائيًا ويحسب نسبة الاستلام.",
+      "↩️ المرتجعات — استرجاع أصناف من فاتورة سابقة بردّ كاش أو رصيد للعميل أو عكس عملية البطاقة، مع إرجاع الكميات للمخزون.",
+      "👥 العملاء والحسابات الآجلة — ملف لكل عميل بتاريخ مشترياته ورصيده ونقاطه وتقدّمه لفئة الولاء التالية.",
+      "🏅 برنامج ولاء — ثلاث فئات (فضي / ذهبي / بلاتيني) بنقاط ومزايا واستبدال النقاط كخصم.",
+      "🤝 الموردين — متابعة المستحقات وتسجيل السداد وربط كل مورد بأوامر الشراء بتاعته.",
+      "🛡 صلاحيات دقيقة — مصفوفة صلاحيات لكل دور: 19 صلاحية موزّعة على 5 مجموعات (مبيعات، مخزون، مشتريات، مالية، إدارة).",
+      "🕐 ورديات الكاشير — فتح بالرصيد الافتتاحي، وإغلاق بمقارنة العدّ الفعلي بالمتوقع وحساب العجز أو الزيادة.",
+      "🧾 المصروفات — بنود تشغيل بدورة اعتماد، مع تحليل بالبند وبالفرع.",
+      "📊 6 تقارير تحليلية — مبيعات، أرباح وهوامش، أداء المنتجات، المخزون، طرق الدفع، أداء الموظفين — كلها بفلاتر فترة وفرع.",
+      "🎁 العروض والخصومات — ثلاث أنواع: نسبة مئوية، اشترِ واحصل، وخصم كمية — بمواعيد بداية ونهاية.",
+      "⚙️ إعدادات كاملة — بيانات المتجر، نسبة الضريبة، شكل الإيصال ومعاينته الحيّة، والأجهزة المتصلة."
+    ],
+    techGroups: [
+      {
+        label: "UI",
+        labelAr: "الواجهة",
+        items: ["Flutter", "Dart 3.12", "Material 3", "Arabic RTL", "Cairo Font"]
+      },
+      {
+        label: "State & routing",
+        labelAr: "إدارة الحالة والتوجيه",
+        items: ["Provider", "ChangeNotifier", "go_router"]
+      },
+      {
+        label: "Libraries & tooling",
+        labelAr: "المكتبات والأدوات",
+        items: ["fl_chart", "data_table_2", "google_fonts", "intl", "flutter_test"]
+      },
+      {
+        label: "Backend (in progress)",
+        labelAr: "الباك اند (قيد التطوير)",
+        items: ["REST API", "Repository Pattern", "Relational DB"]
+      },
+      {
+        label: "DevOps",
+        labelAr: "DEVOPS",
+        items: ["GitHub Actions", "Windows Release Build", "Vercel (demo)"]
+      }
+    ],
+    challenges:
+      "Keeping 20 independent features from turning into 20 different-looking apps was the real work. Every shared element — buttons, tables, KPI tiles, dialogs, empty states — lives in a `core` layer, so a spacing or shadow decision is made once and holds across all 30 screens. The 53 automated tests exist for the same reason: they pin down the calculations that must never drift (tax, discounts, change, stock deduction, shift variance) so a refactor in one feature cannot quietly break another.\n\nThe cashier screen was the hardest piece: several invoices alive at once, each with its own items, customer and discount, plus held invoices that can be recalled at any moment — all while the whole layout is right-to-left and has to stay driveable from the keyboard alone.",
+    challengesAr:
+      "أصعب حاجة كانت إن الـ 20 وحدة المستقلة ما تتحوّلش لـ 20 برنامج شكلهم مختلف. كل عنصر متكرر — الأزرار والجداول وكروت المؤشرات والنوافذ وحالات الفراغ — قاعد في طبقة `core`، فأي قرار في المسافات أو الظلال بيتاخد مرة واحدة وبيمشي على الـ 30 شاشة كلها. والـ 53 اختبار آلي موجودين لنفس السبب: بيثبّتوا الحسابات اللي مينفعش تغلط أبدًا (الضريبة، الخصومات، الباقي، خصم المخزون، فرق الوردية) عشان أي refactor في وحدة ما يكسرش وحدة تانية من ورا ضهري.\n\nشاشة الكاشير كانت أصعب جزء: أكتر من فاتورة عايشة في نفس الوقت، كل واحدة بأصنافها وعميلها وخصمها، وكمان فواتير معلّقة ممكن ترجع في أي لحظة — وكل ده والتخطيط كله من اليمين للشمال ولازم يفضل ينفع يتساق من الكيبورد لوحده."
+  },
   {
     title: "Almofid Center — Tutoring Center Management System",
     titleAr: "سنتر المفيد — نظام إدارة السنتر التعليمي",

@@ -24,6 +24,7 @@ const badgeColors: Record<string, { bg: string; text: string }> = {
   "Design Only": { bg: "rgba(129,140,248,0.16)", text: "#a78bfa" },
   Live: { bg: "rgba(239,68,68,0.16)", text: "#ef4444" },
   Production: { bg: "rgba(16,185,129,0.16)", text: "#10b981" },
+  "Live Demo": { bg: "rgba(16,185,129,0.16)", text: "#10b981" },
 };
 
 function ProjectCard({ project, index }: { project: Project; index: number }) {
@@ -116,7 +117,10 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
             whileTap={{ scale: 0.97 }}
           >
             <MonitorPlay size={11} />
-            {isAr ? "جرّب البرنامج" : "Live Demo"}
+            {isAr
+              ? project.liveDemoLabelAr ?? "جرّب البرنامج"
+              : project.liveDemoLabel ?? "Live Demo"}
+            <ExternalLink size={9} />
           </motion.a>
         ) : null}
 
