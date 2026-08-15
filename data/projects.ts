@@ -87,7 +87,7 @@ export const projects: Project[] = [
     techStack: ["Flutter", "Sqlite", "Local-first", "PDF Export"],
     githubUrl: "https://github.com/taha2901/beitna",
     images: ["/images/beitna.png"],
-    apkUrl: "https://drive.google.com/file/d/1vH_UqYc9N6aL-5_9M5S0b7gL12345678/view?usp=sharing", // Active placeholder as requested
+    apkUrl: "https://drive.google.com/file/d/1DYdU7K6m5jQjUSZB0tADYTVlJPFasgsM/view?usp=sharing",
     videoUrl: "https://drive.google.com/file/d/1yp0pQVlhbLIvBMYp3YVhQqGOKp-UuJRG/view",
     badge: "Local-first",
     category: "Mobile",
