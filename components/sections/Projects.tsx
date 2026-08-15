@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Github, Download, Play, ChevronLeft, ChevronRight, ExternalLink } from "lucide-react";
+import { Github, Download, Play, ChevronLeft, ChevronRight, ExternalLink, Lock, MonitorPlay } from "lucide-react";
 import Link from "next/link";
 import { projects, Project } from "@/data/projects";
 import { useLanguage } from "@/hooks/useLanguage";
@@ -23,6 +23,7 @@ const badgeColors: Record<string, { bg: string; text: string }> = {
   "Local-first": { bg: "rgba(34,197,94,0.16)", text: "#22c55e" },
   "Design Only": { bg: "rgba(129,140,248,0.16)", text: "#a78bfa" },
   Live: { bg: "rgba(239,68,68,0.16)", text: "#ef4444" },
+  Production: { bg: "rgba(16,185,129,0.16)", text: "#10b981" },
 };
 
 function ProjectCard({ project, index }: { project: Project; index: number }) {
@@ -50,7 +51,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
           style={{
             backgroundImage: `url('${project.images[0]}')`,
             backgroundSize: "cover",
-            backgroundPosition: "center",
+            backgroundPosition: project.imagePosition ?? "center",
           }}
         >
           <div className="absolute inset-0 bg-gradient-to-t from-white/90 dark:from-slate-950/95 via-transparent to-transparent" />
@@ -72,7 +73,11 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
         {/* Content */}
         <div className="p-5 pb-0 flex flex-col flex-1 gap-2 min-h-0">
           <div>
-            <h3 className="text-lg font-semibold text-slate-900 dark:text-white line-clamp-1">{project.title}</h3>
+            <h3 className="text-lg font-semibold text-slate-900 dark:text-white line-clamp-1">
+              {isAr
+                ? project.shortTitleAr ?? project.titleAr ?? project.title
+                : project.shortTitle ?? project.title}
+            </h3>
             <p className="mt-1 text-xs text-slate-500 dark:text-slate-400 leading-5 line-clamp-3">
               {isAr && project.descriptionAr ? project.descriptionAr : project.description}
             </p>
@@ -101,6 +106,20 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
           {isAr ? "التفاصيل" : "Details"}
         </Link>
 
+        {project.liveDemoUrl ? (
+          <motion.a
+            href={project.liveDemoUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1 text-[10px] px-2.5 py-1.5 rounded-xl bg-emerald-800 text-white hover:bg-emerald-700 shadow-sm"
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+          >
+            <MonitorPlay size={11} />
+            {isAr ? "جرّب البرنامج" : "Live Demo"}
+          </motion.a>
+        ) : null}
+
         {project.githubUrl ? (
           <motion.a
             href={project.githubUrl}
@@ -118,6 +137,11 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
               ? "الكود"
               : "Code"}
           </motion.a>
+        ) : project.privateRepo ? (
+          <span className="flex items-center gap-1 text-[10px] px-2.5 py-1.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-100/60 dark:bg-slate-900/60 text-slate-500 dark:text-slate-400">
+            <Lock size={11} />
+            {isAr ? "كود خاص" : "Private repo"}
+          </span>
         ) : project.slug === "beitna" ? (
           <button
             disabled

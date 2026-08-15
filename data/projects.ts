@@ -1,14 +1,40 @@
 export type Project = {
   title: string;
   titleAr?: string;
+  /** Compact title used on the project card, where space is limited. */
+  shortTitle?: string;
+  shortTitleAr?: string;
   slug: string;
   description: string;
   descriptionAr?: string;
   images: string[];
+  /** Captions for the gallery images, in the same order as `images`. */
+  imageCaptions?: string[];
+  imageCaptionsAr?: string[];
+  /** CSS background-position used when cropping the images (defaults to center). */
+  imagePosition?: string;
   techStack: string[];
   githubUrl?: string;
   apkUrl?: string;
   videoUrl?: string;
+  /** Hosted, clickable version of the product (primary CTA when present). */
+  liveDemoUrl?: string;
+  demoCredentials?: { username: string; password: string };
+  /** Hint shown next to the live demo, e.g. desktop-sized apps. */
+  demoNote?: string;
+  demoNoteAr?: string;
+  /** Source is closed — renders a "Private repository" tag instead of a dead button. */
+  privateRepo?: boolean;
+  role?: string;
+  roleAr?: string;
+  status?: string;
+  statusAr?: string;
+  /** Long-form intro rendered as its own section on the details page. */
+  overview?: string;
+  overviewAr?: string;
+  stats?: { label: string; labelAr: string; value: string }[];
+  techGroups?: { label: string; labelAr: string; items: string[] }[];
+  techHighlights?: { title: string; titleAr: string; body: string; bodyAr: string }[];
   challenges?: string;
   challengesAr?: string;
   problemSolved?: string;
@@ -20,6 +46,157 @@ export type Project = {
 };
 
 export const projects: Project[] = [
+  {
+    title: "Almofid Center — Tutoring Center Management System",
+    titleAr: "سنتر المفيد — نظام إدارة السنتر التعليمي",
+    shortTitle: "Almofid Center",
+    shortTitleAr: "سنتر المفيد",
+    slug: "almofid-center",
+    description: "A production Windows desktop app that runs a private tutoring center end to end — students, barcode attendance, exams, and the full money engine (invoices, teacher settlements, expenses) — backed by a REST API I built on Node.js, Express and MongoDB.",
+    descriptionAr: "برنامج ديسكتوب لإدارة سنتر دروس خصوصية بالكامل — الطلاب، الحضور بالباركود، الامتحانات، والحسابات (فواتير، محاسبة المدرّسين، المصروفات) — مع Backend كامل بـ Node.js و Express و MongoDB من تنفيذي.",
+    techStack: ["Flutter", "Node.js", "Express", "MongoDB", "Full-Stack", "REST API"],
+    images: [
+      "/images/almofid/01-cover-students.png",
+      "/images/almofid/02-attendance-barcode.png",
+      "/images/almofid/03-student-profile.png",
+      "/images/almofid/04-financial-summary.png",
+      "/images/almofid/05-teacher-accounting.png",
+      "/images/almofid/06-exam-grades.png",
+      "/images/almofid/07-groups-pricing.png",
+      "/images/almofid/08-users-permissions.png"
+    ],
+    imageCaptions: [
+      "Students module — registration, search and group management",
+      "Barcode attendance session",
+      "Student profile & subscription settings",
+      "Financial summary report",
+      "Teacher accounting & settlements",
+      "Exam grades report",
+      "Groups & pricing model",
+      "Users & granular permissions"
+    ],
+    imageCaptionsAr: [
+      "وحدة الطلاب — التسجيل والبحث وإدارة المجموعات",
+      "حصة حضور بالباركود",
+      "ملف الطالب وإعدادات الاشتراك",
+      "تقرير الملخص المالي",
+      "محاسبة المدرّسين وصرف المستحقات",
+      "تقرير درجات الامتحان",
+      "المجموعات ونموذج التسعير",
+      "المستخدمون والصلاحيات التفصيلية"
+    ],
+    // Arabic-first RTL UI: the sidebar and page title sit at the top-right of every screenshot.
+    imagePosition: "top right",
+    liveDemoUrl: "https://almofid-prototype.vercel.app/",
+    demoCredentials: { username: "mahmoud", password: "123456" },
+    demoNote: "The exact same Flutter codebase compiled to web, so the real product can be tried in the browser. Best viewed on a desktop screen.",
+    demoNoteAr: "نفس كود الـ Flutter بالظبط متبني للويب، عشان تجرّب البرنامج الحقيقي من المتصفح. يُفضّل فتحه على شاشة كمبيوتر.",
+    privateRepo: true,
+    role: "Solo full-stack developer — product design, desktop UI, backend architecture and implementation, testing, Windows packaging, and deployment. I built the backend too.",
+    roleAr: "مطوّر Full-Stack منفرد — تصميم المنتج، وواجهة الديسكتوب، ومعمارية الـ Backend وتنفيذه، والاختبارات، وتغليف الويندوز، والنشر. الـ Backend من تنفيذي أنا كمان.",
+    status: "Production — deployed and in daily use at a real tutoring center.",
+    statusAr: "Production — منشور وشغّال يومياً في سنتر حقيقي.",
+    badge: "Production",
+    category: "Desktop",
+    overview: "Almofid Center is a single-tenant management system for a private tutoring center, built as a native Windows desktop application in Flutter with a production-grade Node.js/Express/MongoDB API behind it. It covers the center's entire operational lifecycle across five modules — master data (subjects, study years, teachers, groups, users), student enrollment and profiles, barcode-driven attendance sessions, exams and bulk grading, read-only analytical reports, and a complete accounting layer. The interface is Arabic-first and fully RTL, built on Material 3 with the Cairo typeface, across 26 screens, 12 in-page modals and 14 overlay dialogs.",
+    overviewAr: "«سنتر المفيد» نظام إدارة متكامل لسنتر دروس خصوصية، اتعمل كبرنامج ديسكتوب Windows بـ Flutter ووراه Backend حقيقي بـ Node.js و Express و MongoDB. بيغطي دورة عمل السنتر كلها في خمس وحدات: التعريفات العامة، الطلاب، حضور الطلاب بالباركود، الامتحانات والدرجات، التقارير، والحسابات. الواجهة عربية بالكامل RTL على Material 3 بخط Cairo، في 26 شاشة و12 مودال و14 نافذة overlay.",
+    problemSolved: "A tutoring center runs on paper: who attended, who still owes money, how much of each collection belongs to the teacher versus the center, and which invoices are still open from last month. Almofid Center replaces that with one Windows application — attendance is taken by scanning a barcode, every payment settles real invoices and splits revenue automatically, and the owner can see the center's true position at any moment instead of reconciling notebooks.",
+    problemSolvedAr: "السنتر بيتدار بالورق: مين حضر، ومين لسه عليه فلوس، وكل تحصيل بينقسم إزاي بين المدرّس والسنتر، وأنهي فواتير لسه مفتوحة من الشهر اللي فات. «سنتر المفيد» بيستبدل ده كله ببرنامج ويندوز واحد — الحضور بمسح باركود، وكل دفعة بتسدّد فواتير حقيقية وبتقسم الإيراد تلقائياً، وصاحب السنتر يقدر يشوف موقفه المالي الحقيقي في أي لحظة بدل ما يراجع الدفاتر.",
+    stats: [
+      { label: "Screens", labelAr: "شاشة", value: "26" },
+      { label: "Modals & dialogs", labelAr: "مودال ونافذة", value: "26" },
+      { label: "REST endpoints", labelAr: "REST endpoint", value: "167" },
+      { label: "Mongoose models", labelAr: "موديل Mongoose", value: "24" },
+      { label: "Backend services", labelAr: "خدمة Backend", value: "21" },
+      { label: "Permission flags", labelAr: "صلاحية", value: "15" },
+      { label: "Dart source files", labelAr: "ملف Dart", value: "183" },
+      { label: "Backend source files", labelAr: "ملف Backend", value: "143" }
+    ],
+    keyFeatures: [
+      "Master data & permissions — subjects, study years, teachers, exam types, groups (capacity, session count, and a dual monthly/per-session pricing model), plus user accounts with 15 granular permission flags and a Master role that bypasses them.",
+      "Students — enrollment with auto-generated codes, live seat-capacity checks, split discounts (teacher part / center part), group transfer that can optionally carry attendance and payment history, reversible blocking, and cascading deletes.",
+      "Barcode attendance — multiple concurrent sessions as tabs; students added by scanning a barcode or searching by name; per-row presence, dues, payment, homework, teacher-exemption and notes; walk-in (\"external\") students; \"pay all checked\" bulk collection; session close/restore locking; makeup sessions.",
+      "Exams — exam creation with three roster sources (session attendees / whole group / Excel import), bulk grade entry with paste helpers, and a pass/fail report (pass = score ≥ 50% of max).",
+      "Reports — session and monthly attendance matrices, all-students and groups reports, plus printable A4 PDF output.",
+      "Accounts — student payments with per-invoice teacher/center split, group dues, withdrawals, teacher accounting and settlements, expenses with a managed expense-items list, and consolidated summary and detailed financial reports.",
+      "Real-time sync — attendance sessions update live across machines over Server-Sent Events, so several PCs on the center's LAN see the same session as it fills.",
+      "WhatsApp integration — single and bulk parent messaging (grades, absences, dues) straight from the reports.",
+      "Backup & restore — scheduled database backup and restore from inside the app."
+    ],
+    keyFeaturesAr: [
+      "التعريفات العامة والصلاحيات — المواد، والسنين الدراسية، والمدرّسين، وأنواع الامتحانات، والمجموعات (السعة، وعدد الحصص، ونموذج تسعير مزدوج شهري/بالحصة)، وحسابات المستخدمين بـ 15 صلاحية تفصيلية ودور Master بيتخطّاها كلها.",
+      "الطلاب — تسجيل بأكواد تتولّد تلقائياً، وفحص لحظي لسعة المجموعة، وخصومات مقسّمة (جزء المدرّس / جزء السنتر)، ونقل بين المجموعات مع إمكانية ترحيل سجل الحضور والمدفوعات، وحظر قابل للتراجع، وحذف متسلسل.",
+      "الحضور بالباركود — أكتر من حصة مفتوحة في نفس الوقت كـ tabs؛ إضافة الطالب بمسح الباركود أو البحث بالاسم؛ لكل صف: الحضور والمطلوب والدفع والواجب وإعفاء المدرّس والملاحظات؛ طلاب من برّه (\"خارجي\")؛ تحصيل جماعي بـ «دفع الكل»؛ قفل الحصة واستعادتها؛ وحصص التعويض.",
+      "الامتحانات — إنشاء الامتحان من ثلاث مصادر للطلاب (حاضري الحصة / المجموعة كلها / استيراد Excel)، وتسجيل الدرجات بالجملة مع أدوات لصق، وتقرير نجاح/رسوب (النجاح = 50% من الدرجة العظمى فأكتر).",
+      "التقارير — كشوف حضور بالحصة وبالشهر، وتقارير لكل الطلاب وللمجموعات، مع طباعة PDF بمقاس A4.",
+      "الحسابات — مدفوعات الطلاب بتقسيم مدرّس/سنتر لكل فاتورة، ومستحقات المجموعات، والسحوبات، ومحاسبة المدرّسين وصرف مستحقاتهم، والمصروفات بقائمة بنود مُدارة، وتقارير مالية ملخصة ومفصلة.",
+      "مزامنة لحظية — حصص الحضور بتتحدّث لحظياً بين الأجهزة عبر Server-Sent Events، فكذا جهاز على شبكة السنتر بيشوفوا نفس الحصة وهي بتتملي.",
+      "تكامل واتساب — إرسال رسائل لولي الأمر فردي أو بالجملة (الدرجات، الغياب، المستحقات) من داخل التقارير مباشرة.",
+      "النسخ الاحتياطي والاستعادة — نسخ احتياطي مجدول لقاعدة البيانات واستعادتها من جوّه البرنامج."
+    ],
+    techGroups: [
+      {
+        label: "Desktop",
+        labelAr: "الديسكتوب",
+        items: ["Flutter", "Dart", "Material 3", "Arabic RTL", "flutter_svg", "Dio", "intl", "shared_preferences", "printing + pdf (A4)", "url_launcher", "MSIX"]
+      },
+      {
+        label: "Backend",
+        labelAr: "الـ Backend",
+        items: ["Node.js", "Express", "MongoDB", "Mongoose", "JWT (access + refresh)", "RBAC", "Joi", "bcrypt", "Helmet", "express-rate-limit", "Server-Sent Events"]
+      },
+      {
+        label: "Testing & tooling",
+        labelAr: "الاختبارات والأدوات",
+        items: ["Jest", "Supertest", "mongodb-memory-server", "Flutter golden tests", "ESLint", "esbuild", "Node SEA"]
+      },
+      {
+        label: "DevOps",
+        labelAr: "DevOps",
+        items: ["GitHub Actions", "Inno Setup", "Vercel (live demo)"]
+      }
+    ],
+    techHighlights: [
+      {
+        title: "FIFO invoice settlement engine",
+        titleAr: "محرّك تسوية الفواتير FIFO",
+        body: "Teacher/center revenue splitting derived from per-group pricing, deferred-balance carrying, and transactional writes with a graceful fallback.",
+        bodyAr: "تقسيم الإيراد بين المدرّس والسنتر حسب تسعيرة كل مجموعة، وترحيل الأرصدة الآجلة، وكتابة داخل transactions مع fallback آمن."
+      },
+      {
+        title: "Real-time layer over SSE",
+        titleAr: "طبقة لحظية فوق SSE",
+        body: "A custom stream parser and a reconnecting client-side coordinator that merges live server events into the open attendance session without losing local edits.",
+        bodyAr: "محلّل stream مخصص ومنسّق على جهة العميل بيعيد الاتصال تلقائياً ويدمج أحداث السيرفر اللحظية في الحصة المفتوحة من غير ما يضيّع تعديلات المستخدم المحلية."
+      },
+      {
+        title: "Golden-image visual regression testing",
+        titleAr: "اختبارات الانحدار البصري بالصور المرجعية",
+        body: "Every one of the 26 screens is rendered with real fonts and diffed against a committed baseline image, catching layout and glyph regressions that a compile check or a unit test cannot.",
+        bodyAr: "كل شاشة من الـ 26 شاشة بتترسم بالخطوط الحقيقية وتتقارن بصورة مرجعية متسجّلة في المستودع، عشان تمسك مشاكل التخطيط والحروف اللي الـ compile أو الـ unit test مش هيمسكوها."
+      },
+      {
+        title: "RBAC + JWT security",
+        titleAr: "الأمان: RBAC + JWT",
+        body: "Access and refresh tokens, 15 permission slugs enforced in middleware, Joi validation on every endpoint, bcrypt hashing, Helmet, rate limiting, Mongo-injection sanitizing and HPP protection.",
+        bodyAr: "توكن وصول وتوكن تجديد، و15 صلاحية بتتفرض في الـ middleware، وتحقق بـ Joi على كل endpoint، وتشفير bcrypt، وHelmet، وتحديد معدل الطلبات، وتنظيف حقن Mongo، وحماية HPP."
+      },
+      {
+        title: "Layered backend architecture",
+        titleAr: "معمارية Backend بطبقات",
+        body: "Thin controllers, all business logic in services, a shared CRUD factory for the master-data resources, soft-delete via a Mongoose base plugin, and one uniform response envelope.",
+        bodyAr: "Controllers خفيفة، وكل منطق العمل في الـ services، ومصنع CRUD مشترك لموارد التعريفات العامة، وحذف ناعم عبر plugin أساسي في Mongoose، وشكل رد موحّد لكل الـ API."
+      },
+      {
+        title: "Windows distribution pipeline",
+        titleAr: "خط تجهيز نسخ الويندوز",
+        body: "An MSIX package plus two Inno Setup installers: an all-in-one installer bundling the app, the API server and MongoDB for a single-PC center, and a client-only installer for LAN workstations. The Node backend is compiled to a standalone .exe (esbuild + Node SEA + postject) so the client site never installs Node, and the whole Windows build runs on GitHub Actions — no local Visual Studio needed.",
+        bodyAr: "باكدج MSIX بالإضافة لاتنين installer بـ Inno Setup: واحد شامل بيجمع البرنامج والسيرفر وMongoDB لسنتر بجهاز واحد، وواحد للعميل بس لأجهزة الشبكة. الـ Backend بيتحوّل لملف .exe مستقل (esbuild + Node SEA + postject) عشان مكان العميل ميحتاجش يثبّت Node، وبناء الويندوز كله شغّال على GitHub Actions من غير Visual Studio محلي."
+      }
+    ],
+    challenges: "The hardest and most interesting part is the money engine. Student payments settle outstanding invoices FIFO (oldest first); every collection splits into a teacher share and a center share derived from the group's own pricing model (each price can be an absolute amount or a percentage); teacher settlements are clamped to the remaining balance with anything unpaid carried as deferred debt owed by the center; and monthly rollover regenerates invoices per group. All money-touching writes run inside MongoDB transactions where the deployment supports them, with an automatic non-transactional fallback for standalone Mongo installs.",
+    challengesAr: "أصعب جزء وأهمه هو محرّك الحسابات: مدفوعات الطالب بتسدّد الفواتير المتأخرة الأقدم فالأقدم (FIFO)، وكل تحصيل بينقسم بين المدرّس والسنتر حسب تسعيرة المجموعة نفسها (قيمة ثابتة أو نسبة)، ومحاسبة المدرّس محكومة بالمتبقي مع ترحيل أي باقي كـ «آجل على السنتر»، وفتح الشهر الجديد بيولّد الفواتير من جديد. كل العمليات المالية بتشتغل جوه MongoDB transactions مع fallback تلقائي لو السيرفر standalone."
+  },
   {
     title: "Sofrety",
     slug: "sofrety",

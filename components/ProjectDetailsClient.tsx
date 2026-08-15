@@ -15,7 +15,11 @@ import {
   ExternalLink,
   Lock,
   Layers,
-  Sparkles
+  Sparkles,
+  MonitorPlay,
+  Cpu,
+  UserRound,
+  Info
 } from "lucide-react";
 import Navbar from "@/components/ui/Navbar";
 import Footer from "@/components/sections/Footer";
@@ -70,7 +74,20 @@ export default function ProjectDetailsClient({ slug }: { slug: string }) {
     demoBtn: isAr ? "مشاهدة الفيديو" : "Watch Demo Video",
     soonLabel: isAr ? "قريباً" : "Soon",
     previewTitle: isAr ? "معرض الصور" : "Screenshots Gallery",
+    overviewTitle: isAr ? "نبذة عن المشروع" : "Project Overview",
+    highlightsTitle: isAr ? "أبرز النقاط التقنية" : "Technical Highlights",
+    roleLabel: isAr ? "دوري في المشروع" : "My Role",
+    liveDemoBtn: isAr ? "جرّب البرنامج" : "Live Demo",
+    credentialsLabel: isAr ? "بيانات الدخول للتجربة" : "Demo login",
+    usernameLabel: isAr ? "المستخدم" : "Username",
+    passwordLabel: isAr ? "كلمة السر" : "Password",
+    privateRepoLabel: isAr ? "الكود خاص (مشروع عميل)" : "Private repository (client project)",
   };
+
+  const activeIndex = project.images.indexOf(activeImage);
+  const activeCaption = isAr
+    ? project.imageCaptionsAr?.[activeIndex]
+    : project.imageCaptions?.[activeIndex];
 
   return (
     <>
@@ -104,7 +121,7 @@ export default function ProjectDetailsClient({ slug }: { slug: string }) {
                   style={{
                     backgroundImage: `url('${activeImage}')`,
                     backgroundSize: "cover",
-                    backgroundPosition: "center",
+                    backgroundPosition: project.imagePosition ?? "center",
                   }}
                 />
                 
@@ -142,12 +159,19 @@ export default function ProjectDetailsClient({ slug }: { slug: string }) {
                         style={{
                           backgroundImage: `url('${img}')`,
                           backgroundSize: "cover",
-                          backgroundPosition: "center",
+                          backgroundPosition: project.imagePosition ?? "center",
                         }}
                       />
                     </button>
                   ))}
                 </div>
+              )}
+
+              {/* Caption of the currently previewed screenshot */}
+              {activeCaption && (
+                <p className="text-xs text-slate-500 dark:text-slate-400 px-1">
+                  {activeCaption}
+                </p>
               )}
             </div>
 
@@ -172,6 +196,21 @@ export default function ProjectDetailsClient({ slug }: { slug: string }) {
                   {isAr && project.descriptionAr ? project.descriptionAr : project.description}
                 </p>
 
+                {/* Role — makes the scope of my contribution explicit */}
+                {project.role && (
+                  <div className="flex gap-3 items-start p-4 rounded-2xl border border-emerald-600/20 bg-emerald-600/[0.06]">
+                    <UserRound size={16} className="text-emerald-700 dark:text-emerald-400 mt-0.5 flex-shrink-0" />
+                    <div>
+                      <span className="block text-xs font-semibold text-emerald-800 dark:text-emerald-300 mb-1">
+                        {translations.roleLabel}
+                      </span>
+                      <p className="text-xs md:text-sm text-slate-600 dark:text-slate-300 leading-6">
+                        {isAr && project.roleAr ? project.roleAr : project.role}
+                      </p>
+                    </div>
+                  </div>
+                )}
+
                 {/* Tech Badges List */}
                 <div className="flex flex-wrap gap-2 pt-2">
                   {project.techStack.map((tech) => (
@@ -188,12 +227,56 @@ export default function ProjectDetailsClient({ slug }: { slug: string }) {
 
           </div>
 
+          {/* Metrics Strip */}
+          {project.stats && project.stats.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.15 }}
+              className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-12"
+            >
+              {project.stats.map((stat) => (
+                <div
+                  key={stat.label}
+                  className="p-4 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 text-center shadow-sm"
+                >
+                  <span className="block text-2xl font-bold font-display text-slate-900 dark:text-white">
+                    {stat.value}
+                  </span>
+                  <span className="block text-[11px] mt-1 text-slate-500 dark:text-slate-400 leading-4">
+                    {isAr ? stat.labelAr : stat.label}
+                  </span>
+                </div>
+              ))}
+            </motion.div>
+          )}
+
           {/* Grid Layout: Main info and Sidebar */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             
             {/* Left Content (Lg: 8 cols) */}
             <div className="lg:col-span-8 flex flex-col gap-8">
               
+              {/* Overview Card */}
+              {project.overview && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.15 }}
+                  className="p-6 md:p-8 rounded-3xl border border-slate-200 dark:border-slate-800/80 bg-white dark:bg-slate-900/40 backdrop-blur-md shadow-sm"
+                >
+                  <div className="flex items-center gap-3 mb-4">
+                    <span className="p-2.5 rounded-2xl bg-emerald-500/10 text-emerald-700 dark:text-emerald-400">
+                      <Info size={20} />
+                    </span>
+                    <h2 className="text-xl font-bold text-slate-900 dark:text-white">{translations.overviewTitle}</h2>
+                  </div>
+                  <p className="text-slate-600 dark:text-slate-300 text-sm md:text-base leading-7">
+                    {isAr && project.overviewAr ? project.overviewAr : project.overview}
+                  </p>
+                </motion.div>
+              )}
+
               {/* Problem Solved Card */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -226,14 +309,58 @@ export default function ProjectDetailsClient({ slug }: { slug: string }) {
                   <h2 className="text-xl font-bold text-slate-900 dark:text-white">{translations.featuresTitle}</h2>
                 </div>
                 <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {((isAr && project.keyFeaturesAr) ? project.keyFeaturesAr : (project.keyFeatures || [])).map((feat, idx) => (
-                    <li key={idx} className="flex gap-3 items-start">
-                      <CheckCircle2 size={16} className="text-emerald-500 dark:text-emerald-400 mt-1 flex-shrink-0" />
-                      <span className="text-slate-600 dark:text-slate-300 text-sm leading-6">{feat}</span>
-                    </li>
-                  ))}
+                  {((isAr && project.keyFeaturesAr) ? project.keyFeaturesAr : (project.keyFeatures || [])).map((feat, idx) => {
+                    // "Label — details" renders the label in bold; plain features stay as-is.
+                    const dashIndex = feat.indexOf(" — ");
+                    const label = dashIndex > -1 ? feat.slice(0, dashIndex) : null;
+                    const details = dashIndex > -1 ? feat.slice(dashIndex + 3) : feat;
+
+                    return (
+                      <li key={idx} className="flex gap-3 items-start">
+                        <CheckCircle2 size={16} className="text-emerald-500 dark:text-emerald-400 mt-1 flex-shrink-0" />
+                        <span className="text-slate-600 dark:text-slate-300 text-sm leading-6">
+                          {label && (
+                            <strong className="font-semibold text-slate-900 dark:text-white">{label} — </strong>
+                          )}
+                          {details}
+                        </span>
+                      </li>
+                    );
+                  })}
                 </ul>
               </motion.div>
+
+              {/* Technical Highlights */}
+              {project.techHighlights && project.techHighlights.length > 0 && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.35 }}
+                  className="p-6 md:p-8 rounded-3xl border border-slate-200 dark:border-slate-800/80 bg-white dark:bg-slate-900/40 backdrop-blur-md shadow-sm"
+                >
+                  <div className="flex items-center gap-3 mb-5">
+                    <span className="p-2.5 rounded-2xl bg-emerald-500/10 text-emerald-700 dark:text-emerald-400">
+                      <Cpu size={20} />
+                    </span>
+                    <h2 className="text-xl font-bold text-slate-900 dark:text-white">{translations.highlightsTitle}</h2>
+                  </div>
+                  <div className="flex flex-col gap-4">
+                    {project.techHighlights.map((item, idx) => (
+                      <div
+                        key={idx}
+                        className="p-4 rounded-2xl border border-slate-100 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-900/50"
+                      >
+                        <h3 className="text-sm font-semibold text-slate-900 dark:text-white mb-1.5">
+                          {isAr ? item.titleAr : item.title}
+                        </h3>
+                        <p className="text-sm text-slate-600 dark:text-slate-300 leading-6">
+                          {isAr ? item.bodyAr : item.body}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
 
               {/* Challenges Section */}
               <motion.div
@@ -297,21 +424,85 @@ export default function ProjectDetailsClient({ slug }: { slug: string }) {
                       {statusBadge}
                     </span>
                   </div>
-                  <div className="flex flex-col gap-2">
-                    <span className="text-slate-500 dark:text-slate-400">{translations.techLabel}</span>
-                    <div className="flex flex-wrap gap-1">
-                      {project.techStack.map((tech) => (
-                        <span key={tech} className="text-[11px] px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
-                          {tech}
-                        </span>
+                  {project.status && (
+                    <p className="text-xs text-slate-500 dark:text-slate-400 leading-5 -mt-2">
+                      {isAr && project.statusAr ? project.statusAr : project.status}
+                    </p>
+                  )}
+                  {project.techGroups && project.techGroups.length > 0 ? (
+                    <div className="flex flex-col gap-4">
+                      {project.techGroups.map((group) => (
+                        <div key={group.label} className="flex flex-col gap-2">
+                          <span className="text-slate-500 dark:text-slate-400 text-xs font-semibold uppercase tracking-wide">
+                            {isAr ? group.labelAr : group.label}
+                          </span>
+                          <div className="flex flex-wrap gap-1">
+                            {group.items.map((tech) => (
+                              <span key={tech} className="text-[11px] px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
+                                {tech}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
                       ))}
                     </div>
-                  </div>
+                  ) : (
+                    <div className="flex flex-col gap-2">
+                      <span className="text-slate-500 dark:text-slate-400">{translations.techLabel}</span>
+                      <div className="flex flex-wrap gap-1">
+                        {project.techStack.map((tech) => (
+                          <span key={tech} className="text-[11px] px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 {/* Primary Actions Area */}
                 <div className="flex flex-col gap-3 pt-3 border-t border-slate-100 dark:border-slate-800">
-                  
+
+                  {/* Live Demo — primary CTA */}
+                  {project.liveDemoUrl && (
+                    <div className="flex flex-col gap-2">
+                      <a
+                        href={project.liveDemoUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl bg-emerald-800 text-white font-semibold hover:bg-emerald-700 transition-colors shadow-md"
+                      >
+                        <MonitorPlay size={18} />
+                        {translations.liveDemoBtn}
+                      </a>
+
+                      {(project.demoNote || project.demoCredentials) && (
+                        <div className="p-3 rounded-2xl bg-emerald-600/[0.07] border border-emerald-600/20 flex flex-col gap-2">
+                          {project.demoNote && (
+                            <p className="text-[11px] leading-5 text-slate-600 dark:text-slate-300">
+                              {isAr && project.demoNoteAr ? project.demoNoteAr : project.demoNote}
+                            </p>
+                          )}
+                          {project.demoCredentials && (
+                            <div className="text-[11px] text-slate-600 dark:text-slate-300">
+                              <span className="block font-semibold text-emerald-800 dark:text-emerald-300 mb-1">
+                                {translations.credentialsLabel}
+                              </span>
+                              <div className="flex flex-wrap gap-x-4 gap-y-1 font-mono">
+                                <span>
+                                  {translations.usernameLabel}: <code className="px-1.5 py-0.5 rounded bg-slate-200/70 dark:bg-slate-800">{project.demoCredentials.username}</code>
+                                </span>
+                                <span>
+                                  {translations.passwordLabel}: <code className="px-1.5 py-0.5 rounded bg-slate-200/70 dark:bg-slate-800">{project.demoCredentials.password}</code>
+                                </span>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  )}
+
                   {/* GitHub Action */}
                   {project.githubUrl ? (
                     <a
@@ -323,6 +514,11 @@ export default function ProjectDetailsClient({ slug }: { slug: string }) {
                       {project.category === "Web" ? <ExternalLink size={18} /> : <Github size={18} />}
                       {project.category === "Web" ? translations.codeBtn.replace("Source Code", "Visit Website").replace("كود المشروع", "زيارة الموقع") : translations.codeBtn}
                     </a>
+                  ) : project.privateRepo ? (
+                    <div className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/60 text-slate-500 dark:text-slate-400 text-sm font-medium">
+                      <Lock size={15} />
+                      {translations.privateRepoLabel}
+                    </div>
                   ) : (
                     <button
                       disabled
