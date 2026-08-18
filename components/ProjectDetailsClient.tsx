@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   ArrowLeft,
   ArrowRight,
@@ -20,66 +20,30 @@ import {
   Cpu,
   UserRound,
   Info,
-  ChevronLeft,
-  ChevronRight,
-  Maximize2,
-  X,
   MonitorDown
 } from "lucide-react";
 import Navbar from "@/components/ui/Navbar";
 import Footer from "@/components/sections/Footer";
 import BackToTop from "@/components/ui/BackToTop";
-import { projects, Project } from "@/data/projects";
+import ProjectGallery from "@/components/ui/ProjectGallery";
+import { projects, Project, GalleryImage } from "@/data/projects";
 import { useLanguage } from "@/hooks/useLanguage";
 
 export default function ProjectDetailsClient({ slug }: { slug: string }) {
   const router = useRouter();
   const { isAr } = useLanguage();
   const [project, setProject] = useState<Project | null>(null);
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [lightboxOpen, setLightboxOpen] = useState(false);
 
   useEffect(() => {
     if (slug) {
       const foundProject = projects.find((p) => p.slug === slug);
       if (foundProject) {
         setProject(foundProject);
-        setActiveIndex(0);
-        setLightboxOpen(false);
       } else {
         router.push("/#projects");
       }
     }
   }, [slug, router]);
-
-  // Gallery keyboard controls: arrows always navigate, Escape closes the lightbox.
-  useEffect(() => {
-    if (!project) return;
-    const total = project.images.length;
-
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        setLightboxOpen(false);
-        return;
-      }
-      if (total < 2) return;
-      if (e.key === "ArrowRight") setActiveIndex((i) => (i + 1) % total);
-      if (e.key === "ArrowLeft") setActiveIndex((i) => (i - 1 + total) % total);
-    };
-
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
-  }, [project]);
-
-  // Lock body scroll while the fullscreen viewer is open.
-  useEffect(() => {
-    if (!lightboxOpen) return;
-    const previous = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = previous;
-    };
-  }, [lightboxOpen]);
 
   if (!project) {
     return (
@@ -121,20 +85,20 @@ export default function ProjectDetailsClient({ slug }: { slug: string }) {
     passwordLabel: isAr ? "كلمة السر" : "Password",
     privateRepoLabel: isAr ? "الكود خاص (مشروع عميل)" : "Private repository (client project)",
     windowsBtn: isAr ? "تحميل نسخة Windows" : "Download for Windows",
-    prevImage: isAr ? "الصورة السابقة" : "Previous image",
-    nextImage: isAr ? "الصورة التالية" : "Next image",
-    expandImage: isAr ? "تكبير الصورة" : "Open full size",
-    closeImage: isAr ? "إغلاق" : "Close",
   };
 
-  const totalImages = project.images.length;
-  const activeImage = project.images[activeIndex] ?? project.images[0];
-  const activeCaption = isAr
-    ? project.imageCaptionsAr?.[activeIndex]
-    : project.imageCaptions?.[activeIndex];
-
-  const goTo = (delta: number) =>
-    setActiveIndex((i) => (i + delta + totalImages) % totalImages);
+  // Projects that predate `gallery` still describe their shots with `images` +
+  // `imageCaptions`, so they are mapped into the same shape the gallery consumes.
+  const galleryItems: GalleryImage[] =
+    project.gallery ??
+    project.images.map((src, i) => ({
+      src,
+      caption_en: project.imageCaptions?.[i] ?? "",
+      caption_ar: project.imageCaptionsAr?.[i] ?? "",
+      orientation: (project.imageFit === "contain"
+        ? "portrait"
+        : "landscape") as GalleryImage["orientation"],
+    }));
 
   // Long-form copy is authored with blank lines between paragraphs.
   const paragraphs = (text: string) => text.split("\n\n").filter(Boolean);
@@ -166,116 +130,14 @@ export default function ProjectDetailsClient({ slug }: { slug: string }) {
           {/* Hero Header Area */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-12">
             
-            {/* Visual Screen Mockup Area (Lg: 7 cols) */}
-            <div className="lg:col-span-7 flex flex-col gap-4">
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5 }}
-                className="group relative aspect-[16/10] w-full rounded-3xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 shadow-xl"
-              >
-                <div
-                  className="w-full h-full bg-slate-100 dark:bg-slate-900/90 transition-all duration-300"
-                  style={{
-                    backgroundImage: `url('${activeImage}')`,
-                    backgroundSize: project.imageFit ?? "cover",
-                    backgroundRepeat: "no-repeat",
-                    backgroundPosition: project.imagePosition ?? "center",
-                  }}
-                />
-
-                {/* Click anywhere on the shot to open it full size */}
-                <button
-                  type="button"
-                  onClick={() => setLightboxOpen(true)}
-                  aria-label={translations.expandImage}
-                  className="absolute inset-0 cursor-zoom-in"
-                />
-
-                {/* Visual Glass Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/20 via-transparent to-transparent pointer-events-none" />
-
-                {/* Category Floating Badge */}
-                <span className="absolute top-4 left-4 text-xs px-3 py-1.5 rounded-full font-medium bg-black/60 backdrop-blur-md text-white border border-white/10 pointer-events-none">
-                  {project.category}
-                </span>
-
-                {/* Badge Floating Right */}
-                {project.badge && (
-                  <span className="absolute top-4 right-4 text-xs px-3 py-1.5 rounded-full font-medium bg-cyan-500/85 backdrop-blur-md text-white shadow-lg pointer-events-none">
-                    ★ {project.badge}
-                  </span>
-                )}
-
-                {/* Expand hint */}
-                <span className="absolute bottom-4 right-4 p-2 rounded-full bg-black/55 backdrop-blur-md text-white opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-                  <Maximize2 size={14} />
-                </span>
-
-                {/* Prev / Next arrows — the left button always steps toward the visually
-                    previous slide, which is the next item when the page is RTL. */}
-                {totalImages > 1 && (
-                  <>
-                    <button
-                      type="button"
-                      onClick={() => goTo(isAr ? 1 : -1)}
-                      aria-label={isAr ? translations.nextImage : translations.prevImage}
-                      className="absolute left-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 hover:bg-black/70 backdrop-blur-md text-white transition-colors"
-                    >
-                      <ChevronLeft size={18} />
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => goTo(isAr ? -1 : 1)}
-                      aria-label={isAr ? translations.prevImage : translations.nextImage}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 hover:bg-black/70 backdrop-blur-md text-white transition-colors"
-                    >
-                      <ChevronRight size={18} />
-                    </button>
-                    <span className="absolute bottom-4 left-4 text-[11px] font-mono px-2.5 py-1 rounded-full bg-black/55 backdrop-blur-md text-white pointer-events-none">
-                      {activeIndex + 1} / {totalImages}
-                    </span>
-                  </>
-                )}
-              </motion.div>
-
-              {/* Multi-Image Thumbnails Grid */}
-              {totalImages > 1 && (
-                <div className="flex gap-2.5 overflow-x-auto py-2">
-                  {project.images.map((img, i) => (
-                    <button
-                      key={img + i}
-                      onClick={() => setActiveIndex(i)}
-                      aria-label={
-                        (isAr ? project.imageCaptionsAr?.[i] : project.imageCaptions?.[i]) ??
-                        `${i + 1}`
-                      }
-                      className={`relative w-20 h-14 rounded-xl overflow-hidden border-2 transition-all flex-shrink-0 ${
-                        activeIndex === i
-                          ? "border-cyan-400 scale-95 shadow-md"
-                          : "border-slate-200 dark:border-slate-800 hover:border-slate-400"
-                      }`}
-                    >
-                      <div
-                        className="w-full h-full bg-slate-100 dark:bg-slate-900"
-                        style={{
-                          backgroundImage: `url('${img}')`,
-                          backgroundSize: project.imageFit ?? "cover",
-                          backgroundRepeat: "no-repeat",
-                          backgroundPosition: project.imagePosition ?? "center",
-                        }}
-                      />
-                    </button>
-                  ))}
-                </div>
-              )}
-
-              {/* Caption of the currently previewed screenshot */}
-              {activeCaption && (
-                <p className="text-xs text-slate-500 dark:text-slate-400 px-1">
-                  {activeCaption}
-                </p>
-              )}
+            {/* Screenshot gallery (Lg: 7 cols) */}
+            <div className="lg:col-span-7">
+              <ProjectGallery
+                items={galleryItems}
+                title={isAr && project.titleAr ? project.titleAr : project.title}
+                category={project.category}
+                badge={project.badge}
+              />
             </div>
 
             {/* Header Text Area (Lg: 5 cols) */}
@@ -729,73 +591,6 @@ export default function ProjectDetailsClient({ slug }: { slug: string }) {
 
         </div>
       </main>
-
-      {/* Fullscreen screenshot viewer */}
-      <AnimatePresence>
-        {lightboxOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-[100] bg-slate-950/95 backdrop-blur-sm flex flex-col items-center justify-center p-4 md:p-8"
-            onClick={() => setLightboxOpen(false)}
-          >
-            <button
-              type="button"
-              onClick={() => setLightboxOpen(false)}
-              aria-label={translations.closeImage}
-              className="absolute top-4 right-4 p-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
-            >
-              <X size={20} />
-            </button>
-
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={activeImage}
-              alt={activeCaption ?? project.title}
-              onClick={(e) => e.stopPropagation()}
-              className="max-h-[82vh] max-w-full w-auto rounded-2xl shadow-2xl object-contain"
-            />
-
-            {activeCaption && (
-              <p className="mt-4 text-xs md:text-sm text-slate-300 text-center max-w-2xl">
-                {activeCaption}
-              </p>
-            )}
-
-            {totalImages > 1 && (
-              <>
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    goTo(isAr ? 1 : -1);
-                  }}
-                  aria-label={isAr ? translations.nextImage : translations.prevImage}
-                  className="absolute left-3 md:left-6 top-1/2 -translate-y-1/2 p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
-                >
-                  <ChevronLeft size={22} />
-                </button>
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    goTo(isAr ? -1 : 1);
-                  }}
-                  aria-label={isAr ? translations.prevImage : translations.nextImage}
-                  className="absolute right-3 md:right-6 top-1/2 -translate-y-1/2 p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
-                >
-                  <ChevronRight size={22} />
-                </button>
-                <span className="absolute bottom-5 left-1/2 -translate-x-1/2 text-[11px] font-mono px-3 py-1 rounded-full bg-white/10 text-white">
-                  {activeIndex + 1} / {totalImages}
-                </span>
-              </>
-            )}
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       <Footer />
       <BackToTop />

@@ -1,3 +1,12 @@
+/** One screenshot in the details-page gallery. */
+export type GalleryImage = {
+  src: string;
+  caption_ar: string;
+  caption_en: string;
+  /** Phone shots are 9:19.5, desktop shots 16:9 — both share one letterboxed stage. */
+  orientation: "portrait" | "landscape";
+};
+
 export type Project = {
   title: string;
   titleAr?: string;
@@ -17,10 +26,16 @@ export type Project = {
   /** CSS background-position used when cropping the images (defaults to center). */
   imagePosition?: string;
   /**
-   * How the gallery fits the images inside the 16/10 frame. Desktop screenshots fill it
-   * ("cover", the default); tall phone screenshots have to be letterboxed ("contain").
+   * Orientation hint for projects that still use `images` instead of `gallery`:
+   * "contain" marks tall phone screenshots, "cover" (the default) desktop ones.
    */
   imageFit?: "cover" | "contain";
+  /**
+   * Screenshot gallery for the details page. Data-driven: one entry per shot, so adding a
+   * screenshot later — including a landscape desktop one — is a single line here.
+   * Falls back to `images` + `imageCaptions` when absent.
+   */
+  gallery?: GalleryImage[];
   techStack: string[];
   githubUrl?: string;
   apkUrl?: string;
@@ -583,32 +598,195 @@ export const projects: Project[] = [
       "أصعب جزء ما كانش شاشة، كان الحالة. الرئيسية والسلة والطلبات والملف الشخصي كلهم مشتركين في `FirebaseAuth.authStateChanges()` وكل واحد بيتصرّف بشكل مختلف — السلة بتتفضّى محليًا من غير ما تمسح مستندها السحابي، والطلبات بتلغي الاشتراك القديم وتفتح واحد جديد، والمفضلة بترجع فاضية ويتعاد بناء قوائم المطاعم بـ `copyWith(isFavorite: …)`. وفوق ده كله زرار المفضلة شغّال optimistic: الواجهة الأول، وبعدين Firestore، ورجوع للحالة القديمة لو فشلت. وكل ده محتاج إلغاء اشتراكات صح في `dispose` عشان ما يحصلش `notifyListeners` على ViewModel اتخلصنا منه.\n\nوالجزء التاني الصعب كان ترتيب الدفع مع كتابة الطلب. زرار «Place Order» بيفتح شاشة الدفع وبيستنى نتيجتها، وما بيتكتبش الطلب في `orders` بحالة `pending` ومعاه `tracking_chat_id` إلا لما الدفع ينجح، وبعدين تتفضّى السلة ويرجع المستخدم لأول شاشة. ولو الدفع اتلغى أو فشل، ما بيتعملش طلب أصلًا. ده كمان استلزم شغل مع `CardField` الأصلي بتاع Stripe وحالة الاكتمال بتاعته عشان زرار الدفع ما يشتغلش إلا لما بيانات الكارت تبقى صالحة."
   },
   {
-    title: "سلة | SallaX",
+    title: "SallaX — Cross-Platform E-Commerce App Built with Flutter",
+    titleAr: "سلة — تطبيق تجارة إلكترونية متعدد المنصات بـ Flutter",
+    shortTitle: "SallaX",
+    shortTitleAr: "سلة | SallaX",
     slug: "sallax",
-    description: "E-commerce app with cart, auth, watchlist, payment and google maps integration.",
-    techStack: ["Flutter", "Bloc", "Sqlite", "API"],
+    description:
+      "A complete Flutter e-commerce app — browsing, search, cart, a four-step checkout and Stripe payments, with map-based delivery address picking on OpenStreetMap, and separate mobile and desktop layouts for the same screens.",
+    descriptionAr:
+      "تطبيق تجارة إلكترونية كامل بـ Flutter — تصفّح وبحث وسلة وشيك أوت من 4 خطوات ودفع Stripe، مع اختيار عنوان التوصيل على خريطة OpenStreetMap، ونسخة موبايل ونسخة ديسكتوب من نفس الشاشات.",
+    detailDescription:
+      "SallaX is a full e-commerce storefront built in Flutter on a feature-first architecture of 15 independent features. It covers the whole buying journey: home, categories and search, cart and wishlist, a four-step checkout ending in a Stripe card payment or cash on delivery, and order tracking. Authentication is JWT-based with automatic token refresh and secure storage, and delivery addresses are picked on an OpenStreetMap map and persisted locally in SQLite. Eight screens ship a dedicated desktop layout selected at runtime.",
+    detailDescriptionAr:
+      "سلة تطبيق متجر إلكتروني متكامل مبني بـ Flutter على معمارية feature-first مكوّنة من 15 feature مستقلة. بيغطي رحلة الشراء كلها: من الرئيسية والتصنيفات والبحث، للسلة والمفضلة، لشيك أوت من أربع خطوات بينتهي بالدفع عن طريق Stripe أو الدفع عند الاستلام، لتتبّع الطلبات. المصادقة بـ JWT مع تجديد تلقائي للتوكن وتخزين آمن، والعناوين بتتحدد على خريطة OpenStreetMap وبتتخزّن محليًا في SQLite. تمان شاشات ليها تخطيط ديسكتوب منفصل عن الموبايل بيتم اختياره وقت التشغيل.",
+    techStack: ["Flutter", "Bloc", "OpenStreetMap", "Stripe", "SQLite", "REST API"],
+    images: ["/images/sallax/01-home.webp"],
+    // The card crops to 16/10; anchoring high keeps the banner and header of the phone shot.
+    imagePosition: "top center",
+    gallery: [
+      {
+        src: "/images/sallax/01-home.webp",
+        caption_ar: "الرئيسية — بانر عروض، تصنيفات ملوّنة، ومنتجات مميّزة بالأسعار والتقييمات",
+        caption_en: "Home — promo banner, colour-coded categories and featured products",
+        orientation: "portrait"
+      },
+      {
+        src: "/images/sallax/02-product-details.webp",
+        caption_ar: "تفاصيل المنتج — الصورة والسعر والتقييم واختيار اللون والمقاس حسب المخزون المتاح",
+        caption_en: "Product details — image, price, rating, and stock-driven colour/size selection",
+        orientation: "portrait"
+      },
+      {
+        src: "/images/sallax/03-search.webp",
+        caption_ar: "البحث — نتائج فورية من الـ API أثناء الكتابة",
+        caption_en: "Search — live results served from the API as you type",
+        orientation: "portrait"
+      },
+      {
+        src: "/images/sallax/04-cart.webp",
+        caption_ar: "السلة — ثلاثة منتجات بكميات مختلفة مع ملخص الإجمالي والشحن والضريبة",
+        caption_en: "Cart — three products with a subtotal / shipping / tax summary",
+        orientation: "portrait"
+      },
+      {
+        src: "/images/sallax/07-address-map.webp",
+        caption_ar: "اختيار عنوان التوصيل على خريطة OpenStreetMap مع تحويل الإحداثيات لعنوان",
+        caption_en: "Picking the delivery point on an OpenStreetMap map with reverse geocoding",
+        orientation: "portrait"
+      },
+      {
+        src: "/images/sallax/08-my-addresses.webp",
+        caption_ar: "دفتر العناوين المحفوظة محليًا في SQLite",
+        caption_en: "The address book persisted locally in SQLite",
+        orientation: "portrait"
+      },
+      {
+        src: "/images/sallax/10-payment-success.webp",
+        caption_ar: "تأكيد نجاح الطلب بعد إتمام الدفع",
+        caption_en: "Order confirmation after a successful payment",
+        orientation: "portrait"
+      },
+      {
+        src: "/images/sallax/11-orders.webp",
+        caption_ar: "الطلبات — طلب قيد التنفيذ وطلب تم تسليمه بتفاصيلهم",
+        caption_en: "Orders — one processing and one delivered order",
+        orientation: "portrait"
+      },
+      {
+        src: "/images/sallax/12-wishlist.webp",
+        caption_ar: "المفضلة — المنتجات المحفوظة مع إمكانية نقلها للسلة",
+        caption_en: "Wishlist — saved products with a move-to-cart action",
+        orientation: "portrait"
+      },
+      {
+        src: "/images/sallax/13-offers.webp",
+        caption_ar: "العروض — الكوبونات النشطة بأكوادها وتواريخ انتهائها",
+        caption_en: "Offers — active coupons with codes and expiry dates",
+        orientation: "portrait"
+      },
+      {
+        src: "/images/sallax/14-profile.webp",
+        caption_ar: "الملف الشخصي — بيانات الحساب والإحصائيات وروابط الطلبات والعناوين",
+        caption_en: "Profile — account details, stats and links to orders and addresses",
+        orientation: "portrait"
+      },
+      {
+        src: "/images/sallax/15-login.webp",
+        caption_ar: "تسجيل الدخول",
+        caption_en: "Sign in",
+        orientation: "portrait"
+      },
+      {
+        src: "/images/sallax/17-onboarding.webp",
+        caption_ar: "شاشات التعريف بالتطبيق",
+        caption_en: "App onboarding",
+        orientation: "portrait"
+      }
+    ],
     githubUrl: "https://github.com/taha2901/ECE",
-    images: ["/images/SallaX.png"],
-    apkUrl: "https://drive.google.com/file/d/1uaqcIQlU5rHjR5vHylyfur2UfFvxGCPU/view?usp=drive_link",
-    videoUrl: "https://drive.google.com/file/d/1H3ZVavLUyT4ofbVDEfMbYA-9k9MVCT53/view?usp=drive_link",
-    badge: "Featured",
     category: "Mobile",
-    problemSolved: "SallaX solves the need for an integrated mobile e-commerce platform that works smoothly on mid-to-low-tier mobile devices by optimizing client-side database caching (SQLite) for the shopping cart and user preferences.",
-    problemSolvedAr: "يحل تطبيق سلة الحاجة إلى منصة تجارة إلكترونية متكاملة تعمل بسلاسة على الأجهزة المتوسطة والضعيفة من خلال تحسين الكاش المحلي للبيانات (SQLite) لإدارة السلة وتفضيلات المستخدمين.",
+    role: "I built the entire Flutter application (177 Dart files): the feature-first architecture, the 13 cubits, the whole network layer including the token-refresh interceptor with its request queue, repositories and JSON mapping, routing and guards, SQLite + secure storage, the design system, the maps integration, the Stripe integration, and every desktop layout. The back end is not mine — it is a Django/DRF API by another developer.",
+    roleAr: "عملت تطبيق الـ Flutter بالكامل (177 ملف Dart): المعمارية feature-first، الـ 13 Cubit وحالاتهم، طبقة الشبكة كلها بما فيها interceptor تجديد التوكن مع طابور الريكويستات، الـ repositories وتحويل الـ JSON، الـ routing والحماية، التخزين المحلي بـ SQLite والـ secure storage، الـ design system، دمج الخرايط، دمج Stripe، وكل تخطيطات الديسكتوب المنفصلة. الباك اند مش بتاعي — REST API بـ Django/DRF من مطوّر تاني، اشتغلت على العقد بتاعه.",
+    status: "The app is complete, but the REST API it depends on (hosted on PythonAnywhere) is currently down, so the build cannot be run end to end.",
+    statusAr: "التطبيق مكتمل، بس الـ API اللي بيعتمد عليه (مستضاف على PythonAnywhere) مش شغّال حاليًا، فمش ممكن تشغيله من أوله لآخره.",
+    problemSolved:
+      "Small and mid-sized retailers in Egypt sell through social pages and WhatsApp threads — orders arrive as chat messages, addresses are free text, and confirmation happens by phone. The result is failed deliveries and customers with no order visibility.\n\nSallaX replaces that with a real catalogue (per-size stock, colours, prices), a map-picked delivery point that is reverse-geocoded and saved to a local address book, and a four-step checkout that shows exactly what is being paid before confirmation.",
+    problemSolvedAr:
+      "المتاجر الصغيرة والمتوسطة في مصر بتبيع من خلال صفحات سوشيال ميديا ورسايل واتساب: الأوردر بيتاخد في شات، والعنوان بيتكتب نص حر («ورا المدرسة، الدور التالت»)، والتأكيد بمكالمة. النتيجة نسبة مرتجعات عالية لأن المندوب مش لاقي العنوان، وعميل مش عارف أوردره فين.\n\nسلة بيحل الجزء ده: كتالوج بصور وأسعار ومقاسات وألوان ومخزون فعلي لكل مقاس بدل الشات، وتحديد الموقع على خريطة بإحداثيات حقيقية بترجع منها عنوان مقروء ويتحفظ في دفتر عناوين محلي، وشيك أوت من أربع خطوات بيوضّح للعميل بيدفع كام وفين هيوصل الأوردر قبل ما يأكّد.",
+    stats: [
+      { label: "Dart source files", labelAr: "ملف Dart", value: "177" },
+      { label: "Lines of code", labelAr: "سطر كود", value: "22,586" },
+      { label: "Features", labelAr: "Feature", value: "15" },
+      { label: "Cubits", labelAr: "Cubit", value: "13" },
+      { label: "Widgets", labelAr: "Widget", value: "215" },
+      { label: "Routes", labelAr: "Route", value: "22" },
+      { label: "Desktop layouts", labelAr: "شاشة بنسخة ديسكتوب", value: "8" },
+      { label: "API endpoints", labelAr: "API endpoint", value: "21" }
+    ],
     keyFeatures: [
-      "Robust authentication system",
-      "Interactive shopping cart and watchlist",
-      "Google Maps delivery address selection",
-      "SQLite offline storage for cart data"
+      "🛍 Product catalogue with variants — colours, sizes and separate stock per size, with out-of-stock sizes blocked from selection.",
+      "🔎 Server-side search — queries run against the API rather than a pre-loaded list, so results stay correct however large the catalogue grows.",
+      "🏷 Categories with automatic colours and icons — each category derives its icon and colour from its name (Arabic or English), so new categories render correctly without a code change.",
+      "🛒 Optimistic cart updates — quantity changes and removals show instantly and sync to the server afterwards, rolling back with an error message if the call fails.",
+      "🧾 Automatic line merging — adding the same product in the same size and colour increases the existing line's quantity instead of creating a new one.",
+      "📋 Four-step checkout — customer details → shipping address → payment method → final review, with a progress indicator and data preserved between steps.",
+      "⚡ Auto-filled checkout — details come from the user's account and the address from the default one saved in SQLite, split automatically into address and city.",
+      "🗺 Map-based address picking — the delivery point is set on an OpenStreetMap map by tapping the map or searching for a place, with coordinates reverse-geocoded into a readable address.",
+      "📍 Current location — a button fetches the user's position via geolocator, handles the location permissions and recentres the map on it.",
+      "🏠 Local address book — addresses are stored in SQLite with their coordinates and a label (\"Home\", \"Work\"), with exactly one default guaranteed by a transaction.",
+      "🔐 JWT authentication with automatic refresh — sign-in and registration, with the token renewed before it expires without the user noticing, and a queue for concurrent requests.",
+      "🔒 Secure token storage — tokens live in `flutter_secure_storage` (Keystore on Android / Keychain on iOS), not in plain storage.",
+      "🚪 Route guards and session restore — a central go_router redirect blocks checkout, payment and orders without a token, and the session is restored on app launch.",
+      "👤 Guest browsing — home, search and product details are open without signing in, while cart and wishlist show a \"sign-in required\" screen instead of shutting the visitor out.",
+      "💳 Stripe card payments — PaymentIntent creation and confirmation with native card fields, the order created after the payment succeeds (test mode), alongside a cash-on-delivery path.",
+      "🖥 Dedicated desktop layouts — eight screens have a layout written specifically for large screens (multi-column grids, two-pane views, side navigation) selected at runtime."
     ],
     keyFeaturesAr: [
-      "نظام مصادقة وتسجيل دخول قوي",
-      "سلة تسوق تفاعلية وقائمة للمفضلة",
-      "تحديد عنوان التوصيل عبر خرائط جوجل",
-      "تخزين محلي (SQLite) لبيانات السلة عند عدم وجود إنترنت"
+      "🛍 كتالوج منتجات بمتغيّرات — ألوان ومقاسات ومخزون منفصل لكل مقاس، والتطبيق بيمنع اختيار مقاس مخزونه صفر.",
+      "🔎 بحث من السيرفر — البحث بيتنفّذ على الـ API مش على قايمة محمّلة مسبقًا، فالنتايج بتفضل صح مهما كبر الكتالوج.",
+      "🏷 تصنيفات بألوان وأيقونات تلقائية — كل تصنيف بياخد أيقونة ولون تلقائيًا حسب اسمه (عربي أو إنجليزي)، فالتصنيفات الجديدة بتظهر مظبوطة من غير تعديل كود.",
+      "🛒 سلة بتحديث تفاؤلي — تغيير الكمية أو الحذف بيظهر فورًا وبيتزامن مع السيرفر بعدها، ولو الاستدعاء فشل بيترجع لحالته الأصلية مع رسالة خطأ.",
+      "🧾 دمج تلقائي للعناصر المتكررة — إضافة نفس المنتج بنفس المقاس واللون بتزوّد كمية السطر الموجود بدل ما تعمل سطر جديد.",
+      "📋 شيك أوت من 4 خطوات — بيانات العميل ← عنوان الشحن ← طريقة الدفع ← مراجعة نهائية، مع مؤشر تقدّم وحفظ البيانات بين الخطوات.",
+      "⚡ ملء تلقائي لبيانات الشيك أوت — البيانات بتتجاب من حساب المستخدم، والعنوان من العنوان الافتراضي المحفوظ في SQLite وبيتقسّم تلقائيًا لعنوان ومدينة.",
+      "🗺 اختيار العنوان على الخريطة — تحديد موقع التوصيل على OpenStreetMap بالضغط على الخريطة أو البحث عن مكان، وتحويل الإحداثيات لعنوان مقروء بـ reverse geocoding.",
+      "📍 تحديد الموقع الحالي — زرار بيجيب موقع المستخدم بـ geolocator مع إدارة صلاحيات الموقع ويحرّك الخريطة عليه.",
+      "🏠 دفتر عناوين محلي — العناوين بتتحفظ في SQLite بإحداثياتها ومسمّى («البيت»، «الشغل»)، مع عنوان افتراضي واحد مضمون عن طريق transaction.",
+      "🔐 مصادقة JWT مع تجديد تلقائي — تسجيل دخول وإنشاء حساب، وتجديد التوكن قبل انتهائه بدون ما المستخدم يحس، مع طابور للريكويستات المتزامنة.",
+      "🔒 تخزين آمن للتوكنات — التوكنات في `flutter_secure_storage` (Keystore على أندرويد / Keychain على iOS) مش في تخزين عادي.",
+      "🚪 حماية الصفحات وتسجيل دخول تلقائي — redirect مركزي في go_router بيمنع الوصول للشيك أوت والدفع والطلبات بدون توكن، مع استرجاع الجلسة عند فتح التطبيق.",
+      "👤 تصفّح كضيف — الرئيسية والبحث وتفاصيل المنتج مفتوحين بدون تسجيل دخول، والسلة والمفضلة بيظهروا شاشة «محتاج تسجيل دخول» بدل ما التطبيق يقفل في وش الزائر.",
+      "💳 دفع بالكارت عبر Stripe — إنشاء PaymentIntent وتأكيد الدفع بحقول كارت أصلية، وإنشاء الأوردر بعد نجاح الدفع (وضع اختبار)، بالإضافة لمسار الدفع عند الاستلام.",
+      "🖥 تخطيط ديسكتوب منفصل — تمان شاشات ليها تخطيط مكتوب مخصوص للشاشات الكبيرة (grid متعدد الأعمدة، عمودين، side navigation) بيتم اختياره وقت التشغيل."
     ],
-    challenges: "Synchronizing state management with local SQLite database to prevent double item addition and ensure fast cart calculation.",
-    challengesAr: "مزامنة نظام إدارة الحالة (Bloc) مع قاعدة بيانات SQLite المحلية لمنع تكرار المنتجات وحساب قيم السلة بسرعة فائقة."
+    techGroups: [
+      {
+        label: "UI",
+        labelAr: "الواجهة",
+        items: ["Flutter 3.44", "Material 3", "Custom design system", "cached_network_image", "persistent_bottom_nav_bar", "flutter_native_splash"]
+      },
+      {
+        label: "State & routing",
+        labelAr: "إدارة الحالة والتوجيه",
+        items: ["flutter_bloc (13 Cubits)", "equatable", "freezed_annotation", "go_router (22 routes)", "get_it"]
+      },
+      {
+        label: "Networking & auth",
+        labelAr: "الشبكة والمصادقة",
+        items: ["dio", "Custom token-refresh interceptor", "jwt_decoder", "flutter_secure_storage", "flutter_dotenv"]
+      },
+      {
+        label: "Maps & payments",
+        labelAr: "الخرايط والدفع",
+        items: ["flutter_map (OpenStreetMap)", "latlong2", "geolocator", "geocoding", "permission_handler", "flutter_stripe"]
+      },
+      {
+        label: "Storage",
+        labelAr: "التخزين",
+        items: ["sqflite", "shared_preferences", "path_provider", "intl"]
+      },
+      {
+        label: "Back end (third party)",
+        labelAr: "الباك اند (طرف تاني)",
+        items: ["Django", "Django REST Framework", "JWT"]
+      }
+    ],
+    challenges:
+      "The hardest part was refreshing the JWT without double-refreshing. On resume the app fires five calls at once (profile, addresses, orders, coupons, wishlist); if the access token has expired they would all trigger a refresh and only the first could succeed, because the refresh token rotates. The fix was an interceptor that checks expiry *before* the request goes out — via `jwt_decoder`, not by waiting for a 401 — and queues concurrent requests behind a `Completer`, replaying them with the new token once the refresh lands, or rejecting the whole queue and wiping local auth if it fails.\n\nThe second challenge was the responsive work. A large screen is not a stretched phone, so each of the eight screens has two genuinely different layouts driven by the same cubit, selected at runtime by a `LayoutBuilder` on the available width (<600 mobile, 600–1023 tablet, ≥1024 desktop) rather than on raw screen size. Home on mobile is a `CustomScrollView` of slivers with a horizontal carousel; on desktop it is a category tab bar, a 380px-wide hero and a four-column grid — both reading from the same `ProductCubit` and `CategoryCubit` with no duplicated logic.",
+    challengesAr:
+      "أصعب جزء كان تجديد الـ JWT من غير refresh مكرر. لما التطبيق بيرجع من الخلفية بينده على 5 استدعاءات مع بعض (الملف الشخصي، العناوين، الطلبات، الكوبونات، المفضلة). لو التوكن منتهي، الخمسة هيبعتوا refresh في نفس اللحظة وواحد بس هينجح لأن الـ refresh token بيتغيّر. الحل: interceptor بيتأكد من انتهاء التوكن قبل إرسال الريكويست بـ `jwt_decoder` (مش بانتظار 401)، وأي ريكويست تاني بيجي والـ refresh شغال بيتحط في طابور مع `Completer` وبيتعلّق. لما الـ refresh ينجح الطابور كله بيتنفّذ بالتوكن الجديد، ولو فشل بيترفض كله وتتمسح البيانات المحلية.\n\nالتحدي التاني: الـ responsive. القرار إن الشاشة الكبيرة مش نسخة متمدّدة من الموبايل، فكل شاشة من التمانية ليها تخطيطين مختلفين تمامًا بيقروا من نفس الـ Cubit، بيتم اختيارهم وقت التشغيل بـ `LayoutBuilder` على العرض المتاح (أقل من 600 موبايل، 600–1023 تابلت، 1024 وأكتر ديسكتوب) مش على مقاس الشاشة الخام — الرئيسية موبايل `CustomScrollView` بـ slivers وكاروسيل أفقي، والديسكتوب tab bar للتصنيفات وhero بعرض 380px وgrid 4 أعمدة، والاتنين على نفس `ProductCubit` و`CategoryCubit` بدون أي منطق مكرر."
   },
   {
     title: "Beitna (بيتنا)",
