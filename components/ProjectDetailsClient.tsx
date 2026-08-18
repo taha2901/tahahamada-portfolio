@@ -178,7 +178,8 @@ export default function ProjectDetailsClient({ slug }: { slug: string }) {
                   className="w-full h-full bg-slate-100 dark:bg-slate-900/90 transition-all duration-300"
                   style={{
                     backgroundImage: `url('${activeImage}')`,
-                    backgroundSize: "cover",
+                    backgroundSize: project.imageFit ?? "cover",
+                    backgroundRepeat: "no-repeat",
                     backgroundPosition: project.imagePosition ?? "center",
                   }}
                 />
@@ -256,10 +257,11 @@ export default function ProjectDetailsClient({ slug }: { slug: string }) {
                       }`}
                     >
                       <div
-                        className="w-full h-full"
+                        className="w-full h-full bg-slate-100 dark:bg-slate-900"
                         style={{
                           backgroundImage: `url('${img}')`,
-                          backgroundSize: "cover",
+                          backgroundSize: project.imageFit ?? "cover",
+                          backgroundRepeat: "no-repeat",
                           backgroundPosition: project.imagePosition ?? "center",
                         }}
                       />
@@ -598,41 +600,41 @@ export default function ProjectDetailsClient({ slug }: { slug: string }) {
 
                   {/* Live Demo — primary CTA */}
                   {project.liveDemoUrl && (
-                    <div className="flex flex-col gap-2">
-                      <a
-                        href={project.liveDemoUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl bg-emerald-800 text-white font-semibold hover:bg-emerald-700 transition-colors shadow-md"
-                      >
-                        <MonitorPlay size={18} />
-                        {isAr
-                          ? project.liveDemoCtaLabelAr ?? translations.liveDemoBtn
-                          : project.liveDemoCtaLabel ?? translations.liveDemoBtn}
-                      </a>
+                    <a
+                      href={project.liveDemoUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl bg-emerald-800 text-white font-semibold hover:bg-emerald-700 transition-colors shadow-md"
+                    >
+                      <MonitorPlay size={18} />
+                      {isAr
+                        ? project.liveDemoCtaLabelAr ?? translations.liveDemoBtn
+                        : project.liveDemoCtaLabel ?? translations.liveDemoBtn}
+                    </a>
+                  )}
 
-                      {(project.demoNote || project.demoCredentials) && (
-                        <div className="p-3 rounded-2xl bg-emerald-600/[0.07] border border-emerald-600/20 flex flex-col gap-2">
-                          {project.demoNote && (
-                            <p className="text-[11px] leading-5 text-slate-600 dark:text-slate-300">
-                              {isAr && project.demoNoteAr ? project.demoNoteAr : project.demoNote}
-                            </p>
-                          )}
-                          {project.demoCredentials && (
-                            <div className="text-[11px] text-slate-600 dark:text-slate-300">
-                              <span className="block font-semibold text-emerald-800 dark:text-emerald-300 mb-1">
-                                {translations.credentialsLabel}
-                              </span>
-                              <div className="flex flex-wrap gap-x-4 gap-y-1 font-mono">
-                                <span>
-                                  {translations.usernameLabel}: <code className="px-1.5 py-0.5 rounded bg-slate-200/70 dark:bg-slate-800">{project.demoCredentials.username}</code>
-                                </span>
-                                <span>
-                                  {translations.passwordLabel}: <code className="px-1.5 py-0.5 rounded bg-slate-200/70 dark:bg-slate-800">{project.demoCredentials.password}</code>
-                                </span>
-                              </div>
-                            </div>
-                          )}
+                  {/* Demo note & sign-in details — also shown for projects that ship an
+                      APK instead of a hosted demo. */}
+                  {(project.demoNote || project.demoCredentials) && (
+                    <div className="p-3 rounded-2xl bg-emerald-600/[0.07] border border-emerald-600/20 flex flex-col gap-2">
+                      {project.demoNote && (
+                        <p className="text-[11px] leading-5 text-slate-600 dark:text-slate-300">
+                          {isAr && project.demoNoteAr ? project.demoNoteAr : project.demoNote}
+                        </p>
+                      )}
+                      {project.demoCredentials && (
+                        <div className="text-[11px] text-slate-600 dark:text-slate-300">
+                          <span className="block font-semibold text-emerald-800 dark:text-emerald-300 mb-1">
+                            {translations.credentialsLabel}
+                          </span>
+                          <div className="flex flex-wrap gap-x-4 gap-y-1 font-mono">
+                            <span>
+                              {translations.usernameLabel}: <code className="px-1.5 py-0.5 rounded bg-slate-200/70 dark:bg-slate-800">{project.demoCredentials.username}</code>
+                            </span>
+                            <span>
+                              {translations.passwordLabel}: <code className="px-1.5 py-0.5 rounded bg-slate-200/70 dark:bg-slate-800">{project.demoCredentials.password}</code>
+                            </span>
+                          </div>
                         </div>
                       )}
                     </div>

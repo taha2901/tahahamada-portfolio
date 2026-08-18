@@ -16,6 +16,11 @@ export type Project = {
   imageCaptionsAr?: string[];
   /** CSS background-position used when cropping the images (defaults to center). */
   imagePosition?: string;
+  /**
+   * How the gallery fits the images inside the 16/10 frame. Desktop screenshots fill it
+   * ("cover", the default); tall phone screenshots have to be letterboxed ("contain").
+   */
+  imageFit?: "cover" | "contain";
   techStack: string[];
   githubUrl?: string;
   apkUrl?: string;
@@ -386,34 +391,196 @@ export const projects: Project[] = [
     challengesAr: "أصعب جزء وأهمه هو محرّك الحسابات: مدفوعات الطالب بتسدّد الفواتير المتأخرة الأقدم فالأقدم (FIFO)، وكل تحصيل بينقسم بين المدرّس والسنتر حسب تسعيرة المجموعة نفسها (قيمة ثابتة أو نسبة)، ومحاسبة المدرّس محكومة بالمتبقي مع ترحيل أي باقي كـ «آجل على السنتر»، وفتح الشهر الجديد بيولّد الفواتير من جديد. كل العمليات المالية بتشتغل جوه MongoDB transactions مع fallback تلقائي لو السيرفر standalone."
   },
   {
-    title: "Sofrety",
+    title: "Sofrety — Flutter + Firebase Food Delivery App",
+    titleAr: "سفرتي — تطبيق توصيل طعام بـ Flutter و Firebase",
+    shortTitle: "Sofrety",
+    shortTitleAr: "سفرتي",
     slug: "sofrety",
-    description: "Sofrety is a modern food delivery mobile application built with Flutter, providing a seamless user experience for ordering meals from restaurants. The application includes online payment integration, Google Maps address selection, cart and favorites management, responsive UI, and clean state management using Bloc/Cubit architecture.",
-    techStack: ["Flutter", "Bloc", "Firebase", "OSM" , "Payment Gateway"],
+    description:
+      "A complete Flutter food-delivery client: browse restaurants served from Firestore, a cloud-synced cart, Stripe card payments, live-updating orders with status tracking and a driver chat, plus a profile with saved addresses and payment methods.",
+    descriptionAr:
+      "تطبيق توصيل طعام كامل بـ Flutter: تصفّح مطاعم من Firestore، سلة محفوظة سحابيًا، دفع بالبطاقة عبر Stripe، طلبات تتحدّث لحظيًا مع تتبّع حالة الطلب وشات مع المندوب، وملف شخصي بعناوين ووسائل دفع.",
+    detailDescription:
+      "Sofrety is a food-delivery customer app built in Flutter on an MVVM architecture with a Repository/Service data layer. Home content — restaurants, categories and promo banners — is served from Cloud Firestore, authentication runs on Firebase Auth, and the cart, orders, favourites and profile are all persisted per user in Firestore. Card payments go through the Stripe SDK, and active orders update live through Firestore snapshot streams, with a four-stage progress tracker and a driver chat screen.",
+    detailDescriptionAr:
+      "سفرتي تطبيق عميل لتوصيل الطعام، مبني بـ Flutter بمعمارية MVVM فوق طبقة Repository/Service. الرئيسية والمطاعم والتصنيفات والبانرات بتيجي من Cloud Firestore، والمصادقة عبر Firebase Auth، والسلة والطلبات والمفضلة والملف الشخصي كلها مخزّنة لكل مستخدم في Firestore. الدفع بالبطاقة متعمول بـ Stripe SDK، والطلبات النشطة بتتحدّث لحظيًا عبر snapshots streams مع شريط تقدّم لحالة الطلب وشاشة شات مع المندوب.",
+    techStack: ["Flutter", "Firebase", "Cloud Firestore", "Stripe", "MVVM", "Provider"],
+    images: [
+      "/images/soferty.png",
+      "/images/sofrety/01-home.webp",
+      "/images/sofrety/02-restaurant.webp",
+      "/images/sofrety/03-restaurant-menu.webp",
+      "/images/sofrety/04-cart.webp",
+      "/images/sofrety/15-orders.webp",
+      "/images/sofrety/08-order-tracking.webp",
+      "/images/sofrety/09-chat.webp",
+      "/images/sofrety/16-active-orders-sheet.webp",
+      "/images/sofrety/10-search.webp",
+      "/images/sofrety/11-favorites.webp",
+      "/images/sofrety/12-profile.webp",
+      "/images/sofrety/05-address-location.webp",
+      "/images/sofrety/13-login.webp",
+      "/images/sofrety/14-splash.webp"
+    ],
+    imageCaptions: [
+      "Sofrety — a Flutter food-delivery client on Firebase",
+      "Home — promo banner, categories, featured restaurants and a nearby list sorted by distance",
+      "Restaurant page — hero header with rating and delivery time, menu tabs and add-to-cart",
+      "Menu sections with quantity steppers and the sticky cart bar",
+      "Cart — line items, subtotal, delivery fee, total and the selected payment method",
+      "Orders — a live order with its progress bar and past delivered orders",
+      "Order tracking — four stages, driver details and a chat button",
+      "Driver chat — message bubbles with instant send",
+      "Active orders sheet — every live order in one place",
+      "Search — results with the query highlighted and category filter chips",
+      "Favourites — restaurants saved to the user's account in Firestore",
+      "Profile — addresses, payment methods, settings and sign-out",
+      "Address editing — delivery address with \"use current location\" and the saved coordinates",
+      "Sign-in with an Arabic UI and field validation",
+      "Splash screen with the app logo"
+    ],
+    imageCaptionsAr: [
+      "سفرتي — تطبيق توصيل طعام بـ Flutter فوق Firebase",
+      "الرئيسية: بانر عروض، تصنيفات، مطاعم مميزة، ومطاعم قريبة مرتّبة بالمسافة",
+      "صفحة المطعم: هيدر بالتقييم ووقت التوصيل، تبويبات المنيو، وإضافة للسلة",
+      "أقسام المنيو مع عدّاد الكميات وشريط السلة أسفل الشاشة",
+      "السلة: الأصناف والإجمالي الفرعي ورسوم التوصيل والإجمالي وطريقة الدفع",
+      "الطلبات: طلب نشط بشريط التقدّم وطلبات سابقة مسلّمة",
+      "تتبّع الطلب: أربع مراحل، بيانات المندوب، وزرار الشات",
+      "الشات مع المندوب: فقاعات الرسائل مع إرسال فوري",
+      "قائمة الطلبات النشطة: كل الطلبات الجارية في مكان واحد",
+      "البحث: نتائج مع تظليل نص البحث وتبويبات التصنيفات",
+      "المفضلة: المطاعم المحفوظة بحساب المستخدم في Firestore",
+      "الملف الشخصي: العناوين، وسائل الدفع، الإعدادات وتسجيل الخروج",
+      "تعديل العنوان: عنوان التوصيل مع «استخدم موقعي الحالي» والإحداثيات المحفوظة",
+      "تسجيل الدخول بواجهة عربية مع تحقق من الحقول",
+      "شاشة البداية بشعار التطبيق"
+    ],
+    // Phone screenshots are 9:19.5 — letterbox them instead of cropping a slice out of the middle.
+    imageFit: "contain",
     githubUrl: "https://github.com/taha2901/food_delivery_app",
-    images: ["/images/soferty.png"],
     apkUrl: "https://drive.google.com/file/d/1t_hEgvn5gdxMt-7w8QGoB1Fa7CCsFfsH/view?usp=drive_link",
     videoUrl: "https://drive.google.com/file/d/1u7tRqu6Y36O-XhV4BsZwwT0wkmFBHZRy/view?usp=drivesdk",
+    demoCredentials: { username: "demo@sofrety.app", password: "Sofrety#2026" },
+    demoNote:
+      "Sign in to the APK build with this account to see the app on live Firebase data. Every restaurant, driver, phone number and address in it is invented — no real customer data is involved, and payments run on Stripe test keys.",
+    demoNoteAr:
+      "سجّل الدخول بالحساب ده في نسخة الـ APK عشان تشوف التطبيق ببيانات حيّة من Firebase. كل المطاعم والمندوبين والتليفونات والعناوين مولّدة بالكامل — مفيش أي بيانات عميل حقيقية، والدفع شغّال بمفاتيح Stripe للاختبار.",
+    role: "Solo developer on the entire app side — the architecture (MVVM + Repository/Service), every screen, widget and the design system, all ViewModels and state management, the Firebase Auth and Cloud Firestore integration (reads, writes and snapshot streams), the Stripe payment integration, and the location service (geolocator + geocoding). Firebase and Stripe are used as managed services, and the food photography comes from Unsplash; there is no custom backend — the client talks to Firestore and Stripe directly.",
+    roleAr: "مطوّر منفرد للتطبيق بالكامل — المعمارية (MVVM + Repository/Service)، وكل الشاشات والـ widgets ونظام التصميم، وكل الـ ViewModels وإدارة الحالة، وتكامل Firebase Auth و Cloud Firestore (قراءة وكتابة و streams)، وتكامل Stripe للدفع، وخدمة الموقع (geolocator + geocoding). Firebase و Stripe مستخدمين كخدمات جاهزة وصور الأكل من Unsplash، ومفيش باك اند مخصص — التطبيق بيتكلم مع Firestore و Stripe مباشرة.",
+    status: "Personal project — runs against a live Firebase project (Auth + Firestore streams) with Stripe test keys; not published to any store.",
+    statusAr: "مشروع شخصي — شغّال على مشروع Firebase حيّ (مصادقة + Firestore streams) بمفاتيح Stripe للاختبار، وغير منشور على أي متجر.",
     badge: "Featured",
     category: "Mobile",
-    problemSolved: "Finding reliable food delivery platforms that support accurate local maps (OSM), secure online payments, and intuitive UI is a common need. Sofrety simplifies ordering with advanced maps, cart management, and high-speed search.",
-    problemSolvedAr: "العثور على منصة توصيل طعام موثوقة تدعم الخرائط المحلية الدقيقة (OSM)، مع بوابات دفع آمنة وواجهة مستخدم بديهية. يسهل تطبيق Sofrety طلب الوجبات مع إدارة ذكية للسلة والمفضلة وسرعة التصفح.",
+    overview:
+      "The codebase is split into four feature modules — `auth`, `home` (home, restaurant, cart, orders, search, profile), `payment` and `common`. Every screen has a `ChangeNotifier` ViewModel; the ViewModel talks only to an abstract Repository, which delegates to a Service class wrapping Cloud Firestore. Screens know nothing about Firestore, so the data source can be swapped without touching UI. State management is `provider`: five app-level ViewModels in a `MultiProvider` (Auth, Home, Cart, Orders, Profile) plus two screen-scoped ones (Restaurant, Search).\n\nThe visual layer sits on a small design system in `core/theme` — an orange `#FF5722` brand palette with fixed type, radius and shadow scales, light mode throughout. A shared widget library provides a hand-written shimmer (no third-party shimmer package), a rating badge, a favourite button, and a network image with its own loading and error states. Every screen implements the full triad: loading (shimmer), empty, and error with retry.",
+    overviewAr:
+      "المشروع متقسّم على أربع وحدات: `auth` و `home` (الرئيسية، المطعم، السلة، الطلبات، البحث، الملف الشخصي) و `payment` و `common`. كل شاشة ليها ViewModel من نوع `ChangeNotifier`، والـ ViewModel بيتكلم مع Repository مجرّد (abstract) واللي بدوره بيستدعي Service بيلفّ Cloud Firestore. يعني الشاشة ما بتعرفش حاجة عن Firestore، والـ Repository ممكن يتبدّل بأي مصدر بيانات تاني من غير ما تتغيّر الواجهة. إدارة الحالة نفسها بـ `provider`: خمس ViewModels مسجّلة في `MultiProvider` على مستوى التطبيق (Auth, Home, Cart, Orders, Profile) واتنين محليين لكل شاشة (Restaurant, Search).\n\nالشكل العام مبني على design system صغير في `core/theme`: لوحة ألوان أساسها البرتقالي `#FF5722`، ومقاسات خطوط وزوايا وظلال ثابتة، وكل الشاشات لايت مود. وفي مكتبة widgets مشتركة فيها shimmer مكتوب بإيد (من غير مكتبة خارجية)، وبادج تقييم، وزرار مفضلة، وصورة شبكة بحالة تحميل وحالة خطأ. كل شاشة عندها حالات كاملة: تحميل (shimmer) وفارغ وخطأ مع زرار إعادة محاولة.",
+    problemSolved:
+      "Ordering food online is routine in Egypt, but the experience still leaks at the seams: users scroll dozens of restaurants with no sense of what is actually close, they build a cart and lose it when the app is closed or the phone changes, and after paying they are left asking \"where is my order?\" with no visible status. Telling the driver \"the building next to the pharmacy\" usually means a phone call.\n\nSofrety targets exactly those gaps. Home sorts nearby restaurants by distance and separates featured from nearby; the cart lives in Firestore under the user's account, so it is restored on any device and cleared on sign-out. After payment the order joins the live orders list and updates in real time from Firestore, with a four-stage progress bar (Confirmed → Preparing → On the way → Delivered) and a driver chat reachable straight from the tracking sheet.\n\nThe second goal was architectural: build all of it in layers clean enough that the backend could later move (Firestore → REST API) without touching a single screen — which is why the Repository is separated from the Firestore Service from day one.",
+    problemSolvedAr:
+      "طلب الأكل أونلاين في مصر بقى عادة يومية، لكن التجربة لسه مليانة احتكاك: العميل بيدخل يتصفّح عشرات المطاعم من غير ترتيب حسب المسافة، وبيبني سلة كاملة وبعدين يقفل التطبيق أو يغيّر الموبايل فيلاقي السلة راحت، وبعد ما يدفع بيفضل يسأل «الطلب فين؟» من غير أي إشارة واضحة على حالته. ولو عايز يقول للمندوب «العمارة اللي جنب الصيدلية» ما يلاقيش غير مكالمة تليفون.\n\nسفرتي بيشتغل على النقط دي بالتحديد. الرئيسية بترتّب المطاعم القريبة بالمسافة وبتفصل المميز عن القريب، والسلة متخزّنة في Firestore تحت حساب المستخدم فبتتحمّل تاني على أي جهاز وبتتفضّى لما يعمل تسجيل خروج. وبعد الدفع، الطلب بيدخل قايمة الطلبات النشطة وبيتحدّث لحظيًا من Firestore، وشريط التقدّم بيوضّح المرحلة (تأكيد ← تحضير ← في الطريق ← تم التوصيل)، وفيه شات مباشر مع المندوب من نفس شاشة التتبّع.\n\nوالهدف التاني للمشروع كان هندسي: إن كل ده يتبني بطبقات نضيفة تسمح إن الباك اند يتغيّر لاحقًا (من Firestore لـ REST API مثلًا) من غير ما تتلمس شاشة واحدة — وده اللي خلّى الـ Repository منفصل عن الـ Service من الأول.",
+    stats: [
+      { label: "Screens", labelAr: "شاشة", value: "12" },
+      { label: "Feature modules", labelAr: "وحدة مستقلة", value: "4" },
+      { label: "Dart source files", labelAr: "ملف Dart", value: "47" },
+      { label: "Lines of code", labelAr: "سطر كود", value: "11,123" },
+      { label: "Widgets", labelAr: "Widget", value: "86" },
+      { label: "ViewModels", labelAr: "ViewModel", value: "7" },
+      { label: "Repositories", labelAr: "Repository", value: "7" },
+      { label: "Firestore collections", labelAr: "Collection في Firestore", value: "7" }
+    ],
     keyFeatures: [
-      "Online payment integration",
-      "Google Maps / OSM location picker",
-      "Cart and favorites management",
-      "Clean architecture with Bloc/Cubit",
-      "Responsive pixel-perfect UI"
+      "🔐 Full authentication — email/password sign-in and registration on Firebase Auth, with every Firebase error code mapped to a clear Arabic message and the full name stored in `displayName`.",
+      "🏠 Firestore-driven home — a promo banner slider with page indicator, category tabs, a horizontal featured rail and a nearby list ordered by distance, all read from Firestore.",
+      "📍 Current location — a header button reads device coordinates with geolocator, reverse-geocodes them to a street address, and saves it as the user's \"Home\" address.",
+      "🔎 Search with highlighting — category chips and literal query highlighting inside restaurant names, with idle, empty and error states.",
+      "🍽️ Restaurant page — hero header with rating, delivery time, fee and distance; menu category tabs; item cards with \"Popular\" and vegetarian markers, discounted prices and an unavailable state.",
+      "🛒 Cloud-persisted cart — every cart mutation is written to `carts/{uid}`, so the cart survives app restarts and follows the account across devices; it clears locally on sign-out.",
+      "➕ Quantity control — increment, decrement, remove and clear-with-confirmation, with live totals and a one-restaurant-per-cart rule that resets the cart when you switch restaurant.",
+      "🧾 Order summary — subtotal, delivery fee (highlighted green when free) and total, with the profile's default payment method shown before checkout.",
+      "💳 Stripe card payment — Stripe's native `CardField` with a live card preview (last 4, expiry, holder), PaymentIntent creation and in-app confirmation before the order is created.",
+      "📦 Live orders — a `snapshots()` subscription over the user's orders that splits active from past, sorts by date, and a bottom sheet listing every active order.",
+      "🚚 Order tracking — a four-stage progress tracker (Confirmed → Preparing → On the way → Delivered) driven by a live stream on the order document, with driver details and the delivery address.",
+      "💬 Driver chat — a full chat screen with bubbles, instant send, auto-scroll to the latest message, and merging of locally-sent messages with the incoming stream.",
+      "❤️ Optimistic favourites — the heart flips immediately in the UI, the Firestore write follows, a failure rolls the state back automatically, and a dedicated screen lists them all.",
+      "👤 Profile & addresses — saved addresses with home/work icons, payment methods with a default selector, and a validated edit-profile bottom sheet.",
+      "🔄 Complete UI states — every screen ships loading (shimmer), empty and error-with-retry states, plus pull-to-refresh, on a shared design system in `core/theme`."
     ],
     keyFeaturesAr: [
-      "تكامل بوابة الدفع الإلكتروني",
-      "تحديد الموقع عبر خرائط جوجل و OSM",
-      "إدارة السلة والمأكولات المفضلة",
-      "بنية كود نظيفة باستخدام Bloc/Cubit",
-      "واجهة مستخدم متجاوبة ودقيقة بالكامل"
+      "🔐 مصادقة كاملة — تسجيل دخول وإنشاء حساب عبر Firebase Auth، مع ترجمة كل أكواد الخطأ لرسائل عربية واضحة وحفظ الاسم في `displayName`.",
+      "🏠 رئيسية من Firestore — بانرات إعلانية بسلايدر ومؤشر صفحات، وتصنيفات، ومطاعم مميزة أفقية، ومطاعم قريبة مرتّبة بالمسافة، كلها من Firestore.",
+      "📍 تحديد الموقع الحالي — زرار في الهيدر بيجيب إحداثيات الجهاز بـ geolocator، ويحوّلها لعنوان نصي بـ geocoding، ويحفظها كعنوان «Home» في ملف المستخدم.",
+      "🔎 بحث مع تظليل — تبويبات تصنيفات وتظليل حرفي لنص البحث داخل اسم المطعم، مع حالات idle وفارغ وخطأ.",
+      "🍽️ صفحة مطعم — هيدر بصورة كبيرة وتقييم ووقت توصيل ورسوم ومسافة، وتبويبات أقسام المنيو، وكروت أصناف فيها وسم «Popular» وعلامة نباتي وسعر مخفّض وحالة «غير متاح».",
+      "🛒 سلة محفوظة سحابيًا — كل تعديل في السلة بيتكتب في `carts/{uid}`، فبترجع كما هي بعد قفل التطبيق أو من جهاز تاني، وبتتفضّى محليًا عند تسجيل الخروج.",
+      "➕ تحكم بالكميات — زيادة ونقصان وحذف وتفريغ السلة بتأكيد، مع حساب فوري للإجمالي، ومنع خلط أصناف من مطعمين (السلة بتتفضّى لو اخترت مطعم تاني).",
+      "🧾 ملخص الطلب — الإجمالي الفرعي ورسوم التوصيل (بتتلوّن أخضر لو مجانية) والإجمالي النهائي، وطريقة الدفع الافتراضية من الملف الشخصي معروضة قبل الدفع.",
+      "💳 دفع بالبطاقة عبر Stripe — `CardField` الأصلي من Stripe مع معاينة كارت حيّة (آخر 4 أرقام والتاريخ واسم الحامل)، وإنشاء PaymentIntent، وتأكيد الدفع داخل التطبيق قبل إنشاء الطلب.",
+      "📦 طلبات لحظية — اشتراك `snapshots()` على طلبات المستخدم بيفصل النشط عن السابق ويرتّبهم بالتاريخ، مع bottom sheet لكل الطلبات النشطة.",
+      "🚚 تتبّع حالة الطلب — شريط تقدّم من أربع مراحل (تأكيد ← تحضير ← في الطريق ← تم التوصيل) بيتحدّث من stream على مستند الطلب، مع بيانات المندوب وعنوان التوصيل.",
+      "💬 شات مع المندوب — شاشة شات كاملة بفقاعات، وإرسال فوري وتمرير تلقائي لآخر رسالة، ودمج الرسائل المحلية مع الواردة من الـ stream.",
+      "❤️ مفضلة بتحديث تفاؤلي — القلب بيتغيّر فورًا في الواجهة والكتابة بتروح لـ Firestore بعدها، ولو فشلت بيرجع للحالة السابقة تلقائيًا، وفيه شاشة مستقلة لكل المفضلة.",
+      "👤 ملف شخصي وعناوين — عناوين محفوظة بأيقونات (بيت/شغل)، ووسائل دفع مع تحديد الافتراضي، وتعديل البيانات من bottom sheet فيه validation.",
+      "🔄 حالات واجهة كاملة — لكل شاشة: تحميل بـ shimmer، وحالة فاضية، وحالة خطأ بزرار إعادة محاولة، وسحب للتحديث، فوق design system مشترك في `core/theme`."
     ],
-    challenges: "Handling real-time location updates using OpenStreetMap while keeping memory usage minimal, and integrating secure payment callbacks seamlessly.",
-    challengesAr: "التعامل مع تحديثات الموقع المباشرة عبر OpenStreetMap مع تقليل استهلاك الذاكرة، وربط ردود بوابات الدفع الإلكتروني بشكل آمن وسلس."
+    techGroups: [
+      {
+        label: "UI",
+        labelAr: "الواجهة",
+        items: ["Flutter", "Material 3", "Custom design system", "CustomScrollView & Slivers", "DraggableScrollableSheet", "Hand-rolled shimmer", "flutter_svg"]
+      },
+      {
+        label: "State management",
+        labelAr: "إدارة الحالة",
+        items: ["MVVM", "provider", "ChangeNotifier (7 ViewModels)", "Streams & StreamSubscription", "Optimistic updates + rollback"]
+      },
+      {
+        label: "Data & networking",
+        labelAr: "البيانات والشبكة",
+        items: ["Cloud Firestore (7 collections)", "Firebase Auth", "Snapshot streams", "Repository + Service layers", "fromJson/toJson models", "dio"]
+      },
+      {
+        label: "Payments & location",
+        labelAr: "الدفع والموقع",
+        items: ["flutter_stripe", "CardField", "PaymentIntent", "geolocator", "geocoding", "flutter_dotenv"]
+      },
+      {
+        label: "Tooling",
+        labelAr: "الأدوات",
+        items: ["Firebase CLI / FlutterFire", "flutter_launcher_icons", "flutter_native_splash", "flutter_lints", "Android emulator + adb"]
+      }
+    ],
+    techHighlights: [
+      {
+        title: "Auth-driven state fan-out",
+        titleAr: "تفرّع الحالة من تسجيل الدخول",
+        body: "Four app-level ViewModels subscribe to `authStateChanges()`, each reacting differently: the cart loads from `carts/{uid}` on sign-in and clears locally on sign-out without deleting the cloud document, the orders stream re-subscribes, and favourites reset while every restaurant list is rebuilt through `copyWith`.",
+        bodyAr: "أربع ViewModels على مستوى التطبيق مشتركين في `authStateChanges()`، وكل واحد بيتصرّف بشكل مختلف: السلة بتتحمّل من `carts/{uid}` عند الدخول وبتتفضّى محليًا عند الخروج من غير ما تمسح المستند من السحابة، والطلبات بتفتح اشتراك جديد، والمفضلة بترجع فاضية ويتعاد بناء قوائم المطاعم بـ `copyWith`."
+      },
+      {
+        title: "Payment before order, never after",
+        titleAr: "الدفع قبل الطلب، مش بعده",
+        body: "\"Place Order\" pushes the payment screen and awaits its result; the Firestore order document is only written once Stripe confirms, so a cancelled or failed payment leaves no orphan order behind — and the pay button stays disabled until Stripe's `CardField` reports valid card details.",
+        bodyAr: "زرار «Place Order» بيفتح شاشة الدفع وبيستنى نتيجتها، ومستند الطلب ما بيتكتبش في Firestore إلا لما Stripe يأكّد الدفع — فالدفع الملغي أو الفاشل ما بيسبش وراه طلب معلّق، وزرار الدفع نفسه بيفضل موقوف لحد ما `CardField` يقول إن بيانات الكارت صالحة."
+      },
+      {
+        title: "Repository/Service split over Firestore",
+        titleAr: "فصل الـ Repository عن الـ Service فوق Firestore",
+        body: "Each feature has an abstract Repository over a Service that wraps its Firestore collection, so no screen imports Firestore and the whole data source could move to a REST API without touching a single widget.",
+        bodyAr: "كل وحدة ليها Repository مجرّد فوق Service بيلفّ الـ collection بتاعها في Firestore، فمفيش شاشة بتستورد Firestore، ومصدر البيانات كله ممكن يتنقل لـ REST API من غير ما يتلمس أي widget."
+      },
+      {
+        title: "Optimistic favourites with rollback",
+        titleAr: "مفضلة تفاؤلية مع تراجع آمن",
+        body: "The heart flips in the UI first and the Firestore write follows; if the write fails the previous state is restored, so the list never shows a favourite that was never saved.",
+        bodyAr: "القلب بيتغيّر في الواجهة الأول والكتابة في Firestore بتيجي بعده؛ ولو الكتابة فشلت بترجع الحالة السابقة، فالقائمة عمرها ما هتعرض مفضلة ما اتحفظتش فعلًا."
+      }
+    ],
+    challenges:
+      "The hardest part was state, not UI. Home, Cart, Orders and Profile all subscribe to `FirebaseAuth.authStateChanges()` and each reacts differently — the cart clears locally without deleting its cloud document, orders cancel the old snapshot subscription and open a new one, favourites reset and every restaurant list is rebuilt through `copyWith(isFavorite: …)`. The favourite toggle is optimistic on top of that: UI first, Firestore second, rollback on failure. All of it needs correct subscription cancellation in `dispose` so no stream fires `notifyListeners` on a disposed ViewModel.\n\nThe second hard part was sequencing the payment and the order write correctly. \"Place Order\" pushes the payment screen and awaits its result; only when payment returns successfully does the app write the order into `orders` with `pending` status and a `tracking_chat_id`, after which the cart is cleared and the user is popped back to the root. If payment is cancelled or fails, no order is created at all. That also meant working with Stripe's native `CardField` widget and its completion callback, so the pay button only enables once the card details are actually valid.",
+    challengesAr:
+      "أصعب جزء ما كانش شاشة، كان الحالة. الرئيسية والسلة والطلبات والملف الشخصي كلهم مشتركين في `FirebaseAuth.authStateChanges()` وكل واحد بيتصرّف بشكل مختلف — السلة بتتفضّى محليًا من غير ما تمسح مستندها السحابي، والطلبات بتلغي الاشتراك القديم وتفتح واحد جديد، والمفضلة بترجع فاضية ويتعاد بناء قوائم المطاعم بـ `copyWith(isFavorite: …)`. وفوق ده كله زرار المفضلة شغّال optimistic: الواجهة الأول، وبعدين Firestore، ورجوع للحالة القديمة لو فشلت. وكل ده محتاج إلغاء اشتراكات صح في `dispose` عشان ما يحصلش `notifyListeners` على ViewModel اتخلصنا منه.\n\nوالجزء التاني الصعب كان ترتيب الدفع مع كتابة الطلب. زرار «Place Order» بيفتح شاشة الدفع وبيستنى نتيجتها، وما بيتكتبش الطلب في `orders` بحالة `pending` ومعاه `tracking_chat_id` إلا لما الدفع ينجح، وبعدين تتفضّى السلة ويرجع المستخدم لأول شاشة. ولو الدفع اتلغى أو فشل، ما بيتعملش طلب أصلًا. ده كمان استلزم شغل مع `CardField` الأصلي بتاع Stripe وحالة الاكتمال بتاعته عشان زرار الدفع ما يشتغلش إلا لما بيانات الكارت تبقى صالحة."
   },
   {
     title: "سلة | SallaX",
