@@ -5,6 +5,13 @@ export type GalleryImage = {
   caption_en: string;
   /** Phone shots are 9:19.5, desktop shots 16:9 — both share one letterboxed stage. */
   orientation: "portrait" | "landscape";
+  /**
+   * Optional tab the shot belongs to, e.g. an Arabic (RTL) and an English (LTR) run of the
+   * same app. The gallery shows tabs as soon as two distinct groups exist; shots without a
+   * group are always visible.
+   */
+  group_ar?: string;
+  group_en?: string;
 };
 
 export type Project = {
@@ -789,43 +796,369 @@ export const projects: Project[] = [
       "أصعب جزء كان تجديد الـ JWT من غير refresh مكرر. لما التطبيق بيرجع من الخلفية بينده على 5 استدعاءات مع بعض (الملف الشخصي، العناوين، الطلبات، الكوبونات، المفضلة). لو التوكن منتهي، الخمسة هيبعتوا refresh في نفس اللحظة وواحد بس هينجح لأن الـ refresh token بيتغيّر. الحل: interceptor بيتأكد من انتهاء التوكن قبل إرسال الريكويست بـ `jwt_decoder` (مش بانتظار 401)، وأي ريكويست تاني بيجي والـ refresh شغال بيتحط في طابور مع `Completer` وبيتعلّق. لما الـ refresh ينجح الطابور كله بيتنفّذ بالتوكن الجديد، ولو فشل بيترفض كله وتتمسح البيانات المحلية.\n\nالتحدي التاني: الـ responsive. القرار إن الشاشة الكبيرة مش نسخة متمدّدة من الموبايل، فكل شاشة من التمانية ليها تخطيطين مختلفين تمامًا بيقروا من نفس الـ Cubit، بيتم اختيارهم وقت التشغيل بـ `LayoutBuilder` على العرض المتاح (أقل من 600 موبايل، 600–1023 تابلت، 1024 وأكتر ديسكتوب) مش على مقاس الشاشة الخام — الرئيسية موبايل `CustomScrollView` بـ slivers وكاروسيل أفقي، والديسكتوب tab bar للتصنيفات وhero بعرض 380px وgrid 4 أعمدة، والاتنين على نفس `ProductCubit` و`CategoryCubit` بدون أي منطق مكرر."
   },
   {
-    title: "Beitna (بيتنا)",
-    titleAr: "بيتنا — إدارة الميزانية المنزلية",
+    title: "Beitna — Household Expense Manager Built with Flutter",
+    titleAr: "بيتنا — تطبيق إدارة مصروفات المنزل",
+    shortTitle: "Beitna",
+    shortTitleAr: "بيتنا",
     slug: "beitna",
-    description: "A secure personal and household budget & expense manager with full privacy—all data stored locally on your device without external servers.",
-    descriptionAr: "تطبيق لإدارة المصروفات والميزانية الشخصية والعائلية بخصوصية كاملة — كل البيانات مخزنة على الجهاز محلياً من غير أي سيرفر خارجي.",
-    techStack: ["Flutter", "Sqlite", "Local-first", "PDF Export"],
-    githubUrl: "https://github.com/taha2901/beitna",
+    description:
+      "A Flutter app for managing household expenses — expense tracking, a monthly budget, savings goals and financial analytics. It works fully offline with its data stored locally on the device, and is bilingual (Arabic/English) with complete RTL support.",
+    descriptionAr:
+      "تطبيق Flutter لإدارة مصروفات المنزل — تتبّع المصروفات، ميزانية شهرية، أهداف ادخار، وتحليلات مالية. يشتغل أوفلاين بالكامل وبياناته مخزّنة محليًا على الجهاز، ثنائي اللغة (عربي/إنجليزي) مع دعم كامل لـ RTL.",
+    techStack: ["Flutter", "Bloc/Cubit", "SQLite", "Local-first", "RTL", "PDF & CSV"],
     images: ["/images/beitna.png"],
+    gallery: [
+      {
+        src: "/images/beitna/01-onboarding.webp",
+        caption_ar: "شاشة الترحيب — أول تشغيل",
+        caption_en: "Onboarding screen",
+        orientation: "portrait",
+        group_ar: "عربي (RTL)",
+        group_en: "Arabic (RTL)"
+      },
+      {
+        src: "/images/beitna/02-dashboard-top.webp",
+        caption_ar: "اللوحة الرئيسية — إجمالي الشهر والإحصائيات السريعة",
+        caption_en: "Dashboard — monthly total & quick stats",
+        orientation: "portrait",
+        group_ar: "عربي (RTL)",
+        group_en: "Arabic (RTL)"
+      },
+      {
+        src: "/images/beitna/03-dashboard-mid.webp",
+        caption_ar: "اللوحة الرئيسية — الميزانية والأهداف والفئات",
+        caption_en: "Dashboard — budget, goals & categories",
+        orientation: "portrait",
+        group_ar: "عربي (RTL)",
+        group_en: "Arabic (RTL)"
+      },
+      {
+        src: "/images/beitna/04-dashboard-bottom.webp",
+        caption_ar: "اللوحة الرئيسية — آخر المعاملات وبطاقات المعلومات",
+        caption_en: "Dashboard — recent transactions",
+        orientation: "portrait",
+        group_ar: "عربي (RTL)",
+        group_en: "Arabic (RTL)"
+      },
+      {
+        src: "/images/beitna/05-expenses-list.webp",
+        caption_ar: "قائمة المصروفات مع البحث والفلاتر",
+        caption_en: "Expenses list with search & filters",
+        orientation: "portrait",
+        group_ar: "عربي (RTL)",
+        group_en: "Arabic (RTL)"
+      },
+      {
+        src: "/images/beitna/06-expenses-scrolled.webp",
+        caption_ar: "قائمة المصروفات — سجل كامل بالفئات",
+        caption_en: "Expenses — full transaction history",
+        orientation: "portrait",
+        group_ar: "عربي (RTL)",
+        group_en: "Arabic (RTL)"
+      },
+      {
+        src: "/images/beitna/07-expenses-filter-week.webp",
+        caption_ar: "فلترة المصروفات حسب الفترة الزمنية",
+        caption_en: "Filtering expenses by period",
+        orientation: "portrait",
+        group_ar: "عربي (RTL)",
+        group_en: "Arabic (RTL)"
+      },
+      {
+        src: "/images/beitna/08-add-expense.webp",
+        caption_ar: "إضافة مصروف — المبلغ واختيار الفئة",
+        caption_en: "Add expense — amount & category",
+        orientation: "portrait",
+        group_ar: "عربي (RTL)",
+        group_en: "Arabic (RTL)"
+      },
+      {
+        src: "/images/beitna/09-add-expense-filled.webp",
+        caption_ar: "إضافة مصروف — بعد إدخال البيانات",
+        caption_en: "Add expense — filled form",
+        orientation: "portrait",
+        group_ar: "عربي (RTL)",
+        group_en: "Arabic (RTL)"
+      },
+      {
+        src: "/images/beitna/10-add-expense-receipt-save.webp",
+        caption_ar: "إرفاق صورة إيصال وحفظ المصروف",
+        caption_en: "Attach receipt & save",
+        orientation: "portrait",
+        group_ar: "عربي (RTL)",
+        group_en: "Arabic (RTL)"
+      },
+      {
+        src: "/images/beitna/11-analytics-top.webp",
+        caption_ar: "التحليلات — أعلى/أقل إنفاق و insight",
+        caption_en: "Analytics — highlights & insights",
+        orientation: "portrait",
+        group_ar: "عربي (RTL)",
+        group_en: "Arabic (RTL)"
+      },
+      {
+        src: "/images/beitna/12-analytics-trend.webp",
+        caption_ar: "التحليلات — اتجاه الإنفاق وتوزيع الفئات",
+        caption_en: "Analytics — spending trend & category split",
+        orientation: "portrait",
+        group_ar: "عربي (RTL)",
+        group_en: "Arabic (RTL)"
+      },
+      {
+        src: "/images/beitna/13-analytics-breakdown.webp",
+        caption_ar: "التحليلات — التفصيل الكامل لكل فئة",
+        caption_en: "Analytics — full category breakdown",
+        orientation: "portrait",
+        group_ar: "عربي (RTL)",
+        group_en: "Arabic (RTL)"
+      },
+      {
+        src: "/images/beitna/14-analytics-period-picker.webp",
+        caption_ar: "اختيار الفترة الزمنية للتحليلات",
+        caption_en: "Analytics period picker",
+        orientation: "portrait",
+        group_ar: "عربي (RTL)",
+        group_en: "Arabic (RTL)"
+      },
+      {
+        src: "/images/beitna/15-budget-overview.webp",
+        caption_ar: "الميزانية الشهرية — تنبيه 89% ودليل الإنفاق اليومي",
+        caption_en: "Monthly budget — 89% alert & daily guide",
+        orientation: "portrait",
+        group_ar: "عربي (RTL)",
+        group_en: "Arabic (RTL)"
+      },
+      {
+        src: "/images/beitna/16-budget-set-sheet.webp",
+        caption_ar: "تعديل الميزانية بمبالغ سريعة",
+        caption_en: "Set budget sheet",
+        orientation: "portrait",
+        group_ar: "عربي (RTL)",
+        group_en: "Arabic (RTL)"
+      },
+      {
+        src: "/images/beitna/17-goals-overview.webp",
+        caption_ar: "أهداف الادخار — الملخّص وبطاقات الأهداف",
+        caption_en: "Savings goals — summary & cards",
+        orientation: "portrait",
+        group_ar: "عربي (RTL)",
+        group_en: "Arabic (RTL)"
+      },
+      {
+        src: "/images/beitna/18-goals-list.webp",
+        caption_ar: "أهداف الادخار — حالات مختلفة (قريب/نشط/مكتمل)",
+        caption_en: "Goals — active, almost done & completed",
+        orientation: "portrait",
+        group_ar: "عربي (RTL)",
+        group_en: "Arabic (RTL)"
+      },
+      {
+        src: "/images/beitna/19-goal-add-amount-sheet.webp",
+        caption_ar: "إضافة مبلغ لهدف ادخار",
+        caption_en: "Add amount to a goal",
+        orientation: "portrait",
+        group_ar: "عربي (RTL)",
+        group_en: "Arabic (RTL)"
+      },
+      {
+        src: "/images/beitna/20-goal-create-sheet.webp",
+        caption_ar: "إنشاء هدف جديد باختيار أيقونة ومبلغ وموعد",
+        caption_en: "Create a new savings goal",
+        orientation: "portrait",
+        group_ar: "عربي (RTL)",
+        group_en: "Arabic (RTL)"
+      },
+      {
+        src: "/images/beitna/21-settings-top.webp",
+        caption_ar: "الإعدادات — التفضيلات واللغة والعملة",
+        caption_en: "Settings — preferences",
+        orientation: "portrait",
+        group_ar: "عربي (RTL)",
+        group_en: "Arabic (RTL)"
+      },
+      {
+        src: "/images/beitna/22-settings-data.webp",
+        caption_ar: "الإعدادات — تصدير البيانات ومسحها",
+        caption_en: "Settings — data management",
+        orientation: "portrait",
+        group_ar: "عربي (RTL)",
+        group_en: "Arabic (RTL)"
+      },
+      {
+        src: "/images/beitna/23-currency-picker.webp",
+        caption_ar: "اختيار العملة — 21 عملة مع بحث",
+        caption_en: "Currency picker — 21 currencies",
+        orientation: "portrait",
+        group_ar: "عربي (RTL)",
+        group_en: "Arabic (RTL)"
+      },
+      {
+        src: "/images/beitna/24-export-sheet.webp",
+        caption_ar: "تصدير البيانات — CSV أو PDF مع اختيار الفترة",
+        caption_en: "Export data — CSV or PDF",
+        orientation: "portrait",
+        group_ar: "عربي (RTL)",
+        group_en: "Arabic (RTL)"
+      },
+      {
+        src: "/images/beitna/25-privacy-policy.webp",
+        caption_ar: "سياسة الخصوصية",
+        caption_en: "Privacy policy",
+        orientation: "portrait",
+        group_ar: "عربي (RTL)",
+        group_en: "Arabic (RTL)"
+      },
+      {
+        src: "/images/beitna/26-terms-of-service.webp",
+        caption_ar: "شروط الخدمة",
+        caption_en: "Terms of service",
+        orientation: "portrait",
+        group_ar: "عربي (RTL)",
+        group_en: "Arabic (RTL)"
+      },
+      {
+        src: "/images/beitna/27-settings-en.webp",
+        caption_ar: "الإعدادات بالإنجليزية — LTR",
+        caption_en: "Settings in English (LTR)",
+        orientation: "portrait",
+        group_ar: "إنجليزي (LTR)",
+        group_en: "English (LTR)"
+      },
+      {
+        src: "/images/beitna/28-dashboard-en.webp",
+        caption_ar: "اللوحة الرئيسية بالإنجليزية",
+        caption_en: "Dashboard in English",
+        orientation: "portrait",
+        group_ar: "إنجليزي (LTR)",
+        group_en: "English (LTR)"
+      },
+      {
+        src: "/images/beitna/29-analytics-en.webp",
+        caption_ar: "التحليلات بالإنجليزية",
+        caption_en: "Analytics in English",
+        orientation: "portrait",
+        group_ar: "إنجليزي (LTR)",
+        group_en: "English (LTR)"
+      },
+      {
+        src: "/images/beitna/30-analytics-en-breakdown.webp",
+        caption_ar: "تفصيل الفئات بالإنجليزية",
+        caption_en: "Category breakdown in English",
+        orientation: "portrait",
+        group_ar: "إنجليزي (LTR)",
+        group_en: "English (LTR)"
+      }
+    ],
+    githubUrl: "https://github.com/taha2901/beitna",
     apkUrl: "https://drive.google.com/file/d/1DYdU7K6m5jQjUSZB0tADYTVlJPFasgsM/view?usp=sharing",
     videoUrl: "https://drive.google.com/file/d/1yp0pQVlhbLIvBMYp3YVhQqGOKp-UuJRG/view",
     badge: "Local-first",
     category: "Mobile",
-    problemSolved: "Most budgeting apps require signing up and sending sensitive financial records to cloud servers. Beitna solves this by storing all finances locally on-device, offering absolute privacy with full features like tracking, budgets, savings goals, and currency selection offline.",
-    problemSolvedAr: "تتطلب معظم تطبيقات الميزانية التسجيل وإرسال السجلات المالية الحساسة إلى سيرفرات سحابية. يحل تطبيق بيتنا هذه المشكلة بتخزين كافة المعاملات والتقارير محلياً على الجهاز، مما يضمن خصوصية مطلقة مع توفير كافة ميزات التتبع والميزانية وأهداف الادخار دون الحاجة للإنترنت.",
+    role: "Personal project — designed and built entirely from scratch.",
+    roleAr: "مشروع شخصي — تصميم وتنفيذ كامل من الصفر.",
+    status: "Version 1.0.0 — complete and running (APK ready).",
+    statusAr: "إصدار 1.0.0 — مكتمل وشغّال (APK جاهز).",
+    overview:
+      "Beitna is a Flutter app for managing household expenses: expense tracking, a monthly budget, savings goals and financial analytics. It runs fully offline, with everything kept in a local SQLite database on the device, and it is bilingual (Arabic/English) with complete RTL support.\n\nThe app is built feature-first — every feature is separated into `data / logic / ui`, state is handled by seven independent cubits (Expense, Dashboard, Analytics, Budget, Goal, Settings, Export) over a repository layer and a service locator, and every screen is broken down into small reusable widgets. All of the charts are drawn by hand with `CustomPainter`, with no external chart package.",
+    overviewAr:
+      "بيتنا تطبيق Flutter لإدارة مصروفات المنزل: تتبّع المصروفات، وميزانية شهرية، وأهداف ادخار، وتحليلات مالية. بيشتغل أوفلاين بالكامل وكل البيانات في قاعدة بيانات SQLite محلية على الجهاز، وثنائي اللغة (عربي/إنجليزي) مع دعم كامل لـ RTL.\n\nالتطبيق مبني بمعمارية Feature-First — كل feature منفصل بـ `data / logic / ui`، وإدارة الحالة بسبع كيوبتس مستقلة (Expense, Dashboard, Analytics, Budget, Goal, Settings, Export) فوق طبقة repositories و service locator، وكل شاشة متقسّمة لويدجتس صغيرة قابلة لإعادة الاستخدام. وكل الرسوم البيانية مرسومة يدويًا بـ CustomPainter من غير أي مكتبة charts خارجية.",
+    problemSolved:
+      "Most expense-tracking apps either ask you to create an account and sign in, uploading your financial records to a server, or they were never designed for an Arabic user in the first place — no real RTL, no Arabic currencies, no proper typography.\n\nBeitna was built to solve both: zero sign-in, zero server, zero data sharing — everything lives in a SQLite database on your own device; and at the same time the interface is Arabic natively, with a full RTL design and 21 currencies, most of them Arabic.",
+    problemSolvedAr:
+      "معظم تطبيقات تتبّع المصروفات إما بتطلب حساب وتسجيل دخول وترفع بياناتك المالية على السيرفر، أو مش مصمّمة أصلًا للمستخدم العربي (مفيش RTL حقيقي ولا عملات عربية ولا خطوط مظبوطة).\n\nبيتنا اتعمل عشان يحل الاتنين: صفر تسجيل دخول، صفر سيرفر، صفر مشاركة بيانات — كل حاجة في قاعدة بيانات SQLite على جهازك؛ وفي نفس الوقت الواجهة عربية أصلًا بتصميم RTL كامل و21 عملة أغلبها عربية.",
+    stats: [
+      { label: "Cubits", labelAr: "Cubit", value: "7" },
+      { label: "SQLite tables", labelAr: "جدول SQLite", value: "3" },
+      { label: "Schema version", labelAr: "إصدار الـ schema", value: "v4" },
+      { label: "Expense categories", labelAr: "فئة مصروفات", value: "8" },
+      { label: "Currencies", labelAr: "عملة", value: "21" },
+      { label: "Goal icons", labelAr: "أيقونة هدف", value: "20" },
+      { label: "Languages", labelAr: "لغة", value: "2" },
+      { label: "Chart libraries used", labelAr: "مكتبة charts", value: "0" }
+    ],
     keyFeatures: [
-      "Dashboard displaying expenses by category",
-      "Expense tracking and logging",
-      "Budget management",
-      "Saving goals tracker",
-      "Financial analytics and reports",
-      "PDF & CSV reports export",
-      "Currency selector",
-      "Attach receipt images from camera or gallery",
-      "Dark Mode support",
-      "Arabic and English localization"
+      "📊 Dashboard — a monthly expense total with the change against last month, a small chart of the last 7 days of spending, quick stats (weekly spend, transaction count, daily average), quick actions (new expense / analytics / goals / export), summary cards for the budget and goals, a horizontal strip of categories with their top expenses, the latest transactions, and a greeting based on the time of day.",
+      "🧾 Expenses — the full list of transactions with an icon and colour per category, instant search, time filters (today / this week / this month), swipe to delete with confirmation, editing any expense, a loading skeleton and designed empty states.",
+      "➕ Add expense — a large amount field with quick-add chips (+1 / +5 / +10), 8 categories with icons and colours (dining, grocery, travel, housing, utilities, health, fun, other), date selection (today / yesterday / a custom date), optional notes, and attaching a receipt photo from the camera or the gallery.",
+      "📈 Analytics — periods of a month / 3 months / 6 months / a year, cards for the highest and lowest spending category, a smart insight card (spending up or down, compared to last month), a bar chart of the spending trend across months, a donut chart of the category split by percentage, and a full breakdown per category with a progress bar and its share of the total. Every chart is drawn with CustomPainter — no external chart packages.",
+      "💰 Budget — setting a monthly budget with quick amounts, a progress card that changes colour with the state (green / orange at 80% / red once exceeded), an automatic alert on reaching 80% of the budget, a daily spending guide (what is left, the current daily average, and how much can be spent per day to stay inside the budget), and dynamic tips based on the state of the budget.",
+      "🎯 Savings goals — creating a goal with an emoji icon (20 to choose from), a target amount and an optional deadline; a progress ring and completion bar; the amount that has to be saved daily to reach the goal on time and the days remaining; adding amounts with quick values; states (active / almost complete / complete / overdue) with a celebratory dialog when a goal is reached; tabs (all / active / complete) and a total-savings summary.",
+      "⚙️ Settings — switching between Arabic and English instantly along with the interface direction (RTL/LTR), 21 currencies (international + Arabic) with search and flags, applied across every screen and report, turning budget alerts on and off, exporting data as CSV or PDF with a period selector (this month / 3 months / 6 months / the year / all time) and sharing the file, wiping all data with confirmation, and privacy-policy and terms-of-service pages.",
+      "👋 Onboarding — a welcome screen on first launch, plus a custom native splash screen."
     ],
     keyFeaturesAr: [
-      "Dashboard لعرض المصروفات حسب الكاتيجوري",
-      "إضافة وتتبع المصروفات",
-      "إدارة الميزانية (Budget)",
-      "أهداف الادخار (Saving Goals)",
-      "تحليلات وتقارير مالية (Analytics)",
-      "تصفير وتصدير تقارير PDF و CSV",
-      "اختيار العملة (Currency Selector)",
-      "إرفاق صور الفواتير من الكاميرا أو المعرض",
-      "دعم الوضع الليلي (Dark Mode)",
-      "دعم اللغتين العربي والإنجليزي"
+      "📊 لوحة التحكم — كارت إجمالي مصروفات الشهر مع نسبة التغيّر مقارنة بالشهر الماضي، ورسم بياني صغير لإنفاق آخر 7 أيام، وإحصائيات سريعة (إنفاق الأسبوع، عدد المعاملات، المتوسط اليومي)، وإجراءات سريعة (مصروف جديد / تحليلات / أهداف / تصدير)، وكروت ملخّص للميزانية والأهداف، وشريط أفقي بالفئات وأعلى المصروفات فيها، وآخر المعاملات مع تحية حسب وقت اليوم.",
+      "🧾 المصروفات — قائمة كاملة بالمعاملات مع أيقونة ولون لكل فئة، وبحث فوري، وفلاتر زمنية (اليوم / هذا الأسبوع / هذا الشهر)، وSwipe للحذف مع تأكيد، وتعديل أي مصروف، وLoading skeleton أثناء التحميل وEmpty states مصمّمة.",
+      "➕ إضافة مصروف — حقل مبلغ كبير مع chips للإضافة السريعة (+1 / +5 / +10)، و8 فئات بأيقونات وألوان (مطاعم، بقالة، سفر، سكن، مرافق، صحة، ترفيه، أخرى)، واختيار التاريخ (اليوم / أمس / تاريخ مخصّص)، وملاحظات اختيارية، وإرفاق صورة إيصال من الكاميرا أو المعرض.",
+      "📈 التحليلات — فترات شهر / 3 أشهر / 6 أشهر / سنة، وكروت أعلى وأقل إنفاق حسب الفئة، وبطاقة insight ذكية (الإنفاق ارتفع/انخفض مع المقارنة بالشهر الماضي)، ورسم بياني أعمدة لاتجاه الإنفاق عبر الشهور، وDonut chart لتوزيع الفئات بالنِّسب، وتفصيل كامل لكل فئة بـ progress bar ونسبة من الإجمالي. كل الرسومات مرسومة بـ CustomPainter من غير مكتبات charts خارجية.",
+      "💰 الميزانية — تحديد ميزانية شهرية بمبالغ سريعة، وكارت تقدّم بيغيّر لونه حسب الحالة (أخضر / برتقالي عند 80% / أحمر عند التجاوز)، وتنبيه تلقائي عند الوصول لـ 80% من الميزانية، ودليل إنفاق يومي (كام فاضل، والمتوسط اليومي الحالي، وكام تقدر تصرف يوميًا عشان تفضل داخل الميزانية)، ونصائح ديناميكية حسب حالة الميزانية.",
+      "🎯 أهداف الادخار — إنشاء هدف بأيقونة إيموجي (20 اختيار) ومبلغ مستهدف وموعد نهائي اختياري، ودائرة تقدّم وشريط نسبة إنجاز، وحساب المطلوب ادّخاره يوميًا للوصول للهدف في موعده والأيام المتبقية، وإضافة مبالغ بمبالغ سريعة، وحالات (نشط / قريب من الاكتمال / مكتمل / متأخر) مع dialog احتفالي عند اكتمال الهدف، وتبويبات (الكل / نشطة / مكتملة) وملخّص إجمالي المدخرات.",
+      "⚙️ الإعدادات — تبديل اللغة عربي/إنجليزي فوري مع تغيير اتجاه الواجهة (RTL/LTR)، و21 عملة (دولي + عربي) مع بحث وأعلام بتتطبّق على كل الشاشات والتقارير، وتفعيل/إيقاف تنبيهات الميزانية، وتصدير البيانات CSV أو PDF مع اختيار الفترة (هذا الشهر / 3 أشهر / 6 أشهر / السنة / كل الوقت) ومشاركة الملف، ومسح كل البيانات مع تأكيد، وصفحات سياسة الخصوصية وشروط الخدمة.",
+      "👋 Onboarding — شاشة ترحيب أول تشغيل، وسبلاش سكرين ناتيف مخصّص."
+    ],
+    techGroups: [
+      {
+        label: "UI",
+        labelAr: "الواجهة",
+        items: ["Flutter 3", "Dart 3.3+", "Material 3", "Cairo font", "Shared design system", "flutter_launcher_icons", "flutter_native_splash"]
+      },
+      {
+        label: "State & architecture",
+        labelAr: "إدارة الحالة والمعمارية",
+        items: ["flutter_bloc + Cubit (7 cubits)", "equatable", "Repository pattern", "Service Locator (DI)", "Feature-First (data / logic / ui)"]
+      },
+      {
+        label: "Storage",
+        labelAr: "التخزين",
+        items: ["sqflite (local SQLite)", "3 tables", "Schema versioning + migrations to v4", "shared_preferences"]
+      },
+      {
+        label: "Localization",
+        labelAr: "الترجمة",
+        items: ["Custom AppLocalizations (no ARB)", "flutter_localizations (ar/en + RTL)", "intl"]
+      },
+      {
+        label: "Reports & media",
+        labelAr: "التقارير والوسائط",
+        items: ["pdf (embedded Cairo font)", "csv", "share_plus", "path_provider", "image_picker"]
+      },
+      {
+        label: "Charts",
+        labelAr: "الرسوم البيانية",
+        items: ["CustomPainter (no chart packages)"]
+      }
+    ],
+    techHighlights: [
+      {
+        title: "Offline-first / privacy-first",
+        titleAr: "Offline-first / Privacy-first",
+        body: "There is no backend and no API — all the data is local and never leaves the device.",
+        bodyAr: "مفيش أي backend ولا API — البيانات كلها محلية وما بتغادرش الجهاز."
+      },
+      {
+        title: "Real RTL",
+        titleAr: "RTL حقيقي",
+        body: "The app is built Arabic-first rather than translated; direction, numbers, dates and currency all flip correctly.",
+        bodyAr: "التطبيق مبني عربي أولًا مش مترجم؛ الاتجاه والأرقام والتواريخ والعملة كلها بتتقلب صح."
+      },
+      {
+        title: "Clean architecture",
+        titleAr: "معمارية نضيفة",
+        body: "A clear separation between data, logic and UI, with every screen split into small reusable widgets.",
+        bodyAr: "فصل واضح بين الـ data و الـ logic و الـ UI، وكل شاشة متقسّمة لويدجتس صغيرة قابلة لإعادة الاستخدام."
+      },
+      {
+        title: "Charts from scratch",
+        titleAr: "رسومات من الصفر",
+        body: "Every chart is drawn by hand with CustomPainter — full control over the look, better performance and a smaller app size.",
+        bodyAr: "كل الشارتس مرسومة يدويًا بـ CustomPainter — تحكّم كامل في الشكل وأداء أفضل وحجم تطبيق أقل."
+      },
+      {
+        title: "Arabic PDF reports",
+        titleAr: "تقارير PDF عربية",
+        body: "The Cairo font is embedded inside the PDF so the Arabic text comes out correctly in the report.",
+        bodyAr: "دمج خط Cairo داخل الـ PDF عشان النص العربي يطلع صح في التقرير."
+      }
     ],
     challenges: "Designing an offline-first database schema in Sqflite that handles complex relations (expenses, budgets, savings goals) cleanly. Generating well-formatted, localized PDF and CSV invoices/reports directly on mobile devices was another major technical hurdle.",
     challengesAr: "تصميم نموذج قاعدة بيانات محلي قوي ومتكامل باستخدام SQLite (Sqflite) يتعامل مع العلاقات المعقدة بين المصروفات والميزانيات وتوفير الأهداف بسلاسة. بالإضافة إلى معالجة وتصدير تقارير PDF و CSV منسقة تدعم اللغتين العربية والإنجليزية مباشرة من الهاتف."

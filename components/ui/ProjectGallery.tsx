@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, Maximize2, X } from "lucide-react";
 import { GalleryImage } from "@/data/projects";
 import { useLanguage } from "@/hooks/useLanguage";
+import { cn } from "@/utils/cn";
 
 type ProjectGalleryProps = {
   items: GalleryImage[];
@@ -35,13 +36,34 @@ export default function ProjectGallery({ items, title, category, badge }: Projec
   const [lightboxOpen, setLightboxOpen] = useState(false);
   // A shot whose file fails to load is dropped instead of leaving a broken frame behind.
   const [brokenSources, setBrokenSources] = useState<string[]>([]);
+  const [activeGroup, setActiveGroup] = useState<string | null>(null);
   const touchStartX = useRef<number | null>(null);
   const lightboxRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
+  // Tabs are derived from the shots themselves — two runs of the same app (an Arabic RTL
+  // one and an English LTR one, say) become two tabs without any extra configuration.
+  const groups = useMemo(() => {
+    const found: { ar: string; en: string }[] = [];
+    items.forEach((item) => {
+      if (!item.group_en || !item.group_ar) return;
+      if (!found.some((group) => group.en === item.group_en)) {
+        found.push({ ar: item.group_ar, en: item.group_en });
+      }
+    });
+    return found;
+  }, [items]);
+
+  const hasTabs = groups.length > 1;
+
   const shots = useMemo(
-    () => items.filter((item) => !brokenSources.includes(item.src)),
-    [items, brokenSources]
+    () =>
+      items.filter(
+        (item) =>
+          !brokenSources.includes(item.src) &&
+          (!hasTabs || !activeGroup || !item.group_en || item.group_en === activeGroup)
+      ),
+    [items, brokenSources, hasTabs, activeGroup]
   );
 
   const total = shots.length;
@@ -70,6 +92,12 @@ export default function ProjectGallery({ items, title, category, badge }: Projec
   // item when the page is RTL.
   const stepBack = useCallback(() => goTo(isAr ? 1 : -1), [goTo, isAr]);
   const stepForward = useCallback(() => goTo(isAr ? -1 : 1), [goTo, isAr]);
+
+  // Open on the first tab, and follow the tabs if the project's shots change.
+  useEffect(() => {
+    setActiveGroup(groups.length > 1 ? groups[0].en : null);
+    setActiveIndex(0);
+  }, [groups]);
 
   // Keep the index in range when a shot drops out of the list.
   useEffect(() => {
@@ -147,6 +175,31 @@ export default function ProjectGallery({ items, title, category, badge }: Projec
 
   return (
     <div className="flex flex-col gap-4">
+      {/* Group tabs — only rendered when the shots actually split into groups */}
+      {hasTabs && (
+        <div className="flex gap-2 flex-wrap">
+          {groups.map((group) => (
+            <button
+              key={group.en}
+              type="button"
+              onClick={() => {
+                setActiveGroup(group.en);
+                setActiveIndex(0);
+              }}
+              aria-pressed={activeGroup === group.en}
+              className={cn(
+                "px-4 py-1.5 text-xs rounded-full transition-all",
+                activeGroup === group.en
+                  ? "bg-cyan-400 text-black"
+                  : "bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-700"
+              )}
+            >
+              {isAr ? group.ar : group.en}
+            </button>
+          ))}
+        </div>
+      )}
+
       {/* Stage — fixed height so portrait and landscape shots never resize the layout */}
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
