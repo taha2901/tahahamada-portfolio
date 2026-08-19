@@ -43,6 +43,8 @@ export type Project = {
    * Falls back to `images` + `imageCaptions` when absent.
    */
   gallery?: GalleryImage[];
+  /** Renders the gallery's portrait shots inside a phone mockup. */
+  phoneFrame?: boolean;
   techStack: string[];
   githubUrl?: string;
   apkUrl?: string;
@@ -1164,30 +1166,301 @@ export const projects: Project[] = [
     challengesAr: "تصميم نموذج قاعدة بيانات محلي قوي ومتكامل باستخدام SQLite (Sqflite) يتعامل مع العلاقات المعقدة بين المصروفات والميزانيات وتوفير الأهداف بسلاسة. بالإضافة إلى معالجة وتصدير تقارير PDF و CSV منسقة تدعم اللغتين العربية والإنجليزية مباشرة من الهاتف."
   },
   {
-    title: "E-Learning Platform",
+    title: "LearnFlow — Flutter + Supabase E-Learning Platform",
+    titleAr: "LearnFlow — منصة تعليمية بـ Flutter و Supabase",
+    shortTitle: "LearnFlow",
+    shortTitleAr: "LearnFlow",
     slug: "e-learning",
-    description: "Full-featured e-learning app with courses, videos, progress tracking, and certificates.",
-    techStack: ["Flutter", "Mobile", "Supabase", "API"],
+    description:
+      "A full-stack mobile e-learning platform built with Flutter and Supabase — a student app for discovering, enrolling in and completing video courses, and an instructor panel for authoring them, shipped from one codebase.",
+    descriptionAr:
+      "منصة تعليمية متكاملة بـ Flutter و Supabase — تطبيق للطالب يتصفّح ويشترك ويكمّل كورسات فيديو، ولوحة للمدرّس ينشئ بيها المحتوى، الاتنين من نفس الكود.",
+    detailDescription:
+      "LearnFlow is a full-stack mobile e-learning platform built with Flutter and Supabase. It ships two complete experiences from one codebase: a student app for discovering, enrolling in, and completing video courses, and an instructor/admin panel for authoring that content — with the role resolved at login and the user routed to the right shell.",
+    detailDescriptionAr:
+      "LearnFlow منصة تعليمية متكاملة على الموبايل مبنية بـ Flutter و Supabase. بتقدّم تجربتين كاملتين من نفس الكود: تطبيق للطالب يكتشف الكورسات ويشترك فيها ويكمّلها، ولوحة تحكم للمدرّس/الأدمن ينشئ بيها المحتوى — والدور بيتحدّد وقت تسجيل الدخول والمستخدم بيتوجّه للواجهة المناسبة له.",
+    techStack: ["Flutter", "Supabase", "Bloc/Cubit", "Clean Architecture", "Video", "PDF"],
     images: ["/images/e_learning.png"],
+    phoneFrame: true,
+    gallery: [
+      {
+        src: "/images/learnflow/01_login.webp",
+        caption_ar: "شاشة تسجيل الدخول بهيدر بالهوية، وحقول البريد وكلمة السر، وخيار الدخول بجوجل",
+        caption_en: "Sign-in screen with branded header, email/password fields, and Google sign-in option",
+        orientation: "portrait",
+        group_ar: "المصادقة",
+        group_en: "Authentication"
+      },
+      {
+        src: "/images/learnflow/02_forgot_password.webp",
+        caption_ar: "نافذة استعادة كلمة السر — بتبعت رابط استرجاع عبر Supabase Auth",
+        caption_en: "Password reset dialog — sends a recovery link via Supabase Auth",
+        orientation: "portrait",
+        group_ar: "المصادقة",
+        group_en: "Authentication"
+      },
+      {
+        src: "/images/learnflow/03_register.webp",
+        caption_ar: "شاشة إنشاء حساب برفع صورة شخصية، وهيدر بتدرّج لوني، وكارت الفورم",
+        caption_en: "Registration screen with avatar upload, gradient hero header, and a form card",
+        orientation: "portrait",
+        group_ar: "المصادقة",
+        group_en: "Authentication"
+      },
+      {
+        src: "/images/learnflow/04_register_validation.webp",
+        caption_ar: "تحقق لحظي من الفورم — مؤشر قوة كلمة السر بفحص كل شرط، وحالات خطأ داخل الحقول",
+        caption_en: "Live form validation — password strength meter with per-rule checks and inline error states",
+        orientation: "portrait",
+        group_ar: "المصادقة",
+        group_en: "Authentication"
+      },
+      {
+        src: "/images/learnflow/05_home.webp",
+        caption_ar: "الرئيسية — ترحيب مخصّص، وبحث، وتبويبات تصنيفات، وكاروسيل للكورسات المميزة",
+        caption_en: "Home feed — personalized greeting, search, category chips, and a featured-courses carousel",
+        orientation: "portrait",
+        group_ar: "الرئيسية والاستكشاف",
+        group_en: "Home & Discovery"
+      },
+      {
+        src: "/images/learnflow/06_home_all_courses.webp",
+        caption_ar: "كتالوج الكورسات كامل بصورة وتقييم ومدة ومستوى لكل كارت",
+        caption_en: "Full course catalog with thumbnail, rating, duration, and difficulty level per card",
+        orientation: "portrait",
+        group_ar: "الرئيسية والاستكشاف",
+        group_en: "Home & Discovery"
+      },
+      {
+        src: "/images/learnflow/07_home_category_filter.webp",
+        caption_ar: "فلترة بالتصنيف — الضغط على تبويب بيضيّق الكتالوج لحظيًا",
+        caption_en: "Category filtering — tapping a chip narrows the catalog in real time",
+        orientation: "portrait",
+        group_ar: "الرئيسية والاستكشاف",
+        group_en: "Home & Discovery"
+      },
+      {
+        src: "/images/learnflow/08_course_details_about.webp",
+        caption_ar: "شاشة تفاصيل الكورس — صورة كبيرة، والمدرّس، وكبسولات إحصائية (تقييم، طلاب، دروس، مدة، مستوى)",
+        caption_en: "Course detail screen — hero image, instructor, and stat pills (rating, students, lessons, duration, level)",
+        orientation: "portrait",
+        group_ar: "تفاصيل الكورس",
+        group_en: "Course Details"
+      },
+      {
+        src: "/images/learnflow/09_course_details_about_scrolled.webp",
+        caption_ar: "تبويب «About» — وصف الكورس ومخرجات التعلّم",
+        caption_en: "“About” tab — course description and learning outcomes",
+        orientation: "portrait",
+        group_ar: "تفاصيل الكورس",
+        group_en: "Course Details"
+      },
+      {
+        src: "/images/learnflow/10_course_details_lessons.webp",
+        caption_ar: "تبويب «Lessons» — المنهج كامل بمدة كل درس وحالة القفل",
+        caption_en: "“Lessons” tab — full curriculum with per-lesson duration and lock state",
+        orientation: "portrait",
+        group_ar: "تفاصيل الكورس",
+        group_en: "Course Details"
+      },
+      {
+        src: "/images/learnflow/13_course_details_enrolled.webp",
+        caption_ar: "بعد الاشتراك — شريط تقدّم بيتابع الدروس المتفرجة مع زرار Continue",
+        caption_en: "Post-enrollment state — progress bar tracking watched lessons, with a Continue action",
+        orientation: "portrait",
+        group_ar: "تفاصيل الكورس",
+        group_en: "Course Details"
+      },
+      {
+        src: "/images/learnflow/11_reviews_sheet.webp",
+        caption_ar: "قائمة التقييمات — المتوسط مع رسم توزيع النجوم من 1 لـ 5",
+        caption_en: "Reviews bottom sheet — average score with a 1–5 star distribution histogram",
+        orientation: "portrait",
+        group_ar: "التقييمات والمراجعات",
+        group_en: "Reviews & Ratings"
+      },
+      {
+        src: "/images/learnflow/12_write_review.webp",
+        caption_ar: "كتابة مراجعة — تقييم بالنجوم بتفاعل حيّ وحقل تعليق بحد 500 حرف",
+        caption_en: "Write-a-review flow — interactive star rating with live feedback and a 500-char comment field",
+        orientation: "portrait",
+        group_ar: "التقييمات والمراجعات",
+        group_en: "Reviews & Ratings"
+      },
+      {
+        src: "/images/learnflow/14_video_player.webp",
+        caption_ar: "مشغّل الدرس مع قائمة «Up Next» — الدروس بتتفتح بالتتابع مع التقدّم",
+        caption_en: "Lesson player with an “Up Next” playlist; lessons unlock sequentially as you progress",
+        orientation: "portrait",
+        group_ar: "مشغّل الفيديو",
+        group_en: "Video Player"
+      },
+      {
+        src: "/images/learnflow/15_video_player_controls.webp",
+        caption_ar: "تحكّمات Chewie مخصّصة — شريط التقديم والصوت وملء الشاشة",
+        caption_en: "Custom Chewie controls — scrub bar, volume, and fullscreen",
+        orientation: "portrait",
+        group_ar: "مشغّل الفيديو",
+        group_en: "Video Player"
+      },
+      {
+        src: "/images/learnflow/16_video_player_youtube.webp",
+        caption_ar: "دروس مستضافة على يوتيوب بتشتغل داخل التطبيق مع تحكّم في سرعة التشغيل",
+        caption_en: "YouTube-hosted lessons play inline with playback-speed control",
+        orientation: "portrait",
+        group_ar: "مشغّل الفيديو",
+        group_en: "Video Player"
+      },
+      {
+        src: "/images/learnflow/17_my_courses_wishlist.webp",
+        caption_ar: "كورساتي — إحصائيات المشترك/المكتمل/الشهادات مع تبويبات قيد التقدّم والمكتملة والمفضلة",
+        caption_en: "My Courses — enrolled/completed/certificate stats with In Progress, Completed and Wishlist tabs",
+        orientation: "portrait",
+        group_ar: "متابعة التعلّم",
+        group_en: "Learning Progress"
+      },
+      {
+        src: "/images/learnflow/18_my_courses_completed.webp",
+        caption_ar: "معالجة الحالات الفارغة في كل التبويبات",
+        caption_en: "Empty-state handling across the tabs",
+        orientation: "portrait",
+        group_ar: "متابعة التعلّم",
+        group_en: "Learning Progress"
+      },
+      {
+        src: "/images/learnflow/19_profile.webp",
+        caption_ar: "الملف الشخصي — إحصائيات التعلّم وإعدادات الحساب والوصول للشهادات",
+        caption_en: "Profile screen — learning stats, account settings, and certificate access",
+        orientation: "portrait",
+        group_ar: "الملف الشخصي",
+        group_en: "Profile"
+      },
+      {
+        src: "/images/learnflow/20_edit_profile.webp",
+        caption_ar: "تعديل الملف الشخصي — الاسم والتليفون والنبذة",
+        caption_en: "Edit-profile bottom sheet — name, phone, and bio",
+        orientation: "portrait",
+        group_ar: "الملف الشخصي",
+        group_en: "Profile"
+      }
+    ],
     apkUrl: "https://drive.google.com/file/d/1iAmiFS9Scwa_IJyPd8SpyygUfFytTbim/view",
     videoUrl: "https://drive.google.com/file/d/1rNMoGTE7pqAsTfGJJO5Q1brqA1RRD9PJ/view",
     category: "Mobile",
-    problemSolved: "Providing an accessible mobile learning platform with smooth video playback, offline bookmarking, and certification tracks.",
-    problemSolvedAr: "توفير منصة تعليمية متنقلة ومتاحة مع تشغيل سلس للفيديو، وإمكانية حفظ المراجع للمراجعة، وتتبع مسار الحصول على الشهادات.",
+    role: "I built this end to end: the Supabase schema (courses, videos, enrollments, video_progress, quizzes, reviews, wishlist, certificates, profiles), the auth and role-routing layer, all 20+ screens and their custom widgets, the BLoC/Cubit state layer, the centralized error-handling system, the dual video-player integration, the PDF certificate generator, and the full instructor admin panel.",
+    roleAr: "بنيته من أوله لآخره: schema الـ Supabase (courses, videos, enrollments, video_progress, quizzes, reviews, wishlist, certificates, profiles)، وطبقة المصادقة وتوجيه الأدوار، وكل الـ 20+ شاشة والويدجتس المخصّصة بتاعتها، وطبقة الحالة بـ BLoC/Cubit، ونظام معالجة الأخطاء المركزي، ودمج مشغّلي الفيديو، ومولّد شهادات الـ PDF، ولوحة تحكم المدرّس كاملة.",
+    status: "Personal project — student app and instructor panel from a single Flutter codebase on Supabase.",
+    statusAr: "مشروع شخصي — تطبيق الطالب ولوحة المدرّس من نفس كود Flutter فوق Supabase.",
+    overview:
+      "Students browse a searchable, category-filtered catalog, enroll for free, watch lessons that unlock sequentially, take quizzes tied to individual videos, rate and review courses, and earn a PDF certificate on completion.\n\nInstructors create and edit courses, upload thumbnails, add videos individually or by importing an entire YouTube playlist, and attach quizzes to specific lessons. The app is organised feature-first: 10 features, each with its own `data/` (models + repositories) and `presentation/` (cubit + views + widgets) layers, across 179 Dart files and roughly 21,000 lines.",
+    overviewAr:
+      "الطالب بيتصفّح كتالوج فيه بحث وفلترة بالتصنيف، ويشترك مجانًا، ويتفرّج على دروس بتتفتح بالتتابع، ويحلّ كويزات مربوطة بفيديوهات بعينها، ويقيّم الكورسات ويكتب مراجعات، وياخد شهادة PDF عند الإكمال.\n\nوالمدرّس بينشئ الكورسات ويعدّلها، ويرفع الصور، ويضيف الفيديوهات واحد واحد أو باستيراد playlist كاملة من يوتيوب، ويربط كويزات بدروس معيّنة. التطبيق متنظّم feature-first: 10 features، كل واحدة ليها طبقة `data/` (موديلز و repositories) وطبقة `presentation/` (cubit وviews وwidgets)، في 179 ملف Dart وحوالي 21,000 سطر.",
+    stats: [
+      { label: "Dart source files", labelAr: "ملف Dart", value: "179" },
+      { label: "Lines of code", labelAr: "سطر كود", value: "~21,000" },
+      { label: "Features", labelAr: "Feature", value: "10" },
+      { label: "Cubits", labelAr: "Cubit", value: "13" },
+      { label: "Screens", labelAr: "شاشة", value: "20+" },
+      { label: "Supabase tables", labelAr: "جدول Supabase", value: "9" },
+      { label: "Apps in one codebase", labelAr: "تطبيق من كود واحد", value: "2" },
+      { label: "Video players", labelAr: "مشغّل فيديو", value: "2" }
+    ],
     keyFeatures: [
-      "Course progression tracking",
-      "High-speed video player implementation",
-      "Supabase database integration",
-      "Automated PDF certificates generation"
+      "🔐 Auth & roles — email/password via Supabase Auth, persistent sessions, password reset, and role-based routing (student vs. instructor/admin).",
+      "📚 Course catalog — search, category filters, featured carousel, and detail pages with instructor, rating, level and curriculum.",
+      "▶️ Video player — self-hosted video via `video_player` + `chewie` and YouTube playback via `youtube_player_flutter`, with playback-speed control and per-lesson progress tracked server-side.",
+      "🔓 Sequential unlocking — lessons unlock as the previous one is completed; a video is marked watched at 90%.",
+      "📝 Quizzes — attached per video lesson, with previous-result checks and a retake flow.",
+      "⭐ Reviews & ratings — 1–5 stars with a distribution histogram and text reviews.",
+      "🔖 Wishlist — save courses, persisted per user.",
+      "🎓 Certificates — auto-generated on completion, exportable as PDF or PNG with the student's name, course title and date.",
+      "🔔 Notifications — in-app banners on course completion and quiz results.",
+      "🛠 Admin panel — full CRUD for courses, videos and quizzes, bulk YouTube-playlist import, thumbnail picker, featured-course toggle, and optimistic UI with rollback on failure."
     ],
     keyFeaturesAr: [
-      "تتبع تقدم الطلاب في الكورسات",
-      "مشغل فيديو مخصص وسريع الاستجابة",
-      "ربط وتكامل قاعدة بيانات Supabase",
-      "إصدار تلقائي لشهادات إتمام الكورسات بصيغة PDF"
+      "🔐 المصادقة والأدوار — بريد وكلمة سر عبر Supabase Auth، وجلسات مستمرة، واستعادة كلمة السر، وتوجيه حسب الدور (طالب / مدرّس-أدمن).",
+      "📚 كتالوج الكورسات — بحث وفلاتر تصنيفات وكاروسيل للمميز، وصفحات تفاصيل فيها المدرّس والتقييم والمستوى والمنهج.",
+      "▶️ مشغّل الفيديو — فيديو مستضاف ذاتيًا بـ `video_player` + `chewie` وتشغيل يوتيوب بـ `youtube_player_flutter`، مع تحكّم في سرعة التشغيل وتتبّع تقدّم كل درس على السيرفر.",
+      "🔓 فتح متتابع للدروس — الدرس بيتفتح لما اللي قبله يخلص، والفيديو بيتحسب متفرّج عليه عند 90%.",
+      "📝 كويزات — مربوطة بكل درس فيديو، مع فحص النتيجة السابقة وإمكانية إعادة المحاولة.",
+      "⭐ التقييمات والمراجعات — من 1 لـ 5 نجوم مع رسم توزيع ومراجعات نصية.",
+      "🔖 المفضلة — حفظ الكورسات ومخزّنة لكل مستخدم.",
+      "🎓 الشهادات — بتتولّد تلقائيًا عند الإكمال، وتتصدّر PDF أو PNG باسم الطالب وعنوان الكورس والتاريخ.",
+      "🔔 الإشعارات — تنبيهات داخل التطبيق عند إكمال كورس أو ظهور نتيجة كويز.",
+      "🛠 لوحة التحكم — CRUD كامل للكورسات والفيديوهات والكويزات، واستيراد playlist كاملة من يوتيوب، واختيار صورة الكورس، وتحديد الكورس المميز، وتحديث تفاؤلي للواجهة مع تراجع لو السيرفر رفض."
     ],
-    challenges: "Implementing video progress synchronization across devices and handling video caching for poor network conditions.",
-    challengesAr: "مزامنة وقت تقدم مشاهدة الفيديوهات عبر الأجهزة المختلفة، وتهيئة ميزة الكاش المسبق للفيديوهات للشبكات الضعيفة."
+    techGroups: [
+      {
+        label: "Framework",
+        labelAr: "الإطار",
+        items: ["Flutter 3.44", "Dart 3.12"]
+      },
+      {
+        label: "State management",
+        labelAr: "إدارة الحالة",
+        items: ["flutter_bloc (Cubit) — 13 cubits", "equatable"]
+      },
+      {
+        label: "Backend",
+        labelAr: "الباك اند",
+        items: ["Supabase Auth", "Supabase Postgres", "Supabase Storage"]
+      },
+      {
+        label: "Architecture & errors",
+        labelAr: "المعمارية والأخطاء",
+        items: ["Feature-first Clean Architecture", "data / presentation", "Repository pattern", "dartz Either<String, T>", "Typed exception layer"]
+      },
+      {
+        label: "Video",
+        labelAr: "الفيديو",
+        items: ["video_player", "chewie", "youtube_player_flutter", "youtube_explode_dart"]
+      },
+      {
+        label: "PDF & other",
+        labelAr: "الـ PDF وغيرها",
+        items: ["pdf", "printing", "share_plus", "image_picker", "shared_preferences", "intl", "audioplayers"]
+      }
+    ],
+    techHighlights: [
+      {
+        title: "Feature-first Clean Architecture",
+        titleAr: "معمارية Clean بترتيب feature-first",
+        body: "10 features, each with its own `data/` (models + repositories) and `presentation/` (cubit + views + widgets) layers — about 21,000 lines across 179 Dart files.",
+        bodyAr: "10 features، كل واحدة بطبقة `data/` (موديلز و repositories) وطبقة `presentation/` (cubit وviews وwidgets) — حوالي 21,000 سطر في 179 ملف Dart."
+      },
+      {
+        title: "Timeout-guarded repositories",
+        titleAr: "Repositories محكومة بمهلة",
+        body: "Every repository call is guarded by a 15s timeout and funneled through a central `NetworkExceptionHandler` that maps raw errors — `SocketException`, `TimeoutException`, `PostgrestException`, `AuthException`, `StorageException` — into typed `AppException`s, so the UI renders a specific message instead of a stack trace.",
+        bodyAr: "كل استدعاء في الـ repository محكوم بمهلة 15 ثانية وبيعدّي على `NetworkExceptionHandler` مركزي بيحوّل الأخطاء الخام — `SocketException` و`TimeoutException` و`PostgrestException` و`AuthException` و`StorageException` — لـ `AppException` بأنواع محدّدة، فالواجهة بتعرض رسالة واضحة مش stack trace."
+      },
+      {
+        title: "Explicit success/failure branches",
+        titleAr: "مسار نجاح وفشل واضح",
+        body: "`Either<String, T>` return types from repositories make the success/failure branch explicit at every call site.",
+        bodyAr: "الـ repositories بترجّع `Either<String, T>`، فمسار النجاح والفشل واضح عند كل نقطة استدعاء."
+      },
+      {
+        title: "Deliberately scoped cubits",
+        titleAr: "نطاق مدروس للـ Cubits",
+        body: "A `NotificationCubit` and `WishlistCubit` live above the navigation shell so their state survives tab switches, while per-screen cubits are provided at the route. A failed role lookup degrades gracefully to `student` rather than blocking login.",
+        bodyAr: "الـ `NotificationCubit` و`WishlistCubit` فوق shell التنقّل عشان حالتهم تفضل موجودة مع تبديل التبويبات، والكيوبتس الخاصة بكل شاشة بتتحقن عند الـ route. ولو جلب الدور فشل، بيرجع لـ `student` بدل ما يمنع تسجيل الدخول."
+      },
+      {
+        title: "Optimistic UI with rollback",
+        titleAr: "تحديث تفاؤلي مع تراجع",
+        body: "In the admin panel actions apply instantly and revert if the server rejects them.",
+        bodyAr: "في لوحة التحكم، الإجراءات بتتطبّق فورًا وبترجع لحالتها لو السيرفر رفضها."
+      }
+    ],
+    problemSolved:
+      "One codebase has to serve two very different users: a student who wants to find a course, watch it and prove they finished it, and an instructor who needs to author that content without a separate tool. LearnFlow resolves the role at login and routes each user into their own shell, over a single Supabase schema.\n\nFor the student that means a searchable catalog, free enrollment, lessons that unlock in order, quizzes per video, reviews and a PDF certificate on completion. For the instructor it means full CRUD over courses, videos and quizzes — including importing an entire YouTube playlist at once instead of adding lessons one by one.",
+    problemSolvedAr:
+      "كود واحد لازم يخدم نوعين مختلفين تمامًا من المستخدمين: طالب عايز يلاقي كورس ويتفرّج عليه ويثبت إنه خلّصه، ومدرّس محتاج ينشئ المحتوى ده من غير أداة منفصلة. LearnFlow بيحدّد الدور وقت تسجيل الدخول ويوجّه كل مستخدم لواجهته، فوق نفس الـ schema في Supabase.\n\nبالنسبة للطالب ده معناه كتالوج فيه بحث، واشتراك مجاني، ودروس بتتفتح بالترتيب، وكويزات لكل فيديو، ومراجعات وشهادة PDF عند الإكمال. وبالنسبة للمدرّس معناه تحكّم كامل في الكورسات والفيديوهات والكويزات — بما فيه استيراد playlist كاملة من يوتيوب مرة واحدة بدل إضافة الدروس واحد واحد.",
+    challenges:
+      "The interesting work was in the seams rather than the screens. Every repository call is timeout-guarded at 15 seconds and passes through one `NetworkExceptionHandler`, so a dropped socket, a Postgrest error and an expired auth session each surface as their own typed `AppException` with a message a learner can act on — and `Either<String, T>` return types force every call site to handle both branches.\n\nThe second piece was the video layer: self-hosted lessons run through `video_player` + `chewie` while YouTube-hosted ones run through `youtube_player_flutter`, yet both have to report progress the same way, because a video counts as watched at 90% and that is what unlocks the next lesson and, eventually, generates the certificate.",
+    challengesAr:
+      "الشغل المهم كان في الوصلات مش في الشاشات. كل استدعاء في الـ repository محكوم بمهلة 15 ثانية وبيعدّي على `NetworkExceptionHandler` واحد، فانقطاع الشبكة وخطأ Postgrest وانتهاء الجلسة كل واحد فيهم بيطلع كـ `AppException` بنوعه ورسالته اللي المستخدم يقدر يتصرّف بيها — والـ `Either<String, T>` بيجبر كل نقطة استدعاء إنها تتعامل مع المسارين.\n\nوالجزء التاني كان طبقة الفيديو: الدروس المستضافة ذاتيًا بتشتغل بـ `video_player` + `chewie` واللي على يوتيوب بـ `youtube_player_flutter`، ولازم الاتنين يبلّغوا التقدّم بنفس الطريقة، لأن الفيديو بيتحسب متفرّج عليه عند 90% وده اللي بيفتح الدرس اللي بعده وفي الآخر بيولّد الشهادة."
   },
   {
     title: "GymEase — Gym Booking App",

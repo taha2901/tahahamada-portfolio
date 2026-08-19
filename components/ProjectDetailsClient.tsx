@@ -137,6 +137,7 @@ export default function ProjectDetailsClient({ slug }: { slug: string }) {
                 title={isAr && project.titleAr ? project.titleAr : project.title}
                 category={project.category}
                 badge={project.badge}
+                phoneFrame={project.phoneFrame}
               />
             </div>
 

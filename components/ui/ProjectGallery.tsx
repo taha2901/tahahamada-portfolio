@@ -14,6 +14,11 @@ type ProjectGalleryProps = {
   title: string;
   category?: string;
   badge?: string;
+  /**
+   * Draws portrait shots inside a phone mockup instead of on the bare stage. The frame is
+   * 9:19.5, the native aspect ratio of the screenshots, so nothing is cropped or stretched.
+   */
+  phoneFrame?: boolean;
 };
 
 /** How far a touch has to travel before it counts as a swipe rather than a tap. */
@@ -30,7 +35,13 @@ const FOCUSABLE =
  * (16:9) share one fixed-height stage and are letterboxed with `object-contain`, so mixing
  * orientations never shifts the layout.
  */
-export default function ProjectGallery({ items, title, category, badge }: ProjectGalleryProps) {
+export default function ProjectGallery({
+  items,
+  title,
+  category,
+  badge,
+  phoneFrame = false,
+}: ProjectGalleryProps) {
   const { isAr } = useLanguage();
   const [activeIndex, setActiveIndex] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
@@ -66,6 +77,11 @@ export default function ProjectGallery({ items, title, category, badge }: Projec
     [items, brokenSources, hasTabs, activeGroup]
   );
 
+  // The first chip shows everything; the rest jump straight to one section.
+  const tabs = hasTabs
+    ? [{ ar: "الكل", en: "All", value: null as string | null }, ...groups.map((g) => ({ ...g, value: g.en }))]
+    : [];
+
   const total = shots.length;
   const safeIndex = total > 0 ? Math.min(activeIndex, total - 1) : 0;
   const activeShot = shots[safeIndex];
@@ -93,9 +109,9 @@ export default function ProjectGallery({ items, title, category, badge }: Projec
   const stepBack = useCallback(() => goTo(isAr ? 1 : -1), [goTo, isAr]);
   const stepForward = useCallback(() => goTo(isAr ? -1 : 1), [goTo, isAr]);
 
-  // Open on the first tab, and follow the tabs if the project's shots change.
+  // Open on "All", and reset if the project's shots change.
   useEffect(() => {
-    setActiveGroup(groups.length > 1 ? groups[0].en : null);
+    setActiveGroup(null);
     setActiveIndex(0);
   }, [groups]);
 
@@ -178,23 +194,23 @@ export default function ProjectGallery({ items, title, category, badge }: Projec
       {/* Group tabs — only rendered when the shots actually split into groups */}
       {hasTabs && (
         <div className="flex gap-2 flex-wrap">
-          {groups.map((group) => (
+          {tabs.map((tab) => (
             <button
-              key={group.en}
+              key={tab.en}
               type="button"
               onClick={() => {
-                setActiveGroup(group.en);
+                setActiveGroup(tab.value);
                 setActiveIndex(0);
               }}
-              aria-pressed={activeGroup === group.en}
+              aria-pressed={activeGroup === tab.value}
               className={cn(
                 "px-4 py-1.5 text-xs rounded-full transition-all",
-                activeGroup === group.en
+                activeGroup === tab.value
                   ? "bg-cyan-400 text-black"
                   : "bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-700"
               )}
             >
-              {isAr ? group.ar : group.en}
+              {isAr ? tab.ar : tab.en}
             </button>
           ))}
         </div>
@@ -209,16 +225,37 @@ export default function ProjectGallery({ items, title, category, badge }: Projec
         onTouchStart={onTouchStart}
         onTouchEnd={onTouchEnd}
       >
-        <Image
-          key={activeShot.src}
-          src={activeShot.src}
-          alt={activeCaption ?? title}
-          fill
-          sizes="(max-width: 1024px) 100vw, 60vw"
-          priority={safeIndex === 0}
-          onError={() => markBroken(activeShot.src)}
-          className="object-contain"
-        />
+        {phoneFrame && activeShot.orientation === "portrait" ? (
+          <div className="absolute inset-0 flex items-center justify-center py-5">
+            {/* Phone mockup: bezel, screen and speaker slot, sized by the 9:19.5 screen */}
+            <div className="relative h-full aspect-[9/19.5] rounded-[2rem] bg-slate-900 dark:bg-black p-[6px] shadow-2xl ring-1 ring-slate-300/60 dark:ring-slate-700">
+              <div className="relative h-full w-full overflow-hidden rounded-[1.7rem] bg-white dark:bg-slate-950">
+                <Image
+                  key={activeShot.src}
+                  src={activeShot.src}
+                  alt={activeCaption ?? title}
+                  fill
+                  sizes="(max-width: 1024px) 60vw, 260px"
+                  priority={safeIndex === 0}
+                  onError={() => markBroken(activeShot.src)}
+                  className="object-cover"
+                />
+              </div>
+              <span className="absolute top-[9px] left-1/2 -translate-x-1/2 h-1 w-10 rounded-full bg-slate-700 dark:bg-slate-800" />
+            </div>
+          </div>
+        ) : (
+          <Image
+            key={activeShot.src}
+            src={activeShot.src}
+            alt={activeCaption ?? title}
+            fill
+            sizes="(max-width: 1024px) 100vw, 60vw"
+            priority={safeIndex === 0}
+            onError={() => markBroken(activeShot.src)}
+            className="object-contain"
+          />
+        )}
 
         {/* Click anywhere on the shot to open it full size */}
         <button
