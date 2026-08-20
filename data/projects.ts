@@ -45,6 +45,16 @@ export type Project = {
   gallery?: GalleryImage[];
   /** Renders the gallery's portrait shots inside a phone mockup. */
   phoneFrame?: boolean;
+  /**
+   * How the project card fits `images[0]` (defaults to "cover"). Use "contain" for a wide
+   * cover that would lose its edges to the card's 16/10 crop.
+   */
+  coverFit?: "cover" | "contain";
+  /** Colour behind a letterboxed cover, so the padding blends into the artwork itself. */
+  coverBackground?: string;
+  /** Alt text for the card cover (defaults to the project title). */
+  coverAlt?: string;
+  coverAltAr?: string;
   techStack: string[];
   githubUrl?: string;
   apkUrl?: string;
@@ -415,6 +425,350 @@ export const projects: Project[] = [
     challengesAr: "أصعب جزء وأهمه هو محرّك الحسابات: مدفوعات الطالب بتسدّد الفواتير المتأخرة الأقدم فالأقدم (FIFO)، وكل تحصيل بينقسم بين المدرّس والسنتر حسب تسعيرة المجموعة نفسها (قيمة ثابتة أو نسبة)، ومحاسبة المدرّس محكومة بالمتبقي مع ترحيل أي باقي كـ «آجل على السنتر»، وفتح الشهر الجديد بيولّد الفواتير من جديد. كل العمليات المالية بتشتغل جوه MongoDB transactions مع fallback تلقائي لو السيرفر standalone."
   },
   {
+    title: "Elmester — Student-Tracking Platform for Private Tutors",
+    titleAr: "المستر — منصة متابعة الطلاب لمدرّس الدروس الخصوصية",
+    shortTitle: "Elmester",
+    shortTitleAr: "المستر",
+    slug: "elmester",
+    description:
+      "A Flutter mobile app for a private tutor and the parents of their students: the teacher runs their groups and students and records attendance, grades and fees, while the parent signs in with the student's code and follows everything live — all on Cloud Firestore with real-time streams and FCM notifications.",
+    descriptionAr:
+      "تطبيق موبايل بـ Flutter لمدرّس الدروس الخصوصية وأولياء الأمور: المدرس بيدير مجموعاته وطلابه ويسجّل الحضور والدرجات والمصاريف، وولي الأمر بيدخل بكود الطالب فيتابع كل حاجة لحظياً — كله فوق Cloud Firestore بـ real-time streams وإشعارات FCM.",
+    detailDescription:
+      "Elmester is a student-tracking platform for a private tutor — Flutter + Firebase, entirely in Arabic and right-to-left, on Android with the codebase ready for iOS. One app serves two roles: a teacher dashboard for groups, attendance, fees, homework, exams and reports, and a parent view that follows a single student live.",
+    detailDescriptionAr:
+      "«المستر» منصة متابعة طلاب لمدرّس الدروس الخصوصية — Flutter + Firebase، عربي بالكامل و RTL، على أندرويد والكود جاهز لـ iOS. تطبيق واحد بيخدم دورين: لوحة للمدرس فيها المجموعات والحضور والمصاريف والواجبات والامتحانات والتقارير، ومتابعة لولي الأمر بيشوف فيها طالبه لحظياً.",
+    techStack: ["Flutter", "Cloud Firestore", "Firebase", "FCM", "Provider", "RTL / Arabic"],
+    images: ["/images/elmester/00-cover.webp"],
+    phoneFrame: true,
+    gallery: [
+      {
+        src: "/images/elmester/00-cover.webp",
+        caption_ar: "المستر — منصة متابعة الطلاب: حضور ودرجات ومصاريف في تطبيق واحد",
+        caption_en: "Elmester — attendance, grades and fees for a private tutor in one app",
+        orientation: "landscape",
+        group_ar: "نظرة عامة",
+        group_en: "Overview"
+      },
+      {
+        src: "/images/elmester/01-splash.webp",
+        caption_ar: "شاشة البداية",
+        caption_en: "Splash screen",
+        orientation: "portrait",
+        group_ar: "الدخول",
+        group_en: "Access"
+      },
+      {
+        src: "/images/elmester/02-code-gate.webp",
+        caption_ar: "الدخول بكود واحد للمدرس وولي الأمر",
+        caption_en: "One code gate for both the teacher and the parent",
+        orientation: "portrait",
+        group_ar: "الدخول",
+        group_en: "Access"
+      },
+      {
+        src: "/images/elmester/10-teacher-dashboard.webp",
+        caption_ar: "لوحة المدرس — مؤشرات اليوم",
+        caption_en: "Teacher dashboard — today's indicators",
+        orientation: "portrait",
+        group_ar: "لوحة المدرس",
+        group_en: "Teacher Dashboard"
+      },
+      {
+        src: "/images/elmester/11-teacher-today-sessions.webp",
+        caption_ar: "حصص النهاردة وكل المجموعات",
+        caption_en: "Today's sessions and every group",
+        orientation: "portrait",
+        group_ar: "لوحة المدرس",
+        group_en: "Teacher Dashboard"
+      },
+      {
+        src: "/images/elmester/12-groups.webp",
+        caption_ar: "المجموعات والصفوف مع فلاتر",
+        caption_en: "Groups and school years with filters",
+        orientation: "portrait",
+        group_ar: "المجموعات",
+        group_en: "Groups"
+      },
+      {
+        src: "/images/elmester/13-group-add-sheet.webp",
+        caption_ar: "إضافة مجموعة — صف دراسي أو تأسيس",
+        caption_en: "Adding a group — a school year or a foundation group",
+        orientation: "portrait",
+        group_ar: "المجموعات",
+        group_en: "Groups"
+      },
+      {
+        src: "/images/elmester/14-group-attendance.webp",
+        caption_ar: "تسجيل الحضور — الكل حاضر افتراضياً",
+        caption_en: "Attendance — everyone is present by default",
+        orientation: "portrait",
+        group_ar: "المجموعات",
+        group_en: "Groups"
+      },
+      {
+        src: "/images/elmester/14b-group-attendance-pay-swipe.webp",
+        caption_ar: "سحب الاسم لتسجيل الدفع",
+        caption_en: "Swiping a name to record a payment",
+        orientation: "portrait",
+        group_ar: "المجموعات",
+        group_en: "Groups"
+      },
+      {
+        src: "/images/elmester/15-group-homework.webp",
+        caption_ar: "واجب المجموعة مرتبط بميعاد الحصة",
+        caption_en: "Group homework tied to the next session",
+        orientation: "portrait",
+        group_ar: "المجموعات",
+        group_en: "Groups"
+      },
+      {
+        src: "/images/elmester/16-group-schedule.webp",
+        caption_ar: "حصة إضافية / إلغاء حصة",
+        caption_en: "An extra session, or cancelling one",
+        orientation: "portrait",
+        group_ar: "المجموعات",
+        group_en: "Groups"
+      },
+      {
+        src: "/images/elmester/17-group-exams.webp",
+        caption_ar: "امتحانات المجموعة مع متوسط الدرجات",
+        caption_en: "Group exams with the class average",
+        orientation: "portrait",
+        group_ar: "المجموعات",
+        group_en: "Groups"
+      },
+      {
+        src: "/images/elmester/19-exam-grades.webp",
+        caption_ar: "شاشة رصد الدرجات + تقييم إيموجي",
+        caption_en: "The grade-entry screen with an emoji rating",
+        orientation: "portrait",
+        group_ar: "المجموعات",
+        group_en: "Groups"
+      },
+      {
+        src: "/images/elmester/18-group-report.webp",
+        caption_ar: "تقرير المجموعة — متأخرات وغياب متكرر",
+        caption_en: "Group report — overdue payments and repeated absences",
+        orientation: "portrait",
+        group_ar: "المجموعات",
+        group_en: "Groups"
+      },
+      {
+        src: "/images/elmester/30-students.webp",
+        caption_ar: "كل الطلاب مع بحث وفلترة",
+        caption_en: "All students, with search and filters",
+        orientation: "portrait",
+        group_ar: "الطلاب",
+        group_en: "Students"
+      },
+      {
+        src: "/images/elmester/31-student-add-sheet.webp",
+        caption_ar: "إضافة طالب ونظام الدفع",
+        caption_en: "Adding a student and their payment plan",
+        orientation: "portrait",
+        group_ar: "الطلاب",
+        group_en: "Students"
+      },
+      {
+        src: "/images/elmester/32-student-code-copy.webp",
+        caption_ar: "نسخ كود الطالب لإرساله لولي الأمر",
+        caption_en: "Copying a student's code to send to the parent",
+        orientation: "portrait",
+        group_ar: "الطلاب",
+        group_en: "Students"
+      },
+      {
+        src: "/images/elmester/33-student-menu.webp",
+        caption_ar: "إجراءات الطالب",
+        caption_en: "Per-student actions",
+        orientation: "portrait",
+        group_ar: "الطلاب",
+        group_en: "Students"
+      },
+      {
+        src: "/images/elmester/20-parent-attendance.webp",
+        caption_ar: "ولي الأمر — الحضور والغياب",
+        caption_en: "Parent view — attendance",
+        orientation: "portrait",
+        group_ar: "ولي الأمر",
+        group_en: "Parent View"
+      },
+      {
+        src: "/images/elmester/21-parent-homework.webp",
+        caption_ar: "ولي الأمر — الواجب",
+        caption_en: "Parent view — homework",
+        orientation: "portrait",
+        group_ar: "ولي الأمر",
+        group_en: "Parent View"
+      },
+      {
+        src: "/images/elmester/22-parent-rating.webp",
+        caption_ar: "ولي الأمر — ملاحظة المدرس والتقييم",
+        caption_en: "Parent view — the teacher's note and rating",
+        orientation: "portrait",
+        group_ar: "ولي الأمر",
+        group_en: "Parent View"
+      },
+      {
+        src: "/images/elmester/23-parent-exams.webp",
+        caption_ar: "ولي الأمر — الدرجات",
+        caption_en: "Parent view — exam grades",
+        orientation: "portrait",
+        group_ar: "ولي الأمر",
+        group_en: "Parent View"
+      },
+      {
+        src: "/images/elmester/24-parent-payment.webp",
+        caption_ar: "ولي الأمر — حالة الدفع + واتساب",
+        caption_en: "Parent view — payment status and a WhatsApp shortcut",
+        orientation: "portrait",
+        group_ar: "ولي الأمر",
+        group_en: "Parent View"
+      },
+      {
+        src: "/images/elmester/26-push-notification.webp",
+        caption_ar: "إشعار FCM حقيقي بيوصل ولي الأمر",
+        caption_en: "A real FCM push landing on the parent's phone",
+        orientation: "portrait",
+        group_ar: "إشعارات وحالات",
+        group_en: "Notifications & States"
+      },
+      {
+        src: "/images/elmester/04-error-no-connection.webp",
+        caption_ar: "معالجة أخطاء الشبكة",
+        caption_en: "Network-error handling",
+        orientation: "portrait",
+        group_ar: "إشعارات وحالات",
+        group_en: "Notifications & States"
+      }
+    ],
+    apkUrl: "https://drive.google.com/file/d/1Kks9ocJ-90CdwlSo0eJu-q-2qqiAzzVv/view?usp=sharing",
+    videoUrl: "https://drive.google.com/file/d/1lT-Cy1pqMXiaj_R9gOsLyvOfakHeAFkc/view?usp=sharing",
+    privateRepo: true,
+    demoNote:
+      "The APK opens on a single code gate. Teacher code: AZXZCV — it opens the teacher dashboard. Student code: IST-876 — it opens the parent view for that student.",
+    demoNoteAr:
+      "الـ APK بيفتح على شاشة كود واحدة. كود المدرس: AZXZCV — بيفتح لوحة المدرس. كود طالب: IST-876 — بيفتح متابعة ولي الأمر للطالب ده.",
+    badge: "Featured",
+    category: "Mobile",
+    role: "Solo developer on the whole product — the Feature-First architecture, all 15 screens and 76 custom widgets, the models and repository layer with its parallel Firestore and in-memory implementations, the Provider state layer, the Material 3 design system, and the FCM integration.\n\nBeyond the code, the infrastructure work: consolidating the Firebase configuration onto a single project (creating Firestore in europe-west1, registering the Android and iOS apps, regenerating every config file, and deploying the Firestore rules); a Node backup script over firebase-admin that walks every collection and subcollection into JSON, with a Python restore script over the Firestore REST API that converts the types back; scoping the notification credential to a dedicated service account with the FCM role only instead of full admin rights; and an automated demo recording — an `adb` script that drives the app through every scenario on an emulator, records the screen, and fires a real FCM push at the end so it appears in the video.",
+    roleAr: "مطوّر منفرد للمنتج كله — معمارية Feature-First، وكل الـ 15 شاشة والـ 76 widget مخصص، والموديلز وطبقة الـ repositories بتنفيذيها المتوازيين (Firestore و in-memory)، وطبقة الحالة بـ Provider، ونظام التصميم على Material 3، ودمج FCM.\n\nوغير الكود، شغل البنية التحتية: توحيد كونفيج Firebase على بروجكت واحد (إنشاء Firestore في europe-west1، وتسجيل تطبيقي Android و iOS، وتوليد كل ملفات الكونفيج من جديد، ونشر الـ Firestore rules)؛ وسكربت باكب بـ Node و firebase-admin بيمشي على كل الـ collections والـ subcollections ويطلّع JSON، وسكربت Python بيرجّعه عبر Firestore REST API مع تحويل الأنواع؛ وتخصيص service account للإشعارات بصلاحية FCM بس بدل صلاحيات أدمن كاملة؛ وفيديو ديمو مؤتمت — سكربت `adb` بيشغّل التطبيق على الإميوليتر ويمشي على كل السيناريوهات ويسجّل الشاشة، وفي الآخر بيبعت إشعار FCM حقيقي يظهر في الفيديو.",
+    status: "Client project — built for a private tutor; the source is closed, but the APK and a demo video are available.",
+    statusAr: "مشروع لعميل — مدرّس دروس خصوصية؛ الكود خاص، لكن الـ APK وفيديو الديمو متاحين.",
+    overview:
+      "The app is Feature-First across three clear layers. The models layer holds 7 hand-written models with manual `fromMap`/`toMap` and no code generation — `Grade`, `Group`, `Student`, `Session`, `Exam` (plus `ExamResult`), `Homework`, `ScheduleChange` and `ActivityLog` — alongside 4 enums: `PaymentPlan` (monthly or per-session), `AttendanceStatus`, `ScheduleChangeType` (extra session or cancellation) and `ActivityLogType`.\n\nThe data layer is the repository pattern in full: `TeacherRepository`, `ParentRepository` and `ConfigRepository` as abstract interfaces, with two parallel implementations behind them — a Firestore set and a mock set backed by an in-memory database, chosen by a compile-time flag (`--dart-define=USE_MOCK=true`). That let the whole UI be built and exercised before Firebase was wired up at all. Every read returns a stream from `snapshots()` rather than a future, so anything the teacher changes shows up on the parent's phone immediately, and Firestore's offline persistence comes along for free. State sits in `provider` + `ChangeNotifier`: `TeacherData`, `ParentState` and `AppSession` (the teacher's session, kept in SharedPreferences).\n\nSeven Firestore collections — `groups`, `students`, `sessions`, `exams`, `homework`, `schedule_changes`, `activity_logs` — plus a `config/app` document holding the teacher's access code and WhatsApp number, so the teacher can change their own code without an app update. Sign-in is one code with no Firebase Auth: if it matches the teacher's code the dashboard opens, if it is a student code the parent view opens, and a parent with more than one child can add several codes and switch between them from the header. Notifications go through the FCM v1 API directly, authenticated with OAuth2 via `googleapis_auth`; each student carries an `fcmTokens` array, so recording an absence, a grade or a homework assignment pushes to the parent right away.",
+    overviewAr:
+      "التطبيق مبني بمعمارية Feature-First على تلات طبقات واضحة. طبقة الموديلز فيها 7 موديلز بـ `fromMap`/`toMap` يدوية من غير code generation — `Grade` و`Group` و`Student` و`Session` و`Exam` (ومعاه `ExamResult`) و`Homework` و`ScheduleChange` و`ActivityLog` — ومعاهم 4 enums: `PaymentPlan` (شهري/بالحصة) و`AttendanceStatus` و`ScheduleChangeType` (حصة إضافية/إلغاء) و`ActivityLogType`.\n\nوطبقة الداتا هي الـ Repository Pattern بالكامل: `TeacherRepository` و`ParentRepository` و`ConfigRepository` كـ abstract interfaces، وورا كل واحد تنفيذين متوازيين — واحد فوق Cloud Firestore وواحد mock بـ in-memory database، والاختيار بينهم بـ compile-time flag (`--dart-define=USE_MOCK=true`). ده خلّى الواجهة كلها تتبني وتتجرّب قبل ما Firebase تتربط أصلاً. وكل الـ reads بترجع Streams من `snapshots()` مش futures، فأي تعديل من المدرس بيظهر عند ولي الأمر لحظياً، و offline persistence بتاعة Firestore شغالة تلقائياً. وإدارة الحالة بـ `provider` + `ChangeNotifier`: `TeacherData` و`ParentState` و`AppSession` (جلسة المدرس محفوظة في SharedPreferences).\n\nسبع Firestore collections — `groups` و`students` و`sessions` و`exams` و`homework` و`schedule_changes` و`activity_logs` — ومعاهم دوكيومنت `config/app` بيخزّن كود دخول المدرس ورقم الواتساب، فالمدرس يقدر يغيّر كوده من غير تحديث للتطبيق. والدخول بكود واحد من غير Firebase Auth: لو الكود كود المدرس تفتح لوحة المدرس، ولو كود طالب تفتح متابعة ولي الأمر، وولي الأمر اللي عنده أكتر من ابن يقدر يضيف أكتر من كود ويبدّل بينهم من الهيدر. والإشعارات عن طريق FCM v1 API مباشرة بـ OAuth2 عبر `googleapis_auth`، وكل طالب بيتخزنله `fcmTokens` array، فتسجيل غياب أو درجة أو واجب بيبعت push لولي الأمر فوراً.",
+    problemSolved:
+      "A private tutor runs dozens of students across different groups, and all of it lives in a paper notebook or a note on their phone: who attended and who did not, who paid and who is late, who was told about the homework, and where last exam's grades went. The parent knows nothing about their child until they ask, and the tutor burns lesson time on chasing and collecting.\n\nElmester solves both sides in one app. For the teacher, a dashboard that opens on what matters today: today's sessions, total students, repeated absences and overdue payments. Attendance has a deliberate default — everyone is present, you only tap the ones who are not — and a payment is recorded by swiping the student's name to the side. Each student is on one of two payment plans, monthly or per-session, and the app works out what is owed for each plan on its own.\n\nFor the parent, signing in with the code that arrived on WhatsApp opens five tabs — attendance, homework, the teacher's rating, exam grades and payment status — all live, with a push notification the moment anything changes.\n\nOne deliberate design decision: the whole app speaks Egyptian dialect rather than formal Arabic — «مفيش واجبات لسه», «دوس على الغايب بس», «الاشتراك الشهري لسه متدفعش» — because the users are an Egyptian tutor and Egyptian parents, not a company.",
+    problemSolvedAr:
+      "مدرّس الدروس الخصوصية بيدير عشرات الطلاب في مجموعات مختلفة، وكل حاجة ماشية على كشكول ورق أو نوتة في الموبايل: مين حضر ومين غاب، مين دفع ومين متأخر، الواجب اتقال لمين، ودرجات آخر امتحان فين. والنتيجة إن ولي الأمر مبيعرفش حاجة عن ابنه غير لما يسأل، والمدرس بيضيّع وقت الحصة في المراجعة والتحصيل.\n\n«المستر» بيحل الطرفين بتطبيق واحد. للمدرس — لوحة بتفتح على اللي مهم النهاردة: حصص اليوم، وإجمالي الطلاب، وعدد الغياب المتكرر، وعدد متأخرات الدفع. وتسجيل الحضور بمنطق ذكي: الكل حاضر افتراضياً وتدوس على الغايب بس، وتسجيل الدفع بسحب اسم الطالب لليمين. ونظامين دفع لكل طالب — شهري أو بالحصة — والتطبيق بيحسب المتأخرات لوحده لكل نظام.\n\nولولي الأمر — بيدخل بكود الطالب اللي جاله على الواتساب، ويشوف 5 تابات: الحضور والغياب، والواجب، وتقييم المدرس، ودرجات الامتحانات، وحالة الدفع — كله live، وبيوصله إشعار أول ما يحصل جديد.\n\nونقطة تصميم مهمة: التطبيق كله باللهجة المصرية مش العربية الفصحى — «مفيش واجبات لسه»، «دوس على الغايب بس»، «الاشتراك الشهري لسه متدفعش» — لإن المستخدم مدرس وولي أمر مصري، مش شركة.",
+    stats: [
+      { label: "Lines of code", labelAr: "سطر كود", value: "10,366" },
+      { label: "Dart source files", labelAr: "ملف Dart", value: "47" },
+      { label: "Screens", labelAr: "شاشة", value: "15" },
+      { label: "Custom widgets", labelAr: "Widget مخصص", value: "76" },
+      { label: "Firestore collections", labelAr: "Firestore Collection", value: "7" },
+      { label: "Repositories", labelAr: "Repository", value: "3" },
+      { label: "ChangeNotifiers", labelAr: "ChangeNotifier", value: "4" },
+      { label: "User roles", labelAr: "دور مستخدم", value: "2" }
+    ],
+    keyFeatures: [
+      "🔑 One code to sign in — the same gate tells a teacher from a parent automatically, with no accounts and no passwords.",
+      "✅ Attendance in one tap — everyone is present by default, so only the absentees are marked; swiping a name to the side records a payment.",
+      "💳 Two payment plans — monthly or per-session, with overdue amounts worked out automatically for each plan.",
+      "👥 Groups and school years — from first primary to third secondary, plus \"foundation\" groups kept separate from the year groups.",
+      "🗓 A weekly session schedule per group, plus extra sessions and cancellations that reach the parents immediately.",
+      "📝 Exams and grade entry — a dedicated screen with an emoji rating per student and an automatic group average.",
+      "📋 Group report — overdue payments, repeated absences, and a direct call to the parent.",
+      "📚 Homework tied to the next session's date.",
+      "🧾 Activity log (`activity_logs`) for every event that happens to a student.",
+      "🔔 Instant FCM notifications to the parent.",
+      "📶 Works offline through Firestore persistence.",
+      "✨ Shimmer skeletons while loading, designed empty states, and network-error handling.",
+      "🔤 Full RTL with an Arabic typeface and Arabic dates."
+    ],
+    keyFeaturesAr: [
+      "🔑 دخول بكود واحد — نفس الشاشة بتفرّق تلقائياً بين المدرس وولي الأمر، من غير حسابات ولا باسوردات.",
+      "✅ حضور بنقرة واحدة — الكل حاضر افتراضياً فتدوس على الغايب بس، وسحب الاسم لليمين بيسجّل الدفع.",
+      "💳 نظامين دفع — شهري أو بالحصة، مع حساب تلقائي للمتأخرات لكل نظام.",
+      "👥 مجموعات وصفوف — من أولى ابتدائي لتالتة ثانوي، ومجموعات «تأسيس» منفصلة عن الصفوف.",
+      "🗓 جدول حصص أسبوعي لكل مجموعة، وحصص إضافية وإلغاءات بتوصل لأولياء الأمور فوراً.",
+      "📝 امتحانات ورصد درجات — شاشة مخصصة بتقييم إيموجي لكل طالب ومتوسط تلقائي للمجموعة.",
+      "📋 تقرير مجموعة — متأخرات الدفع والغياب المتكرر واتصال مباشر بولي الأمر.",
+      "📚 واجبات مربوطة بميعاد الحصة الجاية.",
+      "🧾 سجل نشاط (`activity_logs`) لكل حدث بيحصل للطالب.",
+      "🔔 إشعارات FCM فورية لولي الأمر.",
+      "📶 يشتغل offline بـ Firestore persistence.",
+      "✨ Shimmer skeletons أثناء التحميل، وشاشات فاضية مصممة، ومعالجة أخطاء الشبكة.",
+      "🔤 RTL كامل بخط عربي وتواريخ عربية."
+    ],
+    techGroups: [
+      {
+        label: "UI",
+        labelAr: "الواجهة",
+        items: ["Flutter", "Dart", "Material 3", "Custom 18-colour palette", "flutter_screenutil", "Arabic RTL", "Shimmer skeletons"]
+      },
+      {
+        label: "State",
+        labelAr: "إدارة الحالة",
+        items: ["provider", "ChangeNotifier (4)", "SharedPreferences (session)"]
+      },
+      {
+        label: "Data",
+        labelAr: "البيانات",
+        items: ["Cloud Firestore (7 collections)", "Real-time snapshots() streams", "Offline persistence", "Repository pattern (3)", "Mock in-memory repositories", "--dart-define=USE_MOCK"]
+      },
+      {
+        label: "Notifications",
+        labelAr: "الإشعارات",
+        items: ["FCM v1 API", "googleapis_auth (OAuth2)", "Per-student fcmTokens"]
+      },
+      {
+        label: "Tooling & infrastructure",
+        labelAr: "الأدوات والبنية التحتية",
+        items: ["Firebase CLI / FlutterFire", "Firestore rules", "Node + firebase-admin backup", "Python restore over Firestore REST", "adb-scripted demo recording"]
+      }
+    ],
+    techHighlights: [
+      {
+        title: "Two repositories, one interface",
+        titleAr: "تنفيذين ورا واجهة واحدة",
+        body: "Each repository is an abstract interface with two implementations behind it — Cloud Firestore, and a mock backed by an in-memory database — selected by a compile-time flag. The entire UI was built and exercised before Firebase was connected at all.",
+        bodyAr: "كل repository عبارة عن abstract interface وراه تنفيذين — واحد فوق Cloud Firestore وواحد mock بـ in-memory database — والاختيار بينهم بـ compile-time flag. الواجهة كلها اتبنت واتجرّبت قبل ما Firebase تتربط أصلاً."
+      },
+      {
+        title: "Streams, not futures",
+        titleAr: "Streams مش futures",
+        body: "Every read is a `snapshots()` stream, so a change the teacher makes appears on the parent's phone with no refresh, and Firestore's offline persistence works without extra code.",
+        bodyAr: "كل قراءة عبارة عن stream من `snapshots()`، فأي تعديل من المدرس بيظهر عند ولي الأمر من غير refresh، و offline persistence بتاعة Firestore بتشتغل من غير كود زيادة."
+      },
+      {
+        title: "A code gate instead of accounts",
+        titleAr: "كود بدل الحسابات",
+        body: "One screen takes one code and resolves the role from it — teacher dashboard or parent view — with no Firebase Auth, no sign-up and no passwords. The teacher's own code lives in a config document, so it can be changed without shipping an update.",
+        bodyAr: "شاشة واحدة بتاخد كود وبتحدّد الدور منه — لوحة مدرس ولا متابعة ولي أمر — من غير Firebase Auth ولا تسجيل ولا باسوردات. وكود المدرس نفسه في دوكيومنت إعدادات، فينفع يتغيّر من غير تحديث للتطبيق."
+      },
+      {
+        title: "Push straight over the FCM v1 API",
+        titleAr: "Push مباشرة على FCM v1 API",
+        body: "Notifications are sent against the FCM v1 API with OAuth2 through `googleapis_auth`, using a credential scoped to the messaging role alone rather than full admin rights, with each student holding their own `fcmTokens` array.",
+        bodyAr: "الإشعارات بتتبعت على FCM v1 API بـ OAuth2 عن طريق `googleapis_auth`، بصلاحية مقصورة على الإشعارات بس مش صلاحيات أدمن كاملة، وكل طالب ماسك `fcmTokens` array بتاعه."
+      },
+      {
+        title: "Backup and restore for the data",
+        titleAr: "باكب واسترجاع للداتا",
+        body: "A Node script over firebase-admin walks every collection and subcollection into a full JSON dump, and a Python script restores it through the Firestore REST API, converting the types back on the way in.",
+        bodyAr: "سكربت Node بـ firebase-admin بيمشي على كل الـ collections والـ subcollections ويطلّع JSON كامل، وسكربت Python بيرجّعه عن طريق Firestore REST API مع تحويل الأنواع."
+      }
+    ],
+    challenges:
+      "The most valuable early decision was building the data layer twice. Every repository is an abstract interface with a Firestore implementation and a mock in-memory one behind it, picked by `--dart-define=USE_MOCK=true` — so all 15 screens were built, demoed and iterated on before Firebase existed in the project, and they still run with no network at all.\n\nThe second was committing to streams everywhere. Because every read is a `snapshots()` stream rather than a future, the parent's five tabs update themselves the instant the teacher records an absence, a grade or a payment, and the same choice hands Firestore's offline persistence over for free — but it also means every `ChangeNotifier` has to own its subscriptions carefully so nothing fires after disposal.\n\nOutside the app, the infrastructure needed as much attention: the Firebase configuration had drifted across separate projects for Android, iOS and the CLI, so it was consolidated onto one — Firestore recreated in europe-west1, both apps re-registered, every config file regenerated and the rules redeployed — with a Node/Python backup-and-restore pair written so the data could survive that move.",
+    challengesAr:
+      "أهم قرار في البداية كان إن طبقة الداتا تتبني مرتين. كل repository عبارة عن abstract interface وراه تنفيذ على Firestore وتنفيذ mock بـ in-memory، والاختيار بـ `--dart-define=USE_MOCK=true` — فالـ 15 شاشة كلها اتبنت واتعرضت واتظبطت قبل ما Firebase تبقى موجودة في المشروع أصلاً، ولسه شغالة من غير نت خالص.\n\nوالقرار التاني كان الالتزام بالـ Streams في كل حاجة. لإن كل قراءة stream من `snapshots()` مش future، الخمس تابات بتوع ولي الأمر بيتحدّثوا في نفس اللحظة اللي المدرس بيسجّل فيها غياب أو درجة أو دفعة، ونفس الاختيار بيدي offline persistence بتاعة Firestore ببلاش — بس معناه كمان إن كل `ChangeNotifier` لازم يدير اشتراكاته بعناية عشان مايحصلش تحديث بعد التخلص منه.\n\nوبرّه التطبيق، البنية التحتية أخدت نفس القدر من الشغل: كونفيج Firebase كان متفرّق على بروجكتات منفصلة للأندرويد والـ iOS والـ CLI، فاتوحّد على واحد — Firestore اتعمل من جديد في europe-west1، والتطبيقين اتسجّلوا تاني، وكل ملفات الكونفيج اتولّدت من جديد، والـ rules اتنشرت — واتكتب معاهم باكب واسترجاع بـ Node و Python عشان الداتا تعدّي النقلة دي بأمان."
+  },
+  {
     title: "Sofrety — Flutter + Firebase Food Delivery App",
     titleAr: "سفرتي — تطبيق توصيل طعام بـ Flutter و Firebase",
     shortTitle: "Sofrety",
@@ -621,10 +975,20 @@ export const projects: Project[] = [
     detailDescriptionAr:
       "سلة تطبيق متجر إلكتروني متكامل مبني بـ Flutter على معمارية feature-first مكوّنة من 15 feature مستقلة. بيغطي رحلة الشراء كلها: من الرئيسية والتصنيفات والبحث، للسلة والمفضلة، لشيك أوت من أربع خطوات بينتهي بالدفع عن طريق Stripe أو الدفع عند الاستلام، لتتبّع الطلبات. المصادقة بـ JWT مع تجديد تلقائي للتوكن وتخزين آمن، والعناوين بتتحدد على خريطة OpenStreetMap وبتتخزّن محليًا في SQLite. تمان شاشات ليها تخطيط ديسكتوب منفصل عن الموبايل بيتم اختياره وقت التشغيل.",
     techStack: ["Flutter", "Bloc", "OpenStreetMap", "Stripe", "SQLite", "REST API"],
-    images: ["/images/sallax/01-home.webp"],
-    // The card crops to 16/10; anchoring high keeps the banner and header of the phone shot.
-    imagePosition: "top center",
+    images: ["/projects/sallax-cover.png"],
+    // The cover is 2:1 and the card frame is 16/10, so it is letterboxed rather than cropped;
+    // the padding is painted in the cover's own background colour.
+    coverFit: "contain",
+    coverBackground: "#0A0F1E",
+    coverAlt: "SallaX cover — a Flutter e-commerce app",
+    coverAltAr: "غلاف تطبيق سلة | SallaX — تطبيق تجارة إلكترونية بـ Flutter",
     gallery: [
+      {
+        src: "/projects/sallax-cover.png",
+        caption_ar: "غلاف تطبيق سلة | SallaX — تطبيق تجارة إلكترونية بـ Flutter",
+        caption_en: "SallaX cover — a Flutter e-commerce app",
+        orientation: "landscape"
+      },
       {
         src: "/images/sallax/01-home.webp",
         caption_ar: "الرئيسية — بانر عروض، تصنيفات ملوّنة، ومنتجات مميّزة بالأسعار والتقييمات",
@@ -814,241 +1178,181 @@ export const projects: Project[] = [
         src: "/images/beitna/01-onboarding.webp",
         caption_ar: "شاشة الترحيب — أول تشغيل",
         caption_en: "Onboarding screen",
-        orientation: "portrait",
-        group_ar: "عربي (RTL)",
-        group_en: "Arabic (RTL)"
+        orientation: "portrait"
       },
       {
         src: "/images/beitna/02-dashboard-top.webp",
         caption_ar: "اللوحة الرئيسية — إجمالي الشهر والإحصائيات السريعة",
         caption_en: "Dashboard — monthly total & quick stats",
-        orientation: "portrait",
-        group_ar: "عربي (RTL)",
-        group_en: "Arabic (RTL)"
+        orientation: "portrait"
       },
       {
         src: "/images/beitna/03-dashboard-mid.webp",
         caption_ar: "اللوحة الرئيسية — الميزانية والأهداف والفئات",
         caption_en: "Dashboard — budget, goals & categories",
-        orientation: "portrait",
-        group_ar: "عربي (RTL)",
-        group_en: "Arabic (RTL)"
+        orientation: "portrait"
       },
       {
         src: "/images/beitna/04-dashboard-bottom.webp",
         caption_ar: "اللوحة الرئيسية — آخر المعاملات وبطاقات المعلومات",
         caption_en: "Dashboard — recent transactions",
-        orientation: "portrait",
-        group_ar: "عربي (RTL)",
-        group_en: "Arabic (RTL)"
+        orientation: "portrait"
       },
       {
         src: "/images/beitna/05-expenses-list.webp",
         caption_ar: "قائمة المصروفات مع البحث والفلاتر",
         caption_en: "Expenses list with search & filters",
-        orientation: "portrait",
-        group_ar: "عربي (RTL)",
-        group_en: "Arabic (RTL)"
+        orientation: "portrait"
       },
       {
         src: "/images/beitna/06-expenses-scrolled.webp",
         caption_ar: "قائمة المصروفات — سجل كامل بالفئات",
         caption_en: "Expenses — full transaction history",
-        orientation: "portrait",
-        group_ar: "عربي (RTL)",
-        group_en: "Arabic (RTL)"
+        orientation: "portrait"
       },
       {
         src: "/images/beitna/07-expenses-filter-week.webp",
         caption_ar: "فلترة المصروفات حسب الفترة الزمنية",
         caption_en: "Filtering expenses by period",
-        orientation: "portrait",
-        group_ar: "عربي (RTL)",
-        group_en: "Arabic (RTL)"
+        orientation: "portrait"
       },
       {
         src: "/images/beitna/08-add-expense.webp",
         caption_ar: "إضافة مصروف — المبلغ واختيار الفئة",
         caption_en: "Add expense — amount & category",
-        orientation: "portrait",
-        group_ar: "عربي (RTL)",
-        group_en: "Arabic (RTL)"
+        orientation: "portrait"
       },
       {
         src: "/images/beitna/09-add-expense-filled.webp",
         caption_ar: "إضافة مصروف — بعد إدخال البيانات",
         caption_en: "Add expense — filled form",
-        orientation: "portrait",
-        group_ar: "عربي (RTL)",
-        group_en: "Arabic (RTL)"
+        orientation: "portrait"
       },
       {
         src: "/images/beitna/10-add-expense-receipt-save.webp",
         caption_ar: "إرفاق صورة إيصال وحفظ المصروف",
         caption_en: "Attach receipt & save",
-        orientation: "portrait",
-        group_ar: "عربي (RTL)",
-        group_en: "Arabic (RTL)"
+        orientation: "portrait"
       },
       {
         src: "/images/beitna/11-analytics-top.webp",
         caption_ar: "التحليلات — أعلى/أقل إنفاق و insight",
         caption_en: "Analytics — highlights & insights",
-        orientation: "portrait",
-        group_ar: "عربي (RTL)",
-        group_en: "Arabic (RTL)"
+        orientation: "portrait"
       },
       {
         src: "/images/beitna/12-analytics-trend.webp",
         caption_ar: "التحليلات — اتجاه الإنفاق وتوزيع الفئات",
         caption_en: "Analytics — spending trend & category split",
-        orientation: "portrait",
-        group_ar: "عربي (RTL)",
-        group_en: "Arabic (RTL)"
+        orientation: "portrait"
       },
       {
         src: "/images/beitna/13-analytics-breakdown.webp",
         caption_ar: "التحليلات — التفصيل الكامل لكل فئة",
         caption_en: "Analytics — full category breakdown",
-        orientation: "portrait",
-        group_ar: "عربي (RTL)",
-        group_en: "Arabic (RTL)"
+        orientation: "portrait"
       },
       {
         src: "/images/beitna/14-analytics-period-picker.webp",
         caption_ar: "اختيار الفترة الزمنية للتحليلات",
         caption_en: "Analytics period picker",
-        orientation: "portrait",
-        group_ar: "عربي (RTL)",
-        group_en: "Arabic (RTL)"
+        orientation: "portrait"
       },
       {
         src: "/images/beitna/15-budget-overview.webp",
         caption_ar: "الميزانية الشهرية — تنبيه 89% ودليل الإنفاق اليومي",
         caption_en: "Monthly budget — 89% alert & daily guide",
-        orientation: "portrait",
-        group_ar: "عربي (RTL)",
-        group_en: "Arabic (RTL)"
+        orientation: "portrait"
       },
       {
         src: "/images/beitna/16-budget-set-sheet.webp",
         caption_ar: "تعديل الميزانية بمبالغ سريعة",
         caption_en: "Set budget sheet",
-        orientation: "portrait",
-        group_ar: "عربي (RTL)",
-        group_en: "Arabic (RTL)"
+        orientation: "portrait"
       },
       {
         src: "/images/beitna/17-goals-overview.webp",
         caption_ar: "أهداف الادخار — الملخّص وبطاقات الأهداف",
         caption_en: "Savings goals — summary & cards",
-        orientation: "portrait",
-        group_ar: "عربي (RTL)",
-        group_en: "Arabic (RTL)"
+        orientation: "portrait"
       },
       {
         src: "/images/beitna/18-goals-list.webp",
         caption_ar: "أهداف الادخار — حالات مختلفة (قريب/نشط/مكتمل)",
         caption_en: "Goals — active, almost done & completed",
-        orientation: "portrait",
-        group_ar: "عربي (RTL)",
-        group_en: "Arabic (RTL)"
+        orientation: "portrait"
       },
       {
         src: "/images/beitna/19-goal-add-amount-sheet.webp",
         caption_ar: "إضافة مبلغ لهدف ادخار",
         caption_en: "Add amount to a goal",
-        orientation: "portrait",
-        group_ar: "عربي (RTL)",
-        group_en: "Arabic (RTL)"
+        orientation: "portrait"
       },
       {
         src: "/images/beitna/20-goal-create-sheet.webp",
         caption_ar: "إنشاء هدف جديد باختيار أيقونة ومبلغ وموعد",
         caption_en: "Create a new savings goal",
-        orientation: "portrait",
-        group_ar: "عربي (RTL)",
-        group_en: "Arabic (RTL)"
+        orientation: "portrait"
       },
       {
         src: "/images/beitna/21-settings-top.webp",
         caption_ar: "الإعدادات — التفضيلات واللغة والعملة",
         caption_en: "Settings — preferences",
-        orientation: "portrait",
-        group_ar: "عربي (RTL)",
-        group_en: "Arabic (RTL)"
+        orientation: "portrait"
       },
       {
         src: "/images/beitna/22-settings-data.webp",
         caption_ar: "الإعدادات — تصدير البيانات ومسحها",
         caption_en: "Settings — data management",
-        orientation: "portrait",
-        group_ar: "عربي (RTL)",
-        group_en: "Arabic (RTL)"
+        orientation: "portrait"
       },
       {
         src: "/images/beitna/23-currency-picker.webp",
         caption_ar: "اختيار العملة — 21 عملة مع بحث",
         caption_en: "Currency picker — 21 currencies",
-        orientation: "portrait",
-        group_ar: "عربي (RTL)",
-        group_en: "Arabic (RTL)"
+        orientation: "portrait"
       },
       {
         src: "/images/beitna/24-export-sheet.webp",
         caption_ar: "تصدير البيانات — CSV أو PDF مع اختيار الفترة",
         caption_en: "Export data — CSV or PDF",
-        orientation: "portrait",
-        group_ar: "عربي (RTL)",
-        group_en: "Arabic (RTL)"
+        orientation: "portrait"
       },
       {
         src: "/images/beitna/25-privacy-policy.webp",
         caption_ar: "سياسة الخصوصية",
         caption_en: "Privacy policy",
-        orientation: "portrait",
-        group_ar: "عربي (RTL)",
-        group_en: "Arabic (RTL)"
+        orientation: "portrait"
       },
       {
         src: "/images/beitna/26-terms-of-service.webp",
         caption_ar: "شروط الخدمة",
         caption_en: "Terms of service",
-        orientation: "portrait",
-        group_ar: "عربي (RTL)",
-        group_en: "Arabic (RTL)"
+        orientation: "portrait"
       },
       {
         src: "/images/beitna/27-settings-en.webp",
         caption_ar: "الإعدادات بالإنجليزية — LTR",
         caption_en: "Settings in English (LTR)",
-        orientation: "portrait",
-        group_ar: "إنجليزي (LTR)",
-        group_en: "English (LTR)"
+        orientation: "portrait"
       },
       {
         src: "/images/beitna/28-dashboard-en.webp",
         caption_ar: "اللوحة الرئيسية بالإنجليزية",
         caption_en: "Dashboard in English",
-        orientation: "portrait",
-        group_ar: "إنجليزي (LTR)",
-        group_en: "English (LTR)"
+        orientation: "portrait"
       },
       {
         src: "/images/beitna/29-analytics-en.webp",
         caption_ar: "التحليلات بالإنجليزية",
         caption_en: "Analytics in English",
-        orientation: "portrait",
-        group_ar: "إنجليزي (LTR)",
-        group_en: "English (LTR)"
+        orientation: "portrait"
       },
       {
         src: "/images/beitna/30-analytics-en-breakdown.webp",
         caption_ar: "تفصيل الفئات بالإنجليزية",
         caption_en: "Category breakdown in English",
-        orientation: "portrait",
-        group_ar: "إنجليزي (LTR)",
-        group_en: "English (LTR)"
+        orientation: "portrait"
       }
     ],
     githubUrl: "https://github.com/taha2901/beitna",

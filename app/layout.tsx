@@ -3,7 +3,12 @@ import "./globals.css";
 import { ThemeProvider } from "@/hooks/useTheme";
 import { LanguageProvider } from "@/hooks/useLanguage";
 
+// Social images are declared as site-relative paths; this is what turns them into the
+// absolute URLs crawlers need. Override with NEXT_PUBLIC_SITE_URL if the domain changes.
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://tahahamada.web.app";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: "Taha Hamada — Flutter Developer",
   description:
     "Flutter developer specializing in cross-platform mobile apps. Expert in Dart, Firebase, REST APIs, and UI/UX.",

@@ -48,11 +48,19 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
       <Link href={`/projects/${project.slug}`} className="flex flex-col flex-grow min-h-0">
         {/* Image */}
         <div
+          role="img"
+          aria-label={
+            (isAr ? project.coverAltAr ?? project.coverAlt : project.coverAlt) ??
+            (isAr ? project.titleAr ?? project.title : project.title)
+          }
           className="relative aspect-[16/10] w-full bg-slate-100 dark:bg-slate-900 overflow-hidden flex-shrink-0"
           style={{
             backgroundImage: `url('${project.images[0]}')`,
-            backgroundSize: "cover",
+            // A wide cover is letterboxed on its own background instead of being cropped.
+            backgroundSize: project.coverFit ?? "cover",
+            backgroundRepeat: "no-repeat",
             backgroundPosition: project.imagePosition ?? "center",
+            backgroundColor: project.coverBackground,
           }}
         >
           <div className="absolute inset-0 bg-gradient-to-t from-white/90 dark:from-slate-950/95 via-transparent to-transparent" />
