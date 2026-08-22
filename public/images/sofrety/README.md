@@ -6,7 +6,7 @@ to 720px wide and converted to WebP — the food photography does not compress w
 
 Source of the originals: `d:\Flutter Apps\my real projects\food_delivery_app\portfolio-shots\`
 
-Gallery order used in `data/projects.ts` (the card cover is `/images/soferty.png`, the
+Gallery order used in `data/projects.ts` (the card cover is `/images/sofrety/soferty.png`, the
 existing mockup — the phone shots are too tall to crop into the 16/10 card frame):
 
 | # | File | Caption |

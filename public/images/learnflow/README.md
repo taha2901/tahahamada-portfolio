@@ -7,7 +7,7 @@ Source of the originals: `d:\Flutter Apps\my real projects\e_learning\screenshot
 
 These shots render inside a phone mockup: the `learnflow` entry in `data/projects.ts` sets
 `phoneFrame: true`, and the gallery draws portrait shots in a 9:19.5 bezel — the screenshots'
-native ratio, so nothing is cropped or stretched. The card cover stays `/images/e_learning.png`.
+native ratio, so nothing is cropped or stretched. The card cover stays `/images/learnflow/e_learning.png`.
 
 ## Sections
 

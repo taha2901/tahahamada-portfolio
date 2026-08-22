@@ -8,7 +8,7 @@ Source of the originals: `d:\Flutter Apps\my real projects\beitna\screenshots\`
 
 `00-app-icon.png` is kept as a PNG and is **not** part of the gallery — it is the app icon,
 available if the card or a logo slot ever needs it. The project card cover stays
-`/images/beitna.png` (the existing mockup); the phone shots are too tall for the card's
+`/images/beitna/beitna.png` (the existing mockup); the phone shots are too tall for the card's
 16/10 crop.
 
 ## Gallery

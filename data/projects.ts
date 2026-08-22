@@ -784,7 +784,7 @@ export const projects: Project[] = [
       "سفرتي تطبيق عميل لتوصيل الطعام، مبني بـ Flutter بمعمارية MVVM فوق طبقة Repository/Service. الرئيسية والمطاعم والتصنيفات والبانرات بتيجي من Cloud Firestore، والمصادقة عبر Firebase Auth، والسلة والطلبات والمفضلة والملف الشخصي كلها مخزّنة لكل مستخدم في Firestore. الدفع بالبطاقة متعمول بـ Stripe SDK، والطلبات النشطة بتتحدّث لحظيًا عبر snapshots streams مع شريط تقدّم لحالة الطلب وشاشة شات مع المندوب.",
     techStack: ["Flutter", "Firebase", "Cloud Firestore", "Stripe", "MVVM", "Provider"],
     images: [
-      "/images/soferty.png",
+      "/images/sofrety/soferty.png",
       "/images/sofrety/01-home.webp",
       "/images/sofrety/02-restaurant.webp",
       "/images/sofrety/03-restaurant-menu.webp",
@@ -975,16 +975,16 @@ export const projects: Project[] = [
     detailDescriptionAr:
       "سلة تطبيق متجر إلكتروني متكامل مبني بـ Flutter على معمارية feature-first مكوّنة من 15 feature مستقلة. بيغطي رحلة الشراء كلها: من الرئيسية والتصنيفات والبحث، للسلة والمفضلة، لشيك أوت من أربع خطوات بينتهي بالدفع عن طريق Stripe أو الدفع عند الاستلام، لتتبّع الطلبات. المصادقة بـ JWT مع تجديد تلقائي للتوكن وتخزين آمن، والعناوين بتتحدد على خريطة OpenStreetMap وبتتخزّن محليًا في SQLite. تمان شاشات ليها تخطيط ديسكتوب منفصل عن الموبايل بيتم اختياره وقت التشغيل.",
     techStack: ["Flutter", "Bloc", "OpenStreetMap", "Stripe", "SQLite", "REST API"],
-    images: ["/projects/sallax-cover.png"],
-    // The cover is 2:1 and the card frame is 16/10, so it is letterboxed rather than cropped;
+    images: ["/images/sallax/SallaX.png"],
+    // The cover is ~1.38:1 and the card frame is 16/10, so it is pillarboxed rather than cropped;
     // the padding is painted in the cover's own background colour.
     coverFit: "contain",
-    coverBackground: "#0A0F1E",
+    coverBackground: "#0B0012",
     coverAlt: "SallaX cover — a Flutter e-commerce app",
     coverAltAr: "غلاف تطبيق سلة | SallaX — تطبيق تجارة إلكترونية بـ Flutter",
     gallery: [
       {
-        src: "/projects/sallax-cover.png",
+        src: "/images/sallax/SallaX.png",
         caption_ar: "غلاف تطبيق سلة | SallaX — تطبيق تجارة إلكترونية بـ Flutter",
         caption_en: "SallaX cover — a Flutter e-commerce app",
         orientation: "landscape"
@@ -1172,7 +1172,7 @@ export const projects: Project[] = [
     descriptionAr:
       "تطبيق Flutter لإدارة مصروفات المنزل — تتبّع المصروفات، ميزانية شهرية، أهداف ادخار، وتحليلات مالية. يشتغل أوفلاين بالكامل وبياناته مخزّنة محليًا على الجهاز، ثنائي اللغة (عربي/إنجليزي) مع دعم كامل لـ RTL.",
     techStack: ["Flutter", "Bloc/Cubit", "SQLite", "Local-first", "RTL", "PDF & CSV"],
-    images: ["/images/beitna.png"],
+    images: ["/images/beitna/beitna.png"],
     gallery: [
       {
         src: "/images/beitna/01-onboarding.webp",
@@ -1484,7 +1484,7 @@ export const projects: Project[] = [
     detailDescriptionAr:
       "LearnFlow منصة تعليمية متكاملة على الموبايل مبنية بـ Flutter و Supabase. بتقدّم تجربتين كاملتين من نفس الكود: تطبيق للطالب يكتشف الكورسات ويشترك فيها ويكمّلها، ولوحة تحكم للمدرّس/الأدمن ينشئ بيها المحتوى — والدور بيتحدّد وقت تسجيل الدخول والمستخدم بيتوجّه للواجهة المناسبة له.",
     techStack: ["Flutter", "Supabase", "Bloc/Cubit", "Clean Architecture", "Video", "PDF"],
-    images: ["/images/e_learning.png"],
+    images: ["/images/learnflow/e_learning.png"],
     phoneFrame: true,
     gallery: [
       {
