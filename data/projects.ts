@@ -97,332 +97,513 @@ export type Project = {
 
 export const projects: Project[] = [
   {
-    title: "POS System — Point of Sale for Retail",
-    titleAr: "نظام نقاط البيع — POS System",
-    shortTitle: "POS System",
-    shortTitleAr: "نظام نقاط البيع",
-    slug: "pos-system",
+    title: "SallaX — Cross-Platform E-Commerce App Built with Flutter",
+    titleAr: "سلة — تطبيق تجارة إلكترونية متعدد المنصات بـ Flutter",
+    shortTitle: "SallaX",
+    shortTitleAr: "سلة | SallaX",
+    slug: "sallax",
     description:
-      "A complete Arabic point-of-sale system for sales, inventory, branches and reporting — built with Flutter for Windows desktop on a Feature-First architecture, with 20 independent modules and automated test coverage.",
+      "A complete Flutter e-commerce app — browsing, search, cart, a four-step checkout and Stripe payments, with map-based delivery address picking on OpenStreetMap, and separate mobile and desktop layouts for the same screens.",
     descriptionAr:
-      "نظام نقاط بيع متكامل بالعربي لإدارة المبيعات والمخزون والفروع والتقارير — مبني بـ Flutter لسطح المكتب على Windows، بمعمارية Feature-First و20 وحدة مستقلة وتغطية اختبارات آلية.",
+      "تطبيق تجارة إلكترونية كامل بـ Flutter — تصفّح وبحث وسلة وشيك أوت من 4 خطوات ودفع Stripe، مع اختيار عنوان التوصيل على خريطة OpenStreetMap، ونسخة موبايل ونسخة ديسكتوب من نفس الشاشات.",
     detailDescription:
-      "A full sales-management system for shops, supermarkets and pharmacies — entirely Arabic (RTL) and running as a Windows desktop application. It covers the whole working day, from opening the cashier's shift in the morning to closing it and reconciling the drawer, with 6 analytical reports and multi-branch inventory management.",
+      "SallaX is a full e-commerce storefront built in Flutter on a feature-first architecture of 15 independent features. It covers the whole buying journey: home, categories and search, cart and wishlist, a four-step checkout ending in a Stripe card payment or cash on delivery, and order tracking. Authentication is JWT-based with automatic token refresh and secure storage, and delivery addresses are picked on an OpenStreetMap map and persisted locally in SQLite. Eight screens ship a dedicated desktop layout selected at runtime.",
     detailDescriptionAr:
-      "نظام إدارة مبيعات متكامل للمحلات والسوبر ماركت والصيدليات، عربي بالكامل (RTL)، بيشتغل كتطبيق سطح مكتب على Windows. بيغطي دورة العمل كاملة من فتح وردية الكاشير الصبح لحد إغلاقها وحساب عجز الدرج، مع 6 تقارير تحليلية وإدارة مخزون متعددة الفروع.",
-    techStack: ["Flutter", "Dart", "Windows Desktop", "Provider", "go_router", "fl_chart", "RTL"],
-    images: [
-      "/images/pos-system/01-pos-cover.png",
-      "/images/pos-system/02-dashboard.png",
-      "/images/pos-system/03-payment.png",
-      "/images/pos-system/04-invoice-tabs.png",
-      "/images/pos-system/15-returns.png",
-      "/images/pos-system/05-inventory.png",
-      "/images/pos-system/10-purchases.png",
-      "/images/pos-system/06-reports.png",
-      "/images/pos-system/13-reports-profit.png",
-      "/images/pos-system/07-products.png",
-      "/images/pos-system/08-permissions.png",
-      "/images/pos-system/09-loyalty.png",
-      "/images/pos-system/11-customers.png",
-      "/images/pos-system/12-expenses.png",
-      "/images/pos-system/16-branches.png",
-      "/images/pos-system/14-settings.png"
+      "سلة تطبيق متجر إلكتروني متكامل مبني بـ Flutter على معمارية feature-first مكوّنة من 15 feature مستقلة. بيغطي رحلة الشراء كلها: من الرئيسية والتصنيفات والبحث، للسلة والمفضلة، لشيك أوت من أربع خطوات بينتهي بالدفع عن طريق Stripe أو الدفع عند الاستلام، لتتبّع الطلبات. المصادقة بـ JWT مع تجديد تلقائي للتوكن وتخزين آمن، والعناوين بتتحدد على خريطة OpenStreetMap وبتتخزّن محليًا في SQLite. تمان شاشات ليها تخطيط ديسكتوب منفصل عن الموبايل بيتم اختياره وقت التشغيل.",
+    techStack: ["Flutter", "Bloc", "OpenStreetMap", "Stripe", "SQLite", "REST API"],
+    images: ["/images/sallax/SallaX.png"],
+    // The cover is ~1.38:1 and the card frame is 16/10, so it is pillarboxed rather than cropped;
+    // the padding is painted in the cover's own background colour.
+    coverFit: "contain",
+    coverBackground: "#0B0012",
+    coverAlt: "SallaX cover — a Flutter e-commerce app",
+    coverAltAr: "غلاف تطبيق سلة | SallaX — تطبيق تجارة إلكترونية بـ Flutter",
+    gallery: [
+      {
+        src: "/images/sallax/SallaX.png",
+        caption_ar: "غلاف تطبيق سلة | SallaX — تطبيق تجارة إلكترونية بـ Flutter",
+        caption_en: "SallaX cover — a Flutter e-commerce app",
+        orientation: "landscape"
+      },
+      {
+        src: "/images/sallax/01-home.webp",
+        caption_ar: "الرئيسية — بانر عروض، تصنيفات ملوّنة، ومنتجات مميّزة بالأسعار والتقييمات",
+        caption_en: "Home — promo banner, colour-coded categories and featured products",
+        orientation: "portrait"
+      },
+      {
+        src: "/images/sallax/02-product-details.webp",
+        caption_ar: "تفاصيل المنتج — الصورة والسعر والتقييم واختيار اللون والمقاس حسب المخزون المتاح",
+        caption_en: "Product details — image, price, rating, and stock-driven colour/size selection",
+        orientation: "portrait"
+      },
+      {
+        src: "/images/sallax/03-search.webp",
+        caption_ar: "البحث — نتائج فورية من الـ API أثناء الكتابة",
+        caption_en: "Search — live results served from the API as you type",
+        orientation: "portrait"
+      },
+      {
+        src: "/images/sallax/04-cart.webp",
+        caption_ar: "السلة — ثلاثة منتجات بكميات مختلفة مع ملخص الإجمالي والشحن والضريبة",
+        caption_en: "Cart — three products with a subtotal / shipping / tax summary",
+        orientation: "portrait"
+      },
+      {
+        src: "/images/sallax/07-address-map.webp",
+        caption_ar: "اختيار عنوان التوصيل على خريطة OpenStreetMap مع تحويل الإحداثيات لعنوان",
+        caption_en: "Picking the delivery point on an OpenStreetMap map with reverse geocoding",
+        orientation: "portrait"
+      },
+      {
+        src: "/images/sallax/08-my-addresses.webp",
+        caption_ar: "دفتر العناوين المحفوظة محليًا في SQLite",
+        caption_en: "The address book persisted locally in SQLite",
+        orientation: "portrait"
+      },
+      {
+        src: "/images/sallax/10-payment-success.webp",
+        caption_ar: "تأكيد نجاح الطلب بعد إتمام الدفع",
+        caption_en: "Order confirmation after a successful payment",
+        orientation: "portrait"
+      },
+      {
+        src: "/images/sallax/11-orders.webp",
+        caption_ar: "الطلبات — طلب قيد التنفيذ وطلب تم تسليمه بتفاصيلهم",
+        caption_en: "Orders — one processing and one delivered order",
+        orientation: "portrait"
+      },
+      {
+        src: "/images/sallax/12-wishlist.webp",
+        caption_ar: "المفضلة — المنتجات المحفوظة مع إمكانية نقلها للسلة",
+        caption_en: "Wishlist — saved products with a move-to-cart action",
+        orientation: "portrait"
+      },
+      {
+        src: "/images/sallax/13-offers.webp",
+        caption_ar: "العروض — الكوبونات النشطة بأكوادها وتواريخ انتهائها",
+        caption_en: "Offers — active coupons with codes and expiry dates",
+        orientation: "portrait"
+      },
+      {
+        src: "/images/sallax/14-profile.webp",
+        caption_ar: "الملف الشخصي — بيانات الحساب والإحصائيات وروابط الطلبات والعناوين",
+        caption_en: "Profile — account details, stats and links to orders and addresses",
+        orientation: "portrait"
+      },
+      {
+        src: "/images/sallax/15-login.webp",
+        caption_ar: "تسجيل الدخول",
+        caption_en: "Sign in",
+        orientation: "portrait"
+      },
+      {
+        src: "/images/sallax/17-onboarding.webp",
+        caption_ar: "شاشات التعريف بالتطبيق",
+        caption_en: "App onboarding",
+        orientation: "portrait"
+      }
     ],
-    imageCaptions: [
-      "Point of sale — catalog, cart and running total",
-      "Dashboard — KPIs, sales trend and payment methods",
-      "Payment dialog — four methods with instant change calculation",
-      "Parallel invoice tabs with held invoices",
-      "Returns — refunding items from a previous invoice",
-      "Inventory — per-item stock split across branches",
-      "Purchases — partially receiving a purchase order",
-      "Sales report — charts and daily breakdown",
-      "Profit & margin report per item",
-      "Product catalog — search, filters and sorting",
-      "Role permission matrix",
-      "Loyalty program and customer tiers",
-      "Customers and credit accounts",
-      "Expenses and the approval cycle",
-      "Branch management",
-      "Invoice settings and receipt preview"
-    ],
-    imageCaptionsAr: [
-      "شاشة نقطة البيع — الكتالوج والسلة وحساب الإجمالي",
-      "لوحة التحكم — المؤشرات واتجاه المبيعات وطرق الدفع",
-      "نافذة الدفع — أربع طرق وحساب فوري للباقي",
-      "فواتير متعددة بالتوازي مع الفواتير المعلّقة",
-      "المرتجعات — استرجاع من فاتورة سابقة",
-      "المخزون — أرصدة كل صنف موزّعة على الفروع",
-      "المشتريات — استلام أمر شراء جزئي",
-      "تقرير المبيعات — رسوم وتفصيل يومي",
-      "تقرير الأرباح والهوامش لكل صنف",
-      "كتالوج المنتجات — بحث وفلاتر وترتيب",
-      "مصفوفة صلاحيات الأدوار",
-      "برنامج الولاء وفئات العملاء",
-      "العملاء والحسابات الآجلة",
-      "المصروفات ودورة الاعتماد",
-      "إدارة الفروع",
-      "إعدادات الفاتورة ومعاينة الإيصال"
-    ],
-    liveDemoUrl: "https://pos-prototype-omega.vercel.app/",
-    liveDemoLabel: "Live Demo",
-    liveDemoLabelAr: "جرّب الديمو",
-    liveDemoCtaLabel: "Try the live demo",
-    liveDemoCtaLabelAr: "جرّب الديمو المباشر",
-    demoNote:
-      "The demo needs no sign-in — every screen is interactive with Arabic sample data, and you can add, edit and delete freely; everything is saved in your own browser.",
-    demoNoteAr:
-      "الديمو شغال من غير تسجيل دخول — كل الشاشات تفاعلية ببيانات تجريبية عربية، وتقدر تضيف وتعدّل وتحذف وكل حاجة بتتحفظ في متصفحك.",
-    // TODO: fill these in — the repository URL and the Windows release download.
-    // githubUrl: "https://github.com/taha2901/<repo>",
-    // windowsReleaseUrl: "https://github.com/taha2901/<repo>/releases/latest",
-    role: "Full-stack developer — I designed the design system from scratch (colors, typography, spacing, shadows), built the entire UI on a Feature-First architecture, wrote 53 automated tests, and set up a CI/CD pipeline on GitHub Actions that builds the Windows release automatically. The backend (REST API + database) is currently in development, by me as well.",
-    roleAr: "مطوّر Full-Stack — صمّمت نظام التصميم من الصفر (ألوان، تايبوجرافي، مسافات، ظلال) وبنيت الواجهة كاملة بمعمارية Feature-First، وكتبت 53 اختبار آلي، وظبّطت خط إنتاج CI/CD على GitHub Actions بيبني نسخة Windows تلقائيًا. الباك اند (REST API + قاعدة بيانات) قيد التطوير حاليًا بنفس يدي.",
-    status: "Personal project — available to try online.",
-    statusAr: "مشروع شخصي — متاح للتجربة أونلاين",
-    badge: "Live Demo",
-    category: "Desktop",
-    overview:
-      "POS System is a point-of-sale system built with Flutter for Windows desktop, entirely Arabic and right-to-left by design rather than a translated English interface. It is built on a Feature-First architecture of 20 independent modules — each with its own screens, widgets, models and controllers — over a shared `core` layer for the recurring elements.\n\nThe system manages sales, inventory, purchasing, customers, suppliers, employees, expenses and branches, and produces 6 analytical reports with period and branch filters. The most important screen — the cashier screen — is tuned for speed: a cashier can complete a whole invoice without touching the mouse, and work on several invoices in parallel during rush hour.",
-    overviewAr:
-      "«POS System» نظام نقاط بيع مبني بـ Flutter لسطح المكتب (Windows)، عربي بالكامل من اليمين لليسار مش ترجمة لواجهة إنجليزية. اتبنى بمعمارية Feature-First فيها 20 وحدة مستقلة، كل وحدة ليها الشاشات والويدجتس والموديلز والكونترولرز بتاعتها، مع طبقة `core` مشتركة للعناصر المتكررة.\n\nالنظام بيدير المبيعات والمخزون والمشتريات والعملاء والموردين والموظفين والمصروفات والفروع، وبيطلّع 6 تقارير تحليلية بفلاتر فترة وفرع. الشاشة الأهم — شاشة الكاشير — متظبطة للسرعة: الموظف يقدر يعمل فاتورة كاملة من غير ما يلمس الماوس، ويشتغل على أكتر من فاتورة بالتوازي في وقت الزحمة.",
+    githubUrl: "https://github.com/taha2901/ECE",
+    category: "Mobile",
+    role: "I built the entire Flutter application (177 Dart files): the feature-first architecture, the 13 cubits, the whole network layer including the token-refresh interceptor with its request queue, repositories and JSON mapping, routing and guards, SQLite + secure storage, the design system, the maps integration, the Stripe integration, and every desktop layout. The back end is not mine — it is a Django/DRF API by another developer.",
+    roleAr: "عملت تطبيق الـ Flutter بالكامل (177 ملف Dart): المعمارية feature-first، الـ 13 Cubit وحالاتهم، طبقة الشبكة كلها بما فيها interceptor تجديد التوكن مع طابور الريكويستات، الـ repositories وتحويل الـ JSON، الـ routing والحماية، التخزين المحلي بـ SQLite والـ secure storage، الـ design system، دمج الخرايط، دمج Stripe، وكل تخطيطات الديسكتوب المنفصلة. الباك اند مش بتاعي — REST API بـ Django/DRF من مطوّر تاني، اشتغلت على العقد بتاعه.",
+    status: "The app is complete, but the REST API it depends on (hosted on PythonAnywhere) is currently down, so the build cannot be run end to end.",
+    statusAr: "التطبيق مكتمل، بس الـ API اللي بيعتمد عليه (مستضاف على PythonAnywhere) مش شغّال حاليًا، فمش ممكن تشغيله من أوله لآخره.",
     problemSolved:
-      "Most point-of-sale systems out there are either English interfaces with half-finished Arabic bolted on, or web systems that are slow and stall the moment the connection drops, or dated programs that are painful to look at for a cashier sitting in front of them 12 hours a day.\n\nThe bigger problem: during rush hour the cashier is stuck holding one customer's invoice while they dig for their wallet, with the queue backed up behind them. Most systems force the cashier to either void the invoice or wait it out.\n\nThis system solves exactly that: multiple invoices open in parallel as tabs, any invoice can be held and recalled at any time, instant barcode search, and a payment pad that computes the change as you type. All of it in an Arabic interface that is easy on the eyes and designed from scratch for the cashier's screen.",
+      "Small and mid-sized retailers in Egypt sell through social pages and WhatsApp threads — orders arrive as chat messages, addresses are free text, and confirmation happens by phone. The result is failed deliveries and customers with no order visibility.\n\nSallaX replaces that with a real catalogue (per-size stock, colours, prices), a map-picked delivery point that is reverse-geocoded and saved to a local address book, and a four-step checkout that shows exactly what is being paid before confirmation.",
     problemSolvedAr:
-      "معظم أنظمة نقاط البيع الموجودة إما واجهات إنجليزية متعرّبة بشكل ناقص، أو أنظمة ويب بطيئة بتقف لما النت يفصل، أو برامج قديمة شكلها متعب للكاشير اللي قاعد قدامها 12 ساعة.\n\nوالمشكلة الأكبر: في وقت الزحمة، الكاشير بيبقى ماسك فاتورة عميل واقف بيدوّر على محفظته، والطابور واقف وراه. أغلب الأنظمة بتجبره يلغي الفاتورة أو يستنى.\n\nالنظام ده بيحل الحتة دي بالتحديد: فواتير متعددة بالتوازي في تبويبات، وتعليق أي فاتورة واسترجاعها في أي وقت، وبحث فوري بالباركود، ولوحة دفع بتحسب الباقي وأنت بتكتب. كل ده في واجهة عربية مريحة للعين ومصمّمة من الصفر لشاشة الكاشير.",
+      "المتاجر الصغيرة والمتوسطة في مصر بتبيع من خلال صفحات سوشيال ميديا ورسايل واتساب: الأوردر بيتاخد في شات، والعنوان بيتكتب نص حر («ورا المدرسة، الدور التالت»)، والتأكيد بمكالمة. النتيجة نسبة مرتجعات عالية لأن المندوب مش لاقي العنوان، وعميل مش عارف أوردره فين.\n\nسلة بيحل الجزء ده: كتالوج بصور وأسعار ومقاسات وألوان ومخزون فعلي لكل مقاس بدل الشات، وتحديد الموقع على خريطة بإحداثيات حقيقية بترجع منها عنوان مقروء ويتحفظ في دفتر عناوين محلي، وشيك أوت من أربع خطوات بيوضّح للعميل بيدفع كام وفين هيوصل الأوردر قبل ما يأكّد.",
     stats: [
-      { label: "Independent features", labelAr: "Feature مستقلة", value: "20" },
-      { label: "Screens", labelAr: "شاشة", value: "30" },
-      { label: "Dart source files", labelAr: "ملف Dart", value: "472" },
-      { label: "Lines of code", labelAr: "سطر كود", value: "32,692" },
-      { label: "Widgets", labelAr: "Widget", value: "361" },
-      { label: "Automated tests", labelAr: "اختبار آلي", value: "53" },
-      { label: "Controllers", labelAr: "Controller", value: "28" },
-      { label: "Analytical reports", labelAr: "تقارير تحليلية", value: "6" }
+      { label: "Dart source files", labelAr: "ملف Dart", value: "177" },
+      { label: "Lines of code", labelAr: "سطر كود", value: "22,586" },
+      { label: "Features", labelAr: "Feature", value: "15" },
+      { label: "Cubits", labelAr: "Cubit", value: "13" },
+      { label: "Widgets", labelAr: "Widget", value: "215" },
+      { label: "Routes", labelAr: "Route", value: "22" },
+      { label: "Desktop layouts", labelAr: "شاشة بنسخة ديسكتوب", value: "8" },
+      { label: "API endpoints", labelAr: "API endpoint", value: "21" }
     ],
     keyFeatures: [
-      "🛒 Fast cashier screen — instant search by name, code or barcode, a catalog split by category, and keyboard shortcuts (F2 to search, F4 to pay).",
-      "🗂 Parallel invoices — independent tabs let you serve more than one customer at the same time without voiding anything.",
-      "⏸ Hold & recall invoices — the customer leaves their cart and comes back, and the invoice returns exactly as it was, with its items, discount and customer.",
-      "🏷 Flexible discounts — a fixed amount or a percentage, with a live preview of the total before applying, and the percentage recalculating itself as the cart grows.",
-      "💵 Multi-method payment — cash, card, e-wallet and credit, via a number pad or straight from the keyboard, with instant change calculation.",
-      "📦 Multi-branch inventory — separate stock per branch, transfers between branches, and stock-taking that computes variances and their value at cost.",
-      "⚠️ Low-stock alerts — a minimum level per item, with suggested reorder quantities, their cost, and creating a purchase order straight from them.",
-      "🚚 Purchasing — purchase orders to suppliers, with full or partial receiving that updates inventory automatically and tracks the received percentage.",
-      "↩️ Returns — refunding items from a previous invoice as cash, as store credit, or by reversing the card transaction, with quantities returned to stock.",
-      "👥 Customers & credit accounts — a profile per customer with their purchase history, balance, points and progress toward the next loyalty tier.",
-      "🏅 Loyalty program — three tiers (Silver / Gold / Platinum) with points, perks, and redeeming points as a discount.",
-      "🤝 Suppliers — tracking payables, recording payments, and linking every supplier to their purchase orders.",
-      "🛡 Granular permissions — a permission matrix per role: 19 permissions across 5 groups (sales, inventory, purchasing, finance, administration).",
-      "🕐 Cashier shifts — opening with a float, and closing by comparing the counted cash against the expected amount to compute the shortage or surplus.",
-      "🧾 Expenses — operating items with an approval cycle, plus analysis by item and by branch.",
-      "📊 6 analytical reports — sales, profit and margins, product performance, inventory, payment methods and employee performance — all with period and branch filters.",
-      "🎁 Offers & discounts — three types: percentage, buy-and-get, and quantity discount — with start and end dates.",
-      "⚙️ Full settings — store details, tax rate, receipt layout with a live preview, and connected hardware."
+      "🛍 Product catalogue with variants — colours, sizes and separate stock per size, with out-of-stock sizes blocked from selection.",
+      "🔎 Server-side search — queries run against the API rather than a pre-loaded list, so results stay correct however large the catalogue grows.",
+      "🏷 Categories with automatic colours and icons — each category derives its icon and colour from its name (Arabic or English), so new categories render correctly without a code change.",
+      "🛒 Optimistic cart updates — quantity changes and removals show instantly and sync to the server afterwards, rolling back with an error message if the call fails.",
+      "🧾 Automatic line merging — adding the same product in the same size and colour increases the existing line's quantity instead of creating a new one.",
+      "📋 Four-step checkout — customer details → shipping address → payment method → final review, with a progress indicator and data preserved between steps.",
+      "⚡ Auto-filled checkout — details come from the user's account and the address from the default one saved in SQLite, split automatically into address and city.",
+      "🗺 Map-based address picking — the delivery point is set on an OpenStreetMap map by tapping the map or searching for a place, with coordinates reverse-geocoded into a readable address.",
+      "📍 Current location — a button fetches the user's position via geolocator, handles the location permissions and recentres the map on it.",
+      "🏠 Local address book — addresses are stored in SQLite with their coordinates and a label (\"Home\", \"Work\"), with exactly one default guaranteed by a transaction.",
+      "🔐 JWT authentication with automatic refresh — sign-in and registration, with the token renewed before it expires without the user noticing, and a queue for concurrent requests.",
+      "🔒 Secure token storage — tokens live in `flutter_secure_storage` (Keystore on Android / Keychain on iOS), not in plain storage.",
+      "🚪 Route guards and session restore — a central go_router redirect blocks checkout, payment and orders without a token, and the session is restored on app launch.",
+      "👤 Guest browsing — home, search and product details are open without signing in, while cart and wishlist show a \"sign-in required\" screen instead of shutting the visitor out.",
+      "💳 Stripe card payments — PaymentIntent creation and confirmation with native card fields, the order created after the payment succeeds (test mode), alongside a cash-on-delivery path.",
+      "🖥 Dedicated desktop layouts — eight screens have a layout written specifically for large screens (multi-column grids, two-pane views, side navigation) selected at runtime."
     ],
     keyFeaturesAr: [
-      "🛒 شاشة كاشير سريعة — بحث فوري بالاسم أو الكود أو الباركود، كتالوج مقسّم بالفئات، ومختصرات كيبورد (F2 للبحث، F4 للدفع).",
-      "🗂 فواتير متعددة بالتوازي — تبويبات مستقلة تخليك تشتغل على أكتر من عميل في نفس الوقت من غير ما تلغي أي فاتورة.",
-      "⏸ تعليق الفواتير واسترجاعها — العميل يسيب عربيته ويرجع، والفاتورة بأصنافها وخصمها وعميلها بترجع زي ما هي.",
-      "🏷 خصم مرن — بمبلغ ثابت أو نسبة مئوية، مع معاينة حيّة للإجمالي قبل التطبيق، والنسبة بتتحدّث لوحدها لو السلة كبرت.",
-      "💵 دفع متعدد الطرق — كاش وبطاقة ومحفظة إلكترونية وآجل، بلوحة أرقام أو كتابة مباشرة من الكيبورد، وحساب فوري للباقي.",
-      "📦 مخزون متعدد الفروع — أرصدة منفصلة لكل فرع، تحويلات بين الفروع، وجرد بحساب الفروقات وقيمتها بالتكلفة.",
-      "⚠️ تنبيهات نقص المخزون — حد أدنى لكل صنف، مع اقتراح كميات إعادة الطلب وتكلفتها وإنشاء أمر شراء منها مباشرة.",
-      "🚚 المشتريات — أوامر شراء للموردين، واستلام كلي أو جزئي بيحدّث المخزون تلقائيًا ويحسب نسبة الاستلام.",
-      "↩️ المرتجعات — استرجاع أصناف من فاتورة سابقة بردّ كاش أو رصيد للعميل أو عكس عملية البطاقة، مع إرجاع الكميات للمخزون.",
-      "👥 العملاء والحسابات الآجلة — ملف لكل عميل بتاريخ مشترياته ورصيده ونقاطه وتقدّمه لفئة الولاء التالية.",
-      "🏅 برنامج ولاء — ثلاث فئات (فضي / ذهبي / بلاتيني) بنقاط ومزايا واستبدال النقاط كخصم.",
-      "🤝 الموردين — متابعة المستحقات وتسجيل السداد وربط كل مورد بأوامر الشراء بتاعته.",
-      "🛡 صلاحيات دقيقة — مصفوفة صلاحيات لكل دور: 19 صلاحية موزّعة على 5 مجموعات (مبيعات، مخزون، مشتريات، مالية، إدارة).",
-      "🕐 ورديات الكاشير — فتح بالرصيد الافتتاحي، وإغلاق بمقارنة العدّ الفعلي بالمتوقع وحساب العجز أو الزيادة.",
-      "🧾 المصروفات — بنود تشغيل بدورة اعتماد، مع تحليل بالبند وبالفرع.",
-      "📊 6 تقارير تحليلية — مبيعات، أرباح وهوامش، أداء المنتجات، المخزون، طرق الدفع، أداء الموظفين — كلها بفلاتر فترة وفرع.",
-      "🎁 العروض والخصومات — ثلاث أنواع: نسبة مئوية، اشترِ واحصل، وخصم كمية — بمواعيد بداية ونهاية.",
-      "⚙️ إعدادات كاملة — بيانات المتجر، نسبة الضريبة، شكل الإيصال ومعاينته الحيّة، والأجهزة المتصلة."
+      "🛍 كتالوج منتجات بمتغيّرات — ألوان ومقاسات ومخزون منفصل لكل مقاس، والتطبيق بيمنع اختيار مقاس مخزونه صفر.",
+      "🔎 بحث من السيرفر — البحث بيتنفّذ على الـ API مش على قايمة محمّلة مسبقًا، فالنتايج بتفضل صح مهما كبر الكتالوج.",
+      "🏷 تصنيفات بألوان وأيقونات تلقائية — كل تصنيف بياخد أيقونة ولون تلقائيًا حسب اسمه (عربي أو إنجليزي)، فالتصنيفات الجديدة بتظهر مظبوطة من غير تعديل كود.",
+      "🛒 سلة بتحديث تفاؤلي — تغيير الكمية أو الحذف بيظهر فورًا وبيتزامن مع السيرفر بعدها، ولو الاستدعاء فشل بيترجع لحالته الأصلية مع رسالة خطأ.",
+      "🧾 دمج تلقائي للعناصر المتكررة — إضافة نفس المنتج بنفس المقاس واللون بتزوّد كمية السطر الموجود بدل ما تعمل سطر جديد.",
+      "📋 شيك أوت من 4 خطوات — بيانات العميل ← عنوان الشحن ← طريقة الدفع ← مراجعة نهائية، مع مؤشر تقدّم وحفظ البيانات بين الخطوات.",
+      "⚡ ملء تلقائي لبيانات الشيك أوت — البيانات بتتجاب من حساب المستخدم، والعنوان من العنوان الافتراضي المحفوظ في SQLite وبيتقسّم تلقائيًا لعنوان ومدينة.",
+      "🗺 اختيار العنوان على الخريطة — تحديد موقع التوصيل على OpenStreetMap بالضغط على الخريطة أو البحث عن مكان، وتحويل الإحداثيات لعنوان مقروء بـ reverse geocoding.",
+      "📍 تحديد الموقع الحالي — زرار بيجيب موقع المستخدم بـ geolocator مع إدارة صلاحيات الموقع ويحرّك الخريطة عليه.",
+      "🏠 دفتر عناوين محلي — العناوين بتتحفظ في SQLite بإحداثياتها ومسمّى («البيت»، «الشغل»)، مع عنوان افتراضي واحد مضمون عن طريق transaction.",
+      "🔐 مصادقة JWT مع تجديد تلقائي — تسجيل دخول وإنشاء حساب، وتجديد التوكن قبل انتهائه بدون ما المستخدم يحس، مع طابور للريكويستات المتزامنة.",
+      "🔒 تخزين آمن للتوكنات — التوكنات في `flutter_secure_storage` (Keystore على أندرويد / Keychain على iOS) مش في تخزين عادي.",
+      "🚪 حماية الصفحات وتسجيل دخول تلقائي — redirect مركزي في go_router بيمنع الوصول للشيك أوت والدفع والطلبات بدون توكن، مع استرجاع الجلسة عند فتح التطبيق.",
+      "👤 تصفّح كضيف — الرئيسية والبحث وتفاصيل المنتج مفتوحين بدون تسجيل دخول، والسلة والمفضلة بيظهروا شاشة «محتاج تسجيل دخول» بدل ما التطبيق يقفل في وش الزائر.",
+      "💳 دفع بالكارت عبر Stripe — إنشاء PaymentIntent وتأكيد الدفع بحقول كارت أصلية، وإنشاء الأوردر بعد نجاح الدفع (وضع اختبار)، بالإضافة لمسار الدفع عند الاستلام.",
+      "🖥 تخطيط ديسكتوب منفصل — تمان شاشات ليها تخطيط مكتوب مخصوص للشاشات الكبيرة (grid متعدد الأعمدة، عمودين، side navigation) بيتم اختياره وقت التشغيل."
     ],
     techGroups: [
       {
         label: "UI",
         labelAr: "الواجهة",
-        items: ["Flutter", "Dart 3.12", "Material 3", "Arabic RTL", "Cairo Font"]
+        items: ["Flutter 3.44", "Material 3", "Custom design system", "cached_network_image", "persistent_bottom_nav_bar", "flutter_native_splash"]
       },
       {
         label: "State & routing",
         labelAr: "إدارة الحالة والتوجيه",
-        items: ["Provider", "ChangeNotifier", "go_router"]
+        items: ["flutter_bloc (13 Cubits)", "equatable", "freezed_annotation", "go_router (22 routes)", "get_it"]
       },
       {
-        label: "Libraries & tooling",
-        labelAr: "المكتبات والأدوات",
-        items: ["fl_chart", "data_table_2", "google_fonts", "intl", "flutter_test"]
+        label: "Networking & auth",
+        labelAr: "الشبكة والمصادقة",
+        items: ["dio", "Custom token-refresh interceptor", "jwt_decoder", "flutter_secure_storage", "flutter_dotenv"]
       },
       {
-        label: "Backend (in progress)",
-        labelAr: "الباك اند (قيد التطوير)",
-        items: ["REST API", "Repository Pattern", "Relational DB"]
+        label: "Maps & payments",
+        labelAr: "الخرايط والدفع",
+        items: ["flutter_map (OpenStreetMap)", "latlong2", "geolocator", "geocoding", "permission_handler", "flutter_stripe"]
       },
       {
-        label: "DevOps",
-        labelAr: "DEVOPS",
-        items: ["GitHub Actions", "Windows Release Build", "Vercel (demo)"]
+        label: "Storage",
+        labelAr: "التخزين",
+        items: ["sqflite", "shared_preferences", "path_provider", "intl"]
+      },
+      {
+        label: "Back end (third party)",
+        labelAr: "الباك اند (طرف تاني)",
+        items: ["Django", "Django REST Framework", "JWT"]
       }
     ],
     challenges:
-      "Keeping 20 independent features from turning into 20 different-looking apps was the real work. Every shared element — buttons, tables, KPI tiles, dialogs, empty states — lives in a `core` layer, so a spacing or shadow decision is made once and holds across all 30 screens. The 53 automated tests exist for the same reason: they pin down the calculations that must never drift (tax, discounts, change, stock deduction, shift variance) so a refactor in one feature cannot quietly break another.\n\nThe cashier screen was the hardest piece: several invoices alive at once, each with its own items, customer and discount, plus held invoices that can be recalled at any moment — all while the whole layout is right-to-left and has to stay driveable from the keyboard alone.",
+      "The hardest part was refreshing the JWT without double-refreshing. On resume the app fires five calls at once (profile, addresses, orders, coupons, wishlist); if the access token has expired they would all trigger a refresh and only the first could succeed, because the refresh token rotates. The fix was an interceptor that checks expiry *before* the request goes out — via `jwt_decoder`, not by waiting for a 401 — and queues concurrent requests behind a `Completer`, replaying them with the new token once the refresh lands, or rejecting the whole queue and wiping local auth if it fails.\n\nThe second challenge was the responsive work. A large screen is not a stretched phone, so each of the eight screens has two genuinely different layouts driven by the same cubit, selected at runtime by a `LayoutBuilder` on the available width (<600 mobile, 600–1023 tablet, ≥1024 desktop) rather than on raw screen size. Home on mobile is a `CustomScrollView` of slivers with a horizontal carousel; on desktop it is a category tab bar, a 380px-wide hero and a four-column grid — both reading from the same `ProductCubit` and `CategoryCubit` with no duplicated logic.",
     challengesAr:
-      "أصعب حاجة كانت إن الـ 20 وحدة المستقلة ما تتحوّلش لـ 20 برنامج شكلهم مختلف. كل عنصر متكرر — الأزرار والجداول وكروت المؤشرات والنوافذ وحالات الفراغ — قاعد في طبقة `core`، فأي قرار في المسافات أو الظلال بيتاخد مرة واحدة وبيمشي على الـ 30 شاشة كلها. والـ 53 اختبار آلي موجودين لنفس السبب: بيثبّتوا الحسابات اللي مينفعش تغلط أبدًا (الضريبة، الخصومات، الباقي، خصم المخزون، فرق الوردية) عشان أي refactor في وحدة ما يكسرش وحدة تانية من ورا ضهري.\n\nشاشة الكاشير كانت أصعب جزء: أكتر من فاتورة عايشة في نفس الوقت، كل واحدة بأصنافها وعميلها وخصمها، وكمان فواتير معلّقة ممكن ترجع في أي لحظة — وكل ده والتخطيط كله من اليمين للشمال ولازم يفضل ينفع يتساق من الكيبورد لوحده."
+      "أصعب جزء كان تجديد الـ JWT من غير refresh مكرر. لما التطبيق بيرجع من الخلفية بينده على 5 استدعاءات مع بعض (الملف الشخصي، العناوين، الطلبات، الكوبونات، المفضلة). لو التوكن منتهي، الخمسة هيبعتوا refresh في نفس اللحظة وواحد بس هينجح لأن الـ refresh token بيتغيّر. الحل: interceptor بيتأكد من انتهاء التوكن قبل إرسال الريكويست بـ `jwt_decoder` (مش بانتظار 401)، وأي ريكويست تاني بيجي والـ refresh شغال بيتحط في طابور مع `Completer` وبيتعلّق. لما الـ refresh ينجح الطابور كله بيتنفّذ بالتوكن الجديد، ولو فشل بيترفض كله وتتمسح البيانات المحلية.\n\nالتحدي التاني: الـ responsive. القرار إن الشاشة الكبيرة مش نسخة متمدّدة من الموبايل، فكل شاشة من التمانية ليها تخطيطين مختلفين تمامًا بيقروا من نفس الـ Cubit، بيتم اختيارهم وقت التشغيل بـ `LayoutBuilder` على العرض المتاح (أقل من 600 موبايل، 600–1023 تابلت، 1024 وأكتر ديسكتوب) مش على مقاس الشاشة الخام — الرئيسية موبايل `CustomScrollView` بـ slivers وكاروسيل أفقي، والديسكتوب tab bar للتصنيفات وhero بعرض 380px وgrid 4 أعمدة، والاتنين على نفس `ProductCubit` و`CategoryCubit` بدون أي منطق مكرر."
   },
   {
-    title: "Almofid Center — Tutoring Center Management System",
-    titleAr: "سنتر المفيد — نظام إدارة السنتر التعليمي",
-    shortTitle: "Almofid Center",
-    shortTitleAr: "سنتر المفيد",
-    slug: "almofid-center",
-    description: "A production Windows desktop app that runs a private tutoring center end to end — students, barcode attendance, exams, and the full money engine (invoices, teacher settlements, expenses) — backed by a REST API I built on Node.js, Express and MongoDB.",
-    descriptionAr: "برنامج ديسكتوب لإدارة سنتر دروس خصوصية بالكامل — الطلاب، الحضور بالباركود، الامتحانات، والحسابات (فواتير، محاسبة المدرّسين، المصروفات) — مع Backend كامل بـ Node.js و Express و MongoDB من تنفيذي.",
-    techStack: ["Flutter", "Node.js", "Express", "MongoDB", "Full-Stack", "REST API"],
-    images: [
-      "/images/almofid/01-cover-students.png",
-      "/images/almofid/02-attendance-barcode.png",
-      "/images/almofid/03-student-profile.png",
-      "/images/almofid/04-financial-summary.png",
-      "/images/almofid/05-teacher-accounting.png",
-      "/images/almofid/06-exam-grades.png",
-      "/images/almofid/07-groups-pricing.png",
-      "/images/almofid/08-users-permissions.png"
+    title: "Beitna — Household Expense Manager Built with Flutter",
+    titleAr: "بيتنا — تطبيق إدارة مصروفات المنزل",
+    shortTitle: "Beitna",
+    shortTitleAr: "بيتنا",
+    slug: "beitna",
+    description:
+      "A Flutter app for managing household expenses — expense tracking, a monthly budget, savings goals and financial analytics. It works fully offline with its data stored locally on the device, and is bilingual (Arabic/English) with complete RTL support.",
+    descriptionAr:
+      "تطبيق Flutter لإدارة مصروفات المنزل — تتبّع المصروفات، ميزانية شهرية، أهداف ادخار، وتحليلات مالية. يشتغل أوفلاين بالكامل وبياناته مخزّنة محليًا على الجهاز، ثنائي اللغة (عربي/إنجليزي) مع دعم كامل لـ RTL.",
+    techStack: ["Flutter", "Bloc/Cubit", "SQLite", "Local-first", "RTL", "PDF & CSV"],
+    images: ["/images/beitna/beitna.png"],
+    gallery: [
+      {
+        src: "/images/beitna/01-onboarding.webp",
+        caption_ar: "شاشة الترحيب — أول تشغيل",
+        caption_en: "Onboarding screen",
+        orientation: "portrait"
+      },
+      {
+        src: "/images/beitna/02-dashboard-top.webp",
+        caption_ar: "اللوحة الرئيسية — إجمالي الشهر والإحصائيات السريعة",
+        caption_en: "Dashboard — monthly total & quick stats",
+        orientation: "portrait"
+      },
+      {
+        src: "/images/beitna/03-dashboard-mid.webp",
+        caption_ar: "اللوحة الرئيسية — الميزانية والأهداف والفئات",
+        caption_en: "Dashboard — budget, goals & categories",
+        orientation: "portrait"
+      },
+      {
+        src: "/images/beitna/04-dashboard-bottom.webp",
+        caption_ar: "اللوحة الرئيسية — آخر المعاملات وبطاقات المعلومات",
+        caption_en: "Dashboard — recent transactions",
+        orientation: "portrait"
+      },
+      {
+        src: "/images/beitna/05-expenses-list.webp",
+        caption_ar: "قائمة المصروفات مع البحث والفلاتر",
+        caption_en: "Expenses list with search & filters",
+        orientation: "portrait"
+      },
+      {
+        src: "/images/beitna/06-expenses-scrolled.webp",
+        caption_ar: "قائمة المصروفات — سجل كامل بالفئات",
+        caption_en: "Expenses — full transaction history",
+        orientation: "portrait"
+      },
+      {
+        src: "/images/beitna/07-expenses-filter-week.webp",
+        caption_ar: "فلترة المصروفات حسب الفترة الزمنية",
+        caption_en: "Filtering expenses by period",
+        orientation: "portrait"
+      },
+      {
+        src: "/images/beitna/08-add-expense.webp",
+        caption_ar: "إضافة مصروف — المبلغ واختيار الفئة",
+        caption_en: "Add expense — amount & category",
+        orientation: "portrait"
+      },
+      {
+        src: "/images/beitna/09-add-expense-filled.webp",
+        caption_ar: "إضافة مصروف — بعد إدخال البيانات",
+        caption_en: "Add expense — filled form",
+        orientation: "portrait"
+      },
+      {
+        src: "/images/beitna/10-add-expense-receipt-save.webp",
+        caption_ar: "إرفاق صورة إيصال وحفظ المصروف",
+        caption_en: "Attach receipt & save",
+        orientation: "portrait"
+      },
+      {
+        src: "/images/beitna/11-analytics-top.webp",
+        caption_ar: "التحليلات — أعلى/أقل إنفاق و insight",
+        caption_en: "Analytics — highlights & insights",
+        orientation: "portrait"
+      },
+      {
+        src: "/images/beitna/12-analytics-trend.webp",
+        caption_ar: "التحليلات — اتجاه الإنفاق وتوزيع الفئات",
+        caption_en: "Analytics — spending trend & category split",
+        orientation: "portrait"
+      },
+      {
+        src: "/images/beitna/13-analytics-breakdown.webp",
+        caption_ar: "التحليلات — التفصيل الكامل لكل فئة",
+        caption_en: "Analytics — full category breakdown",
+        orientation: "portrait"
+      },
+      {
+        src: "/images/beitna/14-analytics-period-picker.webp",
+        caption_ar: "اختيار الفترة الزمنية للتحليلات",
+        caption_en: "Analytics period picker",
+        orientation: "portrait"
+      },
+      {
+        src: "/images/beitna/15-budget-overview.webp",
+        caption_ar: "الميزانية الشهرية — تنبيه 89% ودليل الإنفاق اليومي",
+        caption_en: "Monthly budget — 89% alert & daily guide",
+        orientation: "portrait"
+      },
+      {
+        src: "/images/beitna/16-budget-set-sheet.webp",
+        caption_ar: "تعديل الميزانية بمبالغ سريعة",
+        caption_en: "Set budget sheet",
+        orientation: "portrait"
+      },
+      {
+        src: "/images/beitna/17-goals-overview.webp",
+        caption_ar: "أهداف الادخار — الملخّص وبطاقات الأهداف",
+        caption_en: "Savings goals — summary & cards",
+        orientation: "portrait"
+      },
+      {
+        src: "/images/beitna/18-goals-list.webp",
+        caption_ar: "أهداف الادخار — حالات مختلفة (قريب/نشط/مكتمل)",
+        caption_en: "Goals — active, almost done & completed",
+        orientation: "portrait"
+      },
+      {
+        src: "/images/beitna/19-goal-add-amount-sheet.webp",
+        caption_ar: "إضافة مبلغ لهدف ادخار",
+        caption_en: "Add amount to a goal",
+        orientation: "portrait"
+      },
+      {
+        src: "/images/beitna/20-goal-create-sheet.webp",
+        caption_ar: "إنشاء هدف جديد باختيار أيقونة ومبلغ وموعد",
+        caption_en: "Create a new savings goal",
+        orientation: "portrait"
+      },
+      {
+        src: "/images/beitna/21-settings-top.webp",
+        caption_ar: "الإعدادات — التفضيلات واللغة والعملة",
+        caption_en: "Settings — preferences",
+        orientation: "portrait"
+      },
+      {
+        src: "/images/beitna/22-settings-data.webp",
+        caption_ar: "الإعدادات — تصدير البيانات ومسحها",
+        caption_en: "Settings — data management",
+        orientation: "portrait"
+      },
+      {
+        src: "/images/beitna/23-currency-picker.webp",
+        caption_ar: "اختيار العملة — 21 عملة مع بحث",
+        caption_en: "Currency picker — 21 currencies",
+        orientation: "portrait"
+      },
+      {
+        src: "/images/beitna/24-export-sheet.webp",
+        caption_ar: "تصدير البيانات — CSV أو PDF مع اختيار الفترة",
+        caption_en: "Export data — CSV or PDF",
+        orientation: "portrait"
+      },
+      {
+        src: "/images/beitna/25-privacy-policy.webp",
+        caption_ar: "سياسة الخصوصية",
+        caption_en: "Privacy policy",
+        orientation: "portrait"
+      },
+      {
+        src: "/images/beitna/26-terms-of-service.webp",
+        caption_ar: "شروط الخدمة",
+        caption_en: "Terms of service",
+        orientation: "portrait"
+      },
+      {
+        src: "/images/beitna/27-settings-en.webp",
+        caption_ar: "الإعدادات بالإنجليزية — LTR",
+        caption_en: "Settings in English (LTR)",
+        orientation: "portrait"
+      },
+      {
+        src: "/images/beitna/28-dashboard-en.webp",
+        caption_ar: "اللوحة الرئيسية بالإنجليزية",
+        caption_en: "Dashboard in English",
+        orientation: "portrait"
+      },
+      {
+        src: "/images/beitna/29-analytics-en.webp",
+        caption_ar: "التحليلات بالإنجليزية",
+        caption_en: "Analytics in English",
+        orientation: "portrait"
+      },
+      {
+        src: "/images/beitna/30-analytics-en-breakdown.webp",
+        caption_ar: "تفصيل الفئات بالإنجليزية",
+        caption_en: "Category breakdown in English",
+        orientation: "portrait"
+      }
     ],
-    imageCaptions: [
-      "Students module — registration, search and group management",
-      "Barcode attendance session",
-      "Student profile & subscription settings",
-      "Financial summary report",
-      "Teacher accounting & settlements",
-      "Exam grades report",
-      "Groups & pricing model",
-      "Users & granular permissions"
-    ],
-    imageCaptionsAr: [
-      "وحدة الطلاب — التسجيل والبحث وإدارة المجموعات",
-      "حصة حضور بالباركود",
-      "ملف الطالب وإعدادات الاشتراك",
-      "تقرير الملخص المالي",
-      "محاسبة المدرّسين وصرف المستحقات",
-      "تقرير درجات الامتحان",
-      "المجموعات ونموذج التسعير",
-      "المستخدمون والصلاحيات التفصيلية"
-    ],
-    // Arabic-first RTL UI: the sidebar and page title sit at the top-right of every screenshot.
-    imagePosition: "top right",
-    liveDemoUrl: "https://almofid-prototype.vercel.app/",
-    demoCredentials: { username: "mahmoud", password: "123456" },
-    demoNote: "The exact same Flutter codebase compiled to web, so the real product can be tried in the browser. Best viewed on a desktop screen.",
-    demoNoteAr: "نفس كود الـ Flutter بالظبط متبني للويب، عشان تجرّب البرنامج الحقيقي من المتصفح. يُفضّل فتحه على شاشة كمبيوتر.",
-    privateRepo: true,
-    role: "Solo full-stack developer — product design, desktop UI, backend architecture and implementation, testing, Windows packaging, and deployment. I built the backend too.",
-    roleAr: "مطوّر Full-Stack منفرد — تصميم المنتج، وواجهة الديسكتوب، ومعمارية الـ Backend وتنفيذه، والاختبارات، وتغليف الويندوز، والنشر. الـ Backend من تنفيذي أنا كمان.",
-    status: "Production — deployed and in daily use at a real tutoring center.",
-    statusAr: "Production — منشور وشغّال يومياً في سنتر حقيقي.",
-    badge: "Production",
-    category: "Desktop",
-    overview: "Almofid Center is a single-tenant management system for a private tutoring center, built as a native Windows desktop application in Flutter with a production-grade Node.js/Express/MongoDB API behind it. It covers the center's entire operational lifecycle across five modules — master data (subjects, study years, teachers, groups, users), student enrollment and profiles, barcode-driven attendance sessions, exams and bulk grading, read-only analytical reports, and a complete accounting layer. The interface is Arabic-first and fully RTL, built on Material 3 with the Cairo typeface, across 26 screens, 12 in-page modals and 14 overlay dialogs.",
-    overviewAr: "«سنتر المفيد» نظام إدارة متكامل لسنتر دروس خصوصية، اتعمل كبرنامج ديسكتوب Windows بـ Flutter ووراه Backend حقيقي بـ Node.js و Express و MongoDB. بيغطي دورة عمل السنتر كلها في خمس وحدات: التعريفات العامة، الطلاب، حضور الطلاب بالباركود، الامتحانات والدرجات، التقارير، والحسابات. الواجهة عربية بالكامل RTL على Material 3 بخط Cairo، في 26 شاشة و12 مودال و14 نافذة overlay.",
-    problemSolved: "A tutoring center runs on paper: who attended, who still owes money, how much of each collection belongs to the teacher versus the center, and which invoices are still open from last month. Almofid Center replaces that with one Windows application — attendance is taken by scanning a barcode, every payment settles real invoices and splits revenue automatically, and the owner can see the center's true position at any moment instead of reconciling notebooks.",
-    problemSolvedAr: "السنتر بيتدار بالورق: مين حضر، ومين لسه عليه فلوس، وكل تحصيل بينقسم إزاي بين المدرّس والسنتر، وأنهي فواتير لسه مفتوحة من الشهر اللي فات. «سنتر المفيد» بيستبدل ده كله ببرنامج ويندوز واحد — الحضور بمسح باركود، وكل دفعة بتسدّد فواتير حقيقية وبتقسم الإيراد تلقائياً، وصاحب السنتر يقدر يشوف موقفه المالي الحقيقي في أي لحظة بدل ما يراجع الدفاتر.",
+    githubUrl: "https://github.com/taha2901/beitna",
+    apkUrl: "https://drive.google.com/file/d/1DYdU7K6m5jQjUSZB0tADYTVlJPFasgsM/view?usp=sharing",
+    videoUrl: "https://drive.google.com/file/d/1yp0pQVlhbLIvBMYp3YVhQqGOKp-UuJRG/view",
+    badge: "Local-first",
+    category: "Mobile",
+    role: "Personal project — designed and built entirely from scratch.",
+    roleAr: "مشروع شخصي — تصميم وتنفيذ كامل من الصفر.",
+    status: "Version 1.0.0 — complete and running (APK ready).",
+    statusAr: "إصدار 1.0.0 — مكتمل وشغّال (APK جاهز).",
+    overview:
+      "Beitna is a Flutter app for managing household expenses: expense tracking, a monthly budget, savings goals and financial analytics. It runs fully offline, with everything kept in a local SQLite database on the device, and it is bilingual (Arabic/English) with complete RTL support.\n\nThe app is built feature-first — every feature is separated into `data / logic / ui`, state is handled by seven independent cubits (Expense, Dashboard, Analytics, Budget, Goal, Settings, Export) over a repository layer and a service locator, and every screen is broken down into small reusable widgets. All of the charts are drawn by hand with `CustomPainter`, with no external chart package.",
+    overviewAr:
+      "بيتنا تطبيق Flutter لإدارة مصروفات المنزل: تتبّع المصروفات، وميزانية شهرية، وأهداف ادخار، وتحليلات مالية. بيشتغل أوفلاين بالكامل وكل البيانات في قاعدة بيانات SQLite محلية على الجهاز، وثنائي اللغة (عربي/إنجليزي) مع دعم كامل لـ RTL.\n\nالتطبيق مبني بمعمارية Feature-First — كل feature منفصل بـ `data / logic / ui`، وإدارة الحالة بسبع كيوبتس مستقلة (Expense, Dashboard, Analytics, Budget, Goal, Settings, Export) فوق طبقة repositories و service locator، وكل شاشة متقسّمة لويدجتس صغيرة قابلة لإعادة الاستخدام. وكل الرسوم البيانية مرسومة يدويًا بـ CustomPainter من غير أي مكتبة charts خارجية.",
+    problemSolved:
+      "Most expense-tracking apps either ask you to create an account and sign in, uploading your financial records to a server, or they were never designed for an Arabic user in the first place — no real RTL, no Arabic currencies, no proper typography.\n\nBeitna was built to solve both: zero sign-in, zero server, zero data sharing — everything lives in a SQLite database on your own device; and at the same time the interface is Arabic natively, with a full RTL design and 21 currencies, most of them Arabic.",
+    problemSolvedAr:
+      "معظم تطبيقات تتبّع المصروفات إما بتطلب حساب وتسجيل دخول وترفع بياناتك المالية على السيرفر، أو مش مصمّمة أصلًا للمستخدم العربي (مفيش RTL حقيقي ولا عملات عربية ولا خطوط مظبوطة).\n\nبيتنا اتعمل عشان يحل الاتنين: صفر تسجيل دخول، صفر سيرفر، صفر مشاركة بيانات — كل حاجة في قاعدة بيانات SQLite على جهازك؛ وفي نفس الوقت الواجهة عربية أصلًا بتصميم RTL كامل و21 عملة أغلبها عربية.",
     stats: [
-      { label: "Screens", labelAr: "شاشة", value: "26" },
-      { label: "Modals & dialogs", labelAr: "مودال ونافذة", value: "26" },
-      { label: "REST endpoints", labelAr: "REST endpoint", value: "167" },
-      { label: "Mongoose models", labelAr: "موديل Mongoose", value: "24" },
-      { label: "Backend services", labelAr: "خدمة Backend", value: "21" },
-      { label: "Permission flags", labelAr: "صلاحية", value: "15" },
-      { label: "Dart source files", labelAr: "ملف Dart", value: "183" },
-      { label: "Backend source files", labelAr: "ملف Backend", value: "143" }
+      { label: "Cubits", labelAr: "Cubit", value: "7" },
+      { label: "SQLite tables", labelAr: "جدول SQLite", value: "3" },
+      { label: "Schema version", labelAr: "إصدار الـ schema", value: "v4" },
+      { label: "Expense categories", labelAr: "فئة مصروفات", value: "8" },
+      { label: "Currencies", labelAr: "عملة", value: "21" },
+      { label: "Goal icons", labelAr: "أيقونة هدف", value: "20" },
+      { label: "Languages", labelAr: "لغة", value: "2" },
+      { label: "Chart libraries used", labelAr: "مكتبة charts", value: "0" }
     ],
     keyFeatures: [
-      "Master data & permissions — subjects, study years, teachers, exam types, groups (capacity, session count, and a dual monthly/per-session pricing model), plus user accounts with 15 granular permission flags and a Master role that bypasses them.",
-      "Students — enrollment with auto-generated codes, live seat-capacity checks, split discounts (teacher part / center part), group transfer that can optionally carry attendance and payment history, reversible blocking, and cascading deletes.",
-      "Barcode attendance — multiple concurrent sessions as tabs; students added by scanning a barcode or searching by name; per-row presence, dues, payment, homework, teacher-exemption and notes; walk-in (\"external\") students; \"pay all checked\" bulk collection; session close/restore locking; makeup sessions.",
-      "Exams — exam creation with three roster sources (session attendees / whole group / Excel import), bulk grade entry with paste helpers, and a pass/fail report (pass = score ≥ 50% of max).",
-      "Reports — session and monthly attendance matrices, all-students and groups reports, plus printable A4 PDF output.",
-      "Accounts — student payments with per-invoice teacher/center split, group dues, withdrawals, teacher accounting and settlements, expenses with a managed expense-items list, and consolidated summary and detailed financial reports.",
-      "Real-time sync — attendance sessions update live across machines over Server-Sent Events, so several PCs on the center's LAN see the same session as it fills.",
-      "WhatsApp integration — single and bulk parent messaging (grades, absences, dues) straight from the reports.",
-      "Backup & restore — scheduled database backup and restore from inside the app."
+      "📊 Dashboard — a monthly expense total with the change against last month, a small chart of the last 7 days of spending, quick stats (weekly spend, transaction count, daily average), quick actions (new expense / analytics / goals / export), summary cards for the budget and goals, a horizontal strip of categories with their top expenses, the latest transactions, and a greeting based on the time of day.",
+      "🧾 Expenses — the full list of transactions with an icon and colour per category, instant search, time filters (today / this week / this month), swipe to delete with confirmation, editing any expense, a loading skeleton and designed empty states.",
+      "➕ Add expense — a large amount field with quick-add chips (+1 / +5 / +10), 8 categories with icons and colours (dining, grocery, travel, housing, utilities, health, fun, other), date selection (today / yesterday / a custom date), optional notes, and attaching a receipt photo from the camera or the gallery.",
+      "📈 Analytics — periods of a month / 3 months / 6 months / a year, cards for the highest and lowest spending category, a smart insight card (spending up or down, compared to last month), a bar chart of the spending trend across months, a donut chart of the category split by percentage, and a full breakdown per category with a progress bar and its share of the total. Every chart is drawn with CustomPainter — no external chart packages.",
+      "💰 Budget — setting a monthly budget with quick amounts, a progress card that changes colour with the state (green / orange at 80% / red once exceeded), an automatic alert on reaching 80% of the budget, a daily spending guide (what is left, the current daily average, and how much can be spent per day to stay inside the budget), and dynamic tips based on the state of the budget.",
+      "🎯 Savings goals — creating a goal with an emoji icon (20 to choose from), a target amount and an optional deadline; a progress ring and completion bar; the amount that has to be saved daily to reach the goal on time and the days remaining; adding amounts with quick values; states (active / almost complete / complete / overdue) with a celebratory dialog when a goal is reached; tabs (all / active / complete) and a total-savings summary.",
+      "⚙️ Settings — switching between Arabic and English instantly along with the interface direction (RTL/LTR), 21 currencies (international + Arabic) with search and flags, applied across every screen and report, turning budget alerts on and off, exporting data as CSV or PDF with a period selector (this month / 3 months / 6 months / the year / all time) and sharing the file, wiping all data with confirmation, and privacy-policy and terms-of-service pages.",
+      "👋 Onboarding — a welcome screen on first launch, plus a custom native splash screen."
     ],
     keyFeaturesAr: [
-      "التعريفات العامة والصلاحيات — المواد، والسنين الدراسية، والمدرّسين، وأنواع الامتحانات، والمجموعات (السعة، وعدد الحصص، ونموذج تسعير مزدوج شهري/بالحصة)، وحسابات المستخدمين بـ 15 صلاحية تفصيلية ودور Master بيتخطّاها كلها.",
-      "الطلاب — تسجيل بأكواد تتولّد تلقائياً، وفحص لحظي لسعة المجموعة، وخصومات مقسّمة (جزء المدرّس / جزء السنتر)، ونقل بين المجموعات مع إمكانية ترحيل سجل الحضور والمدفوعات، وحظر قابل للتراجع، وحذف متسلسل.",
-      "الحضور بالباركود — أكتر من حصة مفتوحة في نفس الوقت كـ tabs؛ إضافة الطالب بمسح الباركود أو البحث بالاسم؛ لكل صف: الحضور والمطلوب والدفع والواجب وإعفاء المدرّس والملاحظات؛ طلاب من برّه (\"خارجي\")؛ تحصيل جماعي بـ «دفع الكل»؛ قفل الحصة واستعادتها؛ وحصص التعويض.",
-      "الامتحانات — إنشاء الامتحان من ثلاث مصادر للطلاب (حاضري الحصة / المجموعة كلها / استيراد Excel)، وتسجيل الدرجات بالجملة مع أدوات لصق، وتقرير نجاح/رسوب (النجاح = 50% من الدرجة العظمى فأكتر).",
-      "التقارير — كشوف حضور بالحصة وبالشهر، وتقارير لكل الطلاب وللمجموعات، مع طباعة PDF بمقاس A4.",
-      "الحسابات — مدفوعات الطلاب بتقسيم مدرّس/سنتر لكل فاتورة، ومستحقات المجموعات، والسحوبات، ومحاسبة المدرّسين وصرف مستحقاتهم، والمصروفات بقائمة بنود مُدارة، وتقارير مالية ملخصة ومفصلة.",
-      "مزامنة لحظية — حصص الحضور بتتحدّث لحظياً بين الأجهزة عبر Server-Sent Events، فكذا جهاز على شبكة السنتر بيشوفوا نفس الحصة وهي بتتملي.",
-      "تكامل واتساب — إرسال رسائل لولي الأمر فردي أو بالجملة (الدرجات، الغياب، المستحقات) من داخل التقارير مباشرة.",
-      "النسخ الاحتياطي والاستعادة — نسخ احتياطي مجدول لقاعدة البيانات واستعادتها من جوّه البرنامج."
+      "📊 لوحة التحكم — كارت إجمالي مصروفات الشهر مع نسبة التغيّر مقارنة بالشهر الماضي، ورسم بياني صغير لإنفاق آخر 7 أيام، وإحصائيات سريعة (إنفاق الأسبوع، عدد المعاملات، المتوسط اليومي)، وإجراءات سريعة (مصروف جديد / تحليلات / أهداف / تصدير)، وكروت ملخّص للميزانية والأهداف، وشريط أفقي بالفئات وأعلى المصروفات فيها، وآخر المعاملات مع تحية حسب وقت اليوم.",
+      "🧾 المصروفات — قائمة كاملة بالمعاملات مع أيقونة ولون لكل فئة، وبحث فوري، وفلاتر زمنية (اليوم / هذا الأسبوع / هذا الشهر)، وSwipe للحذف مع تأكيد، وتعديل أي مصروف، وLoading skeleton أثناء التحميل وEmpty states مصمّمة.",
+      "➕ إضافة مصروف — حقل مبلغ كبير مع chips للإضافة السريعة (+1 / +5 / +10)، و8 فئات بأيقونات وألوان (مطاعم، بقالة، سفر، سكن، مرافق، صحة، ترفيه، أخرى)، واختيار التاريخ (اليوم / أمس / تاريخ مخصّص)، وملاحظات اختيارية، وإرفاق صورة إيصال من الكاميرا أو المعرض.",
+      "📈 التحليلات — فترات شهر / 3 أشهر / 6 أشهر / سنة، وكروت أعلى وأقل إنفاق حسب الفئة، وبطاقة insight ذكية (الإنفاق ارتفع/انخفض مع المقارنة بالشهر الماضي)، ورسم بياني أعمدة لاتجاه الإنفاق عبر الشهور، وDonut chart لتوزيع الفئات بالنِّسب، وتفصيل كامل لكل فئة بـ progress bar ونسبة من الإجمالي. كل الرسومات مرسومة بـ CustomPainter من غير مكتبات charts خارجية.",
+      "💰 الميزانية — تحديد ميزانية شهرية بمبالغ سريعة، وكارت تقدّم بيغيّر لونه حسب الحالة (أخضر / برتقالي عند 80% / أحمر عند التجاوز)، وتنبيه تلقائي عند الوصول لـ 80% من الميزانية، ودليل إنفاق يومي (كام فاضل، والمتوسط اليومي الحالي، وكام تقدر تصرف يوميًا عشان تفضل داخل الميزانية)، ونصائح ديناميكية حسب حالة الميزانية.",
+      "🎯 أهداف الادخار — إنشاء هدف بأيقونة إيموجي (20 اختيار) ومبلغ مستهدف وموعد نهائي اختياري، ودائرة تقدّم وشريط نسبة إنجاز، وحساب المطلوب ادّخاره يوميًا للوصول للهدف في موعده والأيام المتبقية، وإضافة مبالغ بمبالغ سريعة، وحالات (نشط / قريب من الاكتمال / مكتمل / متأخر) مع dialog احتفالي عند اكتمال الهدف، وتبويبات (الكل / نشطة / مكتملة) وملخّص إجمالي المدخرات.",
+      "⚙️ الإعدادات — تبديل اللغة عربي/إنجليزي فوري مع تغيير اتجاه الواجهة (RTL/LTR)، و21 عملة (دولي + عربي) مع بحث وأعلام بتتطبّق على كل الشاشات والتقارير، وتفعيل/إيقاف تنبيهات الميزانية، وتصدير البيانات CSV أو PDF مع اختيار الفترة (هذا الشهر / 3 أشهر / 6 أشهر / السنة / كل الوقت) ومشاركة الملف، ومسح كل البيانات مع تأكيد، وصفحات سياسة الخصوصية وشروط الخدمة.",
+      "👋 Onboarding — شاشة ترحيب أول تشغيل، وسبلاش سكرين ناتيف مخصّص."
     ],
     techGroups: [
       {
-        label: "Desktop",
-        labelAr: "الديسكتوب",
-        items: ["Flutter", "Dart", "Material 3", "Arabic RTL", "flutter_svg", "Dio", "intl", "shared_preferences", "printing + pdf (A4)", "url_launcher", "MSIX"]
+        label: "UI",
+        labelAr: "الواجهة",
+        items: ["Flutter 3", "Dart 3.3+", "Material 3", "Cairo font", "Shared design system", "flutter_launcher_icons", "flutter_native_splash"]
       },
       {
-        label: "Backend",
-        labelAr: "الـ Backend",
-        items: ["Node.js", "Express", "MongoDB", "Mongoose", "JWT (access + refresh)", "RBAC", "Joi", "bcrypt", "Helmet", "express-rate-limit", "Server-Sent Events"]
+        label: "State & architecture",
+        labelAr: "إدارة الحالة والمعمارية",
+        items: ["flutter_bloc + Cubit (7 cubits)", "equatable", "Repository pattern", "Service Locator (DI)", "Feature-First (data / logic / ui)"]
       },
       {
-        label: "Testing & tooling",
-        labelAr: "الاختبارات والأدوات",
-        items: ["Jest", "Supertest", "mongodb-memory-server", "Flutter golden tests", "ESLint", "esbuild", "Node SEA"]
+        label: "Storage",
+        labelAr: "التخزين",
+        items: ["sqflite (local SQLite)", "3 tables", "Schema versioning + migrations to v4", "shared_preferences"]
       },
       {
-        label: "DevOps",
-        labelAr: "DevOps",
-        items: ["GitHub Actions", "Inno Setup", "Vercel (live demo)"]
+        label: "Localization",
+        labelAr: "الترجمة",
+        items: ["Custom AppLocalizations (no ARB)", "flutter_localizations (ar/en + RTL)", "intl"]
+      },
+      {
+        label: "Reports & media",
+        labelAr: "التقارير والوسائط",
+        items: ["pdf (embedded Cairo font)", "csv", "share_plus", "path_provider", "image_picker"]
+      },
+      {
+        label: "Charts",
+        labelAr: "الرسوم البيانية",
+        items: ["CustomPainter (no chart packages)"]
       }
     ],
     techHighlights: [
       {
-        title: "FIFO invoice settlement engine",
-        titleAr: "محرّك تسوية الفواتير FIFO",
-        body: "Teacher/center revenue splitting derived from per-group pricing, deferred-balance carrying, and transactional writes with a graceful fallback.",
-        bodyAr: "تقسيم الإيراد بين المدرّس والسنتر حسب تسعيرة كل مجموعة، وترحيل الأرصدة الآجلة، وكتابة داخل transactions مع fallback آمن."
+        title: "Offline-first / privacy-first",
+        titleAr: "Offline-first / Privacy-first",
+        body: "There is no backend and no API — all the data is local and never leaves the device.",
+        bodyAr: "مفيش أي backend ولا API — البيانات كلها محلية وما بتغادرش الجهاز."
       },
       {
-        title: "Real-time layer over SSE",
-        titleAr: "طبقة لحظية فوق SSE",
-        body: "A custom stream parser and a reconnecting client-side coordinator that merges live server events into the open attendance session without losing local edits.",
-        bodyAr: "محلّل stream مخصص ومنسّق على جهة العميل بيعيد الاتصال تلقائياً ويدمج أحداث السيرفر اللحظية في الحصة المفتوحة من غير ما يضيّع تعديلات المستخدم المحلية."
+        title: "Real RTL",
+        titleAr: "RTL حقيقي",
+        body: "The app is built Arabic-first rather than translated; direction, numbers, dates and currency all flip correctly.",
+        bodyAr: "التطبيق مبني عربي أولًا مش مترجم؛ الاتجاه والأرقام والتواريخ والعملة كلها بتتقلب صح."
       },
       {
-        title: "Golden-image visual regression testing",
-        titleAr: "اختبارات الانحدار البصري بالصور المرجعية",
-        body: "Every one of the 26 screens is rendered with real fonts and diffed against a committed baseline image, catching layout and glyph regressions that a compile check or a unit test cannot.",
-        bodyAr: "كل شاشة من الـ 26 شاشة بتترسم بالخطوط الحقيقية وتتقارن بصورة مرجعية متسجّلة في المستودع، عشان تمسك مشاكل التخطيط والحروف اللي الـ compile أو الـ unit test مش هيمسكوها."
+        title: "Clean architecture",
+        titleAr: "معمارية نضيفة",
+        body: "A clear separation between data, logic and UI, with every screen split into small reusable widgets.",
+        bodyAr: "فصل واضح بين الـ data و الـ logic و الـ UI، وكل شاشة متقسّمة لويدجتس صغيرة قابلة لإعادة الاستخدام."
       },
       {
-        title: "RBAC + JWT security",
-        titleAr: "الأمان: RBAC + JWT",
-        body: "Access and refresh tokens, 15 permission slugs enforced in middleware, Joi validation on every endpoint, bcrypt hashing, Helmet, rate limiting, Mongo-injection sanitizing and HPP protection.",
-        bodyAr: "توكن وصول وتوكن تجديد، و15 صلاحية بتتفرض في الـ middleware، وتحقق بـ Joi على كل endpoint، وتشفير bcrypt، وHelmet، وتحديد معدل الطلبات، وتنظيف حقن Mongo، وحماية HPP."
+        title: "Charts from scratch",
+        titleAr: "رسومات من الصفر",
+        body: "Every chart is drawn by hand with CustomPainter — full control over the look, better performance and a smaller app size.",
+        bodyAr: "كل الشارتس مرسومة يدويًا بـ CustomPainter — تحكّم كامل في الشكل وأداء أفضل وحجم تطبيق أقل."
       },
       {
-        title: "Layered backend architecture",
-        titleAr: "معمارية Backend بطبقات",
-        body: "Thin controllers, all business logic in services, a shared CRUD factory for the master-data resources, soft-delete via a Mongoose base plugin, and one uniform response envelope.",
-        bodyAr: "Controllers خفيفة، وكل منطق العمل في الـ services، ومصنع CRUD مشترك لموارد التعريفات العامة، وحذف ناعم عبر plugin أساسي في Mongoose، وشكل رد موحّد لكل الـ API."
-      },
-      {
-        title: "Windows distribution pipeline",
-        titleAr: "خط تجهيز نسخ الويندوز",
-        body: "An MSIX package plus two Inno Setup installers: an all-in-one installer bundling the app, the API server and MongoDB for a single-PC center, and a client-only installer for LAN workstations. The Node backend is compiled to a standalone .exe (esbuild + Node SEA + postject) so the client site never installs Node, and the whole Windows build runs on GitHub Actions — no local Visual Studio needed.",
-        bodyAr: "باكدج MSIX بالإضافة لاتنين installer بـ Inno Setup: واحد شامل بيجمع البرنامج والسيرفر وMongoDB لسنتر بجهاز واحد، وواحد للعميل بس لأجهزة الشبكة. الـ Backend بيتحوّل لملف .exe مستقل (esbuild + Node SEA + postject) عشان مكان العميل ميحتاجش يثبّت Node، وبناء الويندوز كله شغّال على GitHub Actions من غير Visual Studio محلي."
+        title: "Arabic PDF reports",
+        titleAr: "تقارير PDF عربية",
+        body: "The Cairo font is embedded inside the PDF so the Arabic text comes out correctly in the report.",
+        bodyAr: "دمج خط Cairo داخل الـ PDF عشان النص العربي يطلع صح في التقرير."
       }
     ],
-    challenges: "The hardest and most interesting part is the money engine. Student payments settle outstanding invoices FIFO (oldest first); every collection splits into a teacher share and a center share derived from the group's own pricing model (each price can be an absolute amount or a percentage); teacher settlements are clamped to the remaining balance with anything unpaid carried as deferred debt owed by the center; and monthly rollover regenerates invoices per group. All money-touching writes run inside MongoDB transactions where the deployment supports them, with an automatic non-transactional fallback for standalone Mongo installs.",
-    challengesAr: "أصعب جزء وأهمه هو محرّك الحسابات: مدفوعات الطالب بتسدّد الفواتير المتأخرة الأقدم فالأقدم (FIFO)، وكل تحصيل بينقسم بين المدرّس والسنتر حسب تسعيرة المجموعة نفسها (قيمة ثابتة أو نسبة)، ومحاسبة المدرّس محكومة بالمتبقي مع ترحيل أي باقي كـ «آجل على السنتر»، وفتح الشهر الجديد بيولّد الفواتير من جديد. كل العمليات المالية بتشتغل جوه MongoDB transactions مع fallback تلقائي لو السيرفر standalone."
+    challenges: "Designing an offline-first database schema in Sqflite that handles complex relations (expenses, budgets, savings goals) cleanly. Generating well-formatted, localized PDF and CSV invoices/reports directly on mobile devices was another major technical hurdle.",
+    challengesAr: "تصميم نموذج قاعدة بيانات محلي قوي ومتكامل باستخدام SQLite (Sqflite) يتعامل مع العلاقات المعقدة بين المصروفات والميزانيات وتوفير الأهداف بسلاسة. بالإضافة إلى معالجة وتصدير تقارير PDF و CSV منسقة تدعم اللغتين العربية والإنجليزية مباشرة من الهاتف."
   },
   {
     title: "Elmester — Student-Tracking Platform for Private Tutors",
@@ -961,513 +1142,155 @@ export const projects: Project[] = [
       "أصعب جزء ما كانش شاشة، كان الحالة. الرئيسية والسلة والطلبات والملف الشخصي كلهم مشتركين في `FirebaseAuth.authStateChanges()` وكل واحد بيتصرّف بشكل مختلف — السلة بتتفضّى محليًا من غير ما تمسح مستندها السحابي، والطلبات بتلغي الاشتراك القديم وتفتح واحد جديد، والمفضلة بترجع فاضية ويتعاد بناء قوائم المطاعم بـ `copyWith(isFavorite: …)`. وفوق ده كله زرار المفضلة شغّال optimistic: الواجهة الأول، وبعدين Firestore، ورجوع للحالة القديمة لو فشلت. وكل ده محتاج إلغاء اشتراكات صح في `dispose` عشان ما يحصلش `notifyListeners` على ViewModel اتخلصنا منه.\n\nوالجزء التاني الصعب كان ترتيب الدفع مع كتابة الطلب. زرار «Place Order» بيفتح شاشة الدفع وبيستنى نتيجتها، وما بيتكتبش الطلب في `orders` بحالة `pending` ومعاه `tracking_chat_id` إلا لما الدفع ينجح، وبعدين تتفضّى السلة ويرجع المستخدم لأول شاشة. ولو الدفع اتلغى أو فشل، ما بيتعملش طلب أصلًا. ده كمان استلزم شغل مع `CardField` الأصلي بتاع Stripe وحالة الاكتمال بتاعته عشان زرار الدفع ما يشتغلش إلا لما بيانات الكارت تبقى صالحة."
   },
   {
-    title: "SallaX — Cross-Platform E-Commerce App Built with Flutter",
-    titleAr: "سلة — تطبيق تجارة إلكترونية متعدد المنصات بـ Flutter",
-    shortTitle: "SallaX",
-    shortTitleAr: "سلة | SallaX",
-    slug: "sallax",
-    description:
-      "A complete Flutter e-commerce app — browsing, search, cart, a four-step checkout and Stripe payments, with map-based delivery address picking on OpenStreetMap, and separate mobile and desktop layouts for the same screens.",
-    descriptionAr:
-      "تطبيق تجارة إلكترونية كامل بـ Flutter — تصفّح وبحث وسلة وشيك أوت من 4 خطوات ودفع Stripe، مع اختيار عنوان التوصيل على خريطة OpenStreetMap، ونسخة موبايل ونسخة ديسكتوب من نفس الشاشات.",
-    detailDescription:
-      "SallaX is a full e-commerce storefront built in Flutter on a feature-first architecture of 15 independent features. It covers the whole buying journey: home, categories and search, cart and wishlist, a four-step checkout ending in a Stripe card payment or cash on delivery, and order tracking. Authentication is JWT-based with automatic token refresh and secure storage, and delivery addresses are picked on an OpenStreetMap map and persisted locally in SQLite. Eight screens ship a dedicated desktop layout selected at runtime.",
-    detailDescriptionAr:
-      "سلة تطبيق متجر إلكتروني متكامل مبني بـ Flutter على معمارية feature-first مكوّنة من 15 feature مستقلة. بيغطي رحلة الشراء كلها: من الرئيسية والتصنيفات والبحث، للسلة والمفضلة، لشيك أوت من أربع خطوات بينتهي بالدفع عن طريق Stripe أو الدفع عند الاستلام، لتتبّع الطلبات. المصادقة بـ JWT مع تجديد تلقائي للتوكن وتخزين آمن، والعناوين بتتحدد على خريطة OpenStreetMap وبتتخزّن محليًا في SQLite. تمان شاشات ليها تخطيط ديسكتوب منفصل عن الموبايل بيتم اختياره وقت التشغيل.",
-    techStack: ["Flutter", "Bloc", "OpenStreetMap", "Stripe", "SQLite", "REST API"],
-    images: ["/images/sallax/SallaX.png"],
-    // The cover is ~1.38:1 and the card frame is 16/10, so it is pillarboxed rather than cropped;
-    // the padding is painted in the cover's own background colour.
-    coverFit: "contain",
-    coverBackground: "#0B0012",
-    coverAlt: "SallaX cover — a Flutter e-commerce app",
-    coverAltAr: "غلاف تطبيق سلة | SallaX — تطبيق تجارة إلكترونية بـ Flutter",
-    gallery: [
-      {
-        src: "/images/sallax/SallaX.png",
-        caption_ar: "غلاف تطبيق سلة | SallaX — تطبيق تجارة إلكترونية بـ Flutter",
-        caption_en: "SallaX cover — a Flutter e-commerce app",
-        orientation: "landscape"
-      },
-      {
-        src: "/images/sallax/01-home.webp",
-        caption_ar: "الرئيسية — بانر عروض، تصنيفات ملوّنة، ومنتجات مميّزة بالأسعار والتقييمات",
-        caption_en: "Home — promo banner, colour-coded categories and featured products",
-        orientation: "portrait"
-      },
-      {
-        src: "/images/sallax/02-product-details.webp",
-        caption_ar: "تفاصيل المنتج — الصورة والسعر والتقييم واختيار اللون والمقاس حسب المخزون المتاح",
-        caption_en: "Product details — image, price, rating, and stock-driven colour/size selection",
-        orientation: "portrait"
-      },
-      {
-        src: "/images/sallax/03-search.webp",
-        caption_ar: "البحث — نتائج فورية من الـ API أثناء الكتابة",
-        caption_en: "Search — live results served from the API as you type",
-        orientation: "portrait"
-      },
-      {
-        src: "/images/sallax/04-cart.webp",
-        caption_ar: "السلة — ثلاثة منتجات بكميات مختلفة مع ملخص الإجمالي والشحن والضريبة",
-        caption_en: "Cart — three products with a subtotal / shipping / tax summary",
-        orientation: "portrait"
-      },
-      {
-        src: "/images/sallax/07-address-map.webp",
-        caption_ar: "اختيار عنوان التوصيل على خريطة OpenStreetMap مع تحويل الإحداثيات لعنوان",
-        caption_en: "Picking the delivery point on an OpenStreetMap map with reverse geocoding",
-        orientation: "portrait"
-      },
-      {
-        src: "/images/sallax/08-my-addresses.webp",
-        caption_ar: "دفتر العناوين المحفوظة محليًا في SQLite",
-        caption_en: "The address book persisted locally in SQLite",
-        orientation: "portrait"
-      },
-      {
-        src: "/images/sallax/10-payment-success.webp",
-        caption_ar: "تأكيد نجاح الطلب بعد إتمام الدفع",
-        caption_en: "Order confirmation after a successful payment",
-        orientation: "portrait"
-      },
-      {
-        src: "/images/sallax/11-orders.webp",
-        caption_ar: "الطلبات — طلب قيد التنفيذ وطلب تم تسليمه بتفاصيلهم",
-        caption_en: "Orders — one processing and one delivered order",
-        orientation: "portrait"
-      },
-      {
-        src: "/images/sallax/12-wishlist.webp",
-        caption_ar: "المفضلة — المنتجات المحفوظة مع إمكانية نقلها للسلة",
-        caption_en: "Wishlist — saved products with a move-to-cart action",
-        orientation: "portrait"
-      },
-      {
-        src: "/images/sallax/13-offers.webp",
-        caption_ar: "العروض — الكوبونات النشطة بأكوادها وتواريخ انتهائها",
-        caption_en: "Offers — active coupons with codes and expiry dates",
-        orientation: "portrait"
-      },
-      {
-        src: "/images/sallax/14-profile.webp",
-        caption_ar: "الملف الشخصي — بيانات الحساب والإحصائيات وروابط الطلبات والعناوين",
-        caption_en: "Profile — account details, stats and links to orders and addresses",
-        orientation: "portrait"
-      },
-      {
-        src: "/images/sallax/15-login.webp",
-        caption_ar: "تسجيل الدخول",
-        caption_en: "Sign in",
-        orientation: "portrait"
-      },
-      {
-        src: "/images/sallax/17-onboarding.webp",
-        caption_ar: "شاشات التعريف بالتطبيق",
-        caption_en: "App onboarding",
-        orientation: "portrait"
-      }
+    title: "Almofid Center — Tutoring Center Management System",
+    titleAr: "سنتر المفيد — نظام إدارة السنتر التعليمي",
+    shortTitle: "Almofid Center",
+    shortTitleAr: "سنتر المفيد",
+    slug: "almofid-center",
+    description: "A production Windows desktop app that runs a private tutoring center end to end — students, barcode attendance, exams, and the full money engine (invoices, teacher settlements, expenses) — backed by a REST API I built on Node.js, Express and MongoDB.",
+    descriptionAr: "برنامج ديسكتوب لإدارة سنتر دروس خصوصية بالكامل — الطلاب، الحضور بالباركود، الامتحانات، والحسابات (فواتير، محاسبة المدرّسين، المصروفات) — مع Backend كامل بـ Node.js و Express و MongoDB من تنفيذي.",
+    techStack: ["Flutter", "Node.js", "Express", "MongoDB", "Full-Stack", "REST API"],
+    images: [
+      "/images/almofid/01-cover-students.png",
+      "/images/almofid/02-attendance-barcode.png",
+      "/images/almofid/03-student-profile.png",
+      "/images/almofid/04-financial-summary.png",
+      "/images/almofid/05-teacher-accounting.png",
+      "/images/almofid/06-exam-grades.png",
+      "/images/almofid/07-groups-pricing.png",
+      "/images/almofid/08-users-permissions.png"
     ],
-    githubUrl: "https://github.com/taha2901/ECE",
-    category: "Mobile",
-    role: "I built the entire Flutter application (177 Dart files): the feature-first architecture, the 13 cubits, the whole network layer including the token-refresh interceptor with its request queue, repositories and JSON mapping, routing and guards, SQLite + secure storage, the design system, the maps integration, the Stripe integration, and every desktop layout. The back end is not mine — it is a Django/DRF API by another developer.",
-    roleAr: "عملت تطبيق الـ Flutter بالكامل (177 ملف Dart): المعمارية feature-first، الـ 13 Cubit وحالاتهم، طبقة الشبكة كلها بما فيها interceptor تجديد التوكن مع طابور الريكويستات، الـ repositories وتحويل الـ JSON، الـ routing والحماية، التخزين المحلي بـ SQLite والـ secure storage، الـ design system، دمج الخرايط، دمج Stripe، وكل تخطيطات الديسكتوب المنفصلة. الباك اند مش بتاعي — REST API بـ Django/DRF من مطوّر تاني، اشتغلت على العقد بتاعه.",
-    status: "The app is complete, but the REST API it depends on (hosted on PythonAnywhere) is currently down, so the build cannot be run end to end.",
-    statusAr: "التطبيق مكتمل، بس الـ API اللي بيعتمد عليه (مستضاف على PythonAnywhere) مش شغّال حاليًا، فمش ممكن تشغيله من أوله لآخره.",
-    problemSolved:
-      "Small and mid-sized retailers in Egypt sell through social pages and WhatsApp threads — orders arrive as chat messages, addresses are free text, and confirmation happens by phone. The result is failed deliveries and customers with no order visibility.\n\nSallaX replaces that with a real catalogue (per-size stock, colours, prices), a map-picked delivery point that is reverse-geocoded and saved to a local address book, and a four-step checkout that shows exactly what is being paid before confirmation.",
-    problemSolvedAr:
-      "المتاجر الصغيرة والمتوسطة في مصر بتبيع من خلال صفحات سوشيال ميديا ورسايل واتساب: الأوردر بيتاخد في شات، والعنوان بيتكتب نص حر («ورا المدرسة، الدور التالت»)، والتأكيد بمكالمة. النتيجة نسبة مرتجعات عالية لأن المندوب مش لاقي العنوان، وعميل مش عارف أوردره فين.\n\nسلة بيحل الجزء ده: كتالوج بصور وأسعار ومقاسات وألوان ومخزون فعلي لكل مقاس بدل الشات، وتحديد الموقع على خريطة بإحداثيات حقيقية بترجع منها عنوان مقروء ويتحفظ في دفتر عناوين محلي، وشيك أوت من أربع خطوات بيوضّح للعميل بيدفع كام وفين هيوصل الأوردر قبل ما يأكّد.",
+    imageCaptions: [
+      "Students module — registration, search and group management",
+      "Barcode attendance session",
+      "Student profile & subscription settings",
+      "Financial summary report",
+      "Teacher accounting & settlements",
+      "Exam grades report",
+      "Groups & pricing model",
+      "Users & granular permissions"
+    ],
+    imageCaptionsAr: [
+      "وحدة الطلاب — التسجيل والبحث وإدارة المجموعات",
+      "حصة حضور بالباركود",
+      "ملف الطالب وإعدادات الاشتراك",
+      "تقرير الملخص المالي",
+      "محاسبة المدرّسين وصرف المستحقات",
+      "تقرير درجات الامتحان",
+      "المجموعات ونموذج التسعير",
+      "المستخدمون والصلاحيات التفصيلية"
+    ],
+    // Arabic-first RTL UI: the sidebar and page title sit at the top-right of every screenshot.
+    imagePosition: "top right",
+    liveDemoUrl: "https://almofid-prototype.vercel.app/",
+    demoCredentials: { username: "mahmoud", password: "123456" },
+    demoNote: "The exact same Flutter codebase compiled to web, so the real product can be tried in the browser. Best viewed on a desktop screen.",
+    demoNoteAr: "نفس كود الـ Flutter بالظبط متبني للويب، عشان تجرّب البرنامج الحقيقي من المتصفح. يُفضّل فتحه على شاشة كمبيوتر.",
+    privateRepo: true,
+    role: "Solo full-stack developer — product design, desktop UI, backend architecture and implementation, testing, Windows packaging, and deployment. I built the backend too.",
+    roleAr: "مطوّر Full-Stack منفرد — تصميم المنتج، وواجهة الديسكتوب، ومعمارية الـ Backend وتنفيذه، والاختبارات، وتغليف الويندوز، والنشر. الـ Backend من تنفيذي أنا كمان.",
+    status: "Production — deployed and in daily use at a real tutoring center.",
+    statusAr: "Production — منشور وشغّال يومياً في سنتر حقيقي.",
+    badge: "Production",
+    category: "Desktop",
+    overview: "Almofid Center is a single-tenant management system for a private tutoring center, built as a native Windows desktop application in Flutter with a production-grade Node.js/Express/MongoDB API behind it. It covers the center's entire operational lifecycle across five modules — master data (subjects, study years, teachers, groups, users), student enrollment and profiles, barcode-driven attendance sessions, exams and bulk grading, read-only analytical reports, and a complete accounting layer. The interface is Arabic-first and fully RTL, built on Material 3 with the Cairo typeface, across 26 screens, 12 in-page modals and 14 overlay dialogs.",
+    overviewAr: "«سنتر المفيد» نظام إدارة متكامل لسنتر دروس خصوصية، اتعمل كبرنامج ديسكتوب Windows بـ Flutter ووراه Backend حقيقي بـ Node.js و Express و MongoDB. بيغطي دورة عمل السنتر كلها في خمس وحدات: التعريفات العامة، الطلاب، حضور الطلاب بالباركود، الامتحانات والدرجات، التقارير، والحسابات. الواجهة عربية بالكامل RTL على Material 3 بخط Cairo، في 26 شاشة و12 مودال و14 نافذة overlay.",
+    problemSolved: "A tutoring center runs on paper: who attended, who still owes money, how much of each collection belongs to the teacher versus the center, and which invoices are still open from last month. Almofid Center replaces that with one Windows application — attendance is taken by scanning a barcode, every payment settles real invoices and splits revenue automatically, and the owner can see the center's true position at any moment instead of reconciling notebooks.",
+    problemSolvedAr: "السنتر بيتدار بالورق: مين حضر، ومين لسه عليه فلوس، وكل تحصيل بينقسم إزاي بين المدرّس والسنتر، وأنهي فواتير لسه مفتوحة من الشهر اللي فات. «سنتر المفيد» بيستبدل ده كله ببرنامج ويندوز واحد — الحضور بمسح باركود، وكل دفعة بتسدّد فواتير حقيقية وبتقسم الإيراد تلقائياً، وصاحب السنتر يقدر يشوف موقفه المالي الحقيقي في أي لحظة بدل ما يراجع الدفاتر.",
     stats: [
-      { label: "Dart source files", labelAr: "ملف Dart", value: "177" },
-      { label: "Lines of code", labelAr: "سطر كود", value: "22,586" },
-      { label: "Features", labelAr: "Feature", value: "15" },
-      { label: "Cubits", labelAr: "Cubit", value: "13" },
-      { label: "Widgets", labelAr: "Widget", value: "215" },
-      { label: "Routes", labelAr: "Route", value: "22" },
-      { label: "Desktop layouts", labelAr: "شاشة بنسخة ديسكتوب", value: "8" },
-      { label: "API endpoints", labelAr: "API endpoint", value: "21" }
+      { label: "Screens", labelAr: "شاشة", value: "26" },
+      { label: "Modals & dialogs", labelAr: "مودال ونافذة", value: "26" },
+      { label: "REST endpoints", labelAr: "REST endpoint", value: "167" },
+      { label: "Mongoose models", labelAr: "موديل Mongoose", value: "24" },
+      { label: "Backend services", labelAr: "خدمة Backend", value: "21" },
+      { label: "Permission flags", labelAr: "صلاحية", value: "15" },
+      { label: "Dart source files", labelAr: "ملف Dart", value: "183" },
+      { label: "Backend source files", labelAr: "ملف Backend", value: "143" }
     ],
     keyFeatures: [
-      "🛍 Product catalogue with variants — colours, sizes and separate stock per size, with out-of-stock sizes blocked from selection.",
-      "🔎 Server-side search — queries run against the API rather than a pre-loaded list, so results stay correct however large the catalogue grows.",
-      "🏷 Categories with automatic colours and icons — each category derives its icon and colour from its name (Arabic or English), so new categories render correctly without a code change.",
-      "🛒 Optimistic cart updates — quantity changes and removals show instantly and sync to the server afterwards, rolling back with an error message if the call fails.",
-      "🧾 Automatic line merging — adding the same product in the same size and colour increases the existing line's quantity instead of creating a new one.",
-      "📋 Four-step checkout — customer details → shipping address → payment method → final review, with a progress indicator and data preserved between steps.",
-      "⚡ Auto-filled checkout — details come from the user's account and the address from the default one saved in SQLite, split automatically into address and city.",
-      "🗺 Map-based address picking — the delivery point is set on an OpenStreetMap map by tapping the map or searching for a place, with coordinates reverse-geocoded into a readable address.",
-      "📍 Current location — a button fetches the user's position via geolocator, handles the location permissions and recentres the map on it.",
-      "🏠 Local address book — addresses are stored in SQLite with their coordinates and a label (\"Home\", \"Work\"), with exactly one default guaranteed by a transaction.",
-      "🔐 JWT authentication with automatic refresh — sign-in and registration, with the token renewed before it expires without the user noticing, and a queue for concurrent requests.",
-      "🔒 Secure token storage — tokens live in `flutter_secure_storage` (Keystore on Android / Keychain on iOS), not in plain storage.",
-      "🚪 Route guards and session restore — a central go_router redirect blocks checkout, payment and orders without a token, and the session is restored on app launch.",
-      "👤 Guest browsing — home, search and product details are open without signing in, while cart and wishlist show a \"sign-in required\" screen instead of shutting the visitor out.",
-      "💳 Stripe card payments — PaymentIntent creation and confirmation with native card fields, the order created after the payment succeeds (test mode), alongside a cash-on-delivery path.",
-      "🖥 Dedicated desktop layouts — eight screens have a layout written specifically for large screens (multi-column grids, two-pane views, side navigation) selected at runtime."
+      "Master data & permissions — subjects, study years, teachers, exam types, groups (capacity, session count, and a dual monthly/per-session pricing model), plus user accounts with 15 granular permission flags and a Master role that bypasses them.",
+      "Students — enrollment with auto-generated codes, live seat-capacity checks, split discounts (teacher part / center part), group transfer that can optionally carry attendance and payment history, reversible blocking, and cascading deletes.",
+      "Barcode attendance — multiple concurrent sessions as tabs; students added by scanning a barcode or searching by name; per-row presence, dues, payment, homework, teacher-exemption and notes; walk-in (\"external\") students; \"pay all checked\" bulk collection; session close/restore locking; makeup sessions.",
+      "Exams — exam creation with three roster sources (session attendees / whole group / Excel import), bulk grade entry with paste helpers, and a pass/fail report (pass = score ≥ 50% of max).",
+      "Reports — session and monthly attendance matrices, all-students and groups reports, plus printable A4 PDF output.",
+      "Accounts — student payments with per-invoice teacher/center split, group dues, withdrawals, teacher accounting and settlements, expenses with a managed expense-items list, and consolidated summary and detailed financial reports.",
+      "Real-time sync — attendance sessions update live across machines over Server-Sent Events, so several PCs on the center's LAN see the same session as it fills.",
+      "WhatsApp integration — single and bulk parent messaging (grades, absences, dues) straight from the reports.",
+      "Backup & restore — scheduled database backup and restore from inside the app."
     ],
     keyFeaturesAr: [
-      "🛍 كتالوج منتجات بمتغيّرات — ألوان ومقاسات ومخزون منفصل لكل مقاس، والتطبيق بيمنع اختيار مقاس مخزونه صفر.",
-      "🔎 بحث من السيرفر — البحث بيتنفّذ على الـ API مش على قايمة محمّلة مسبقًا، فالنتايج بتفضل صح مهما كبر الكتالوج.",
-      "🏷 تصنيفات بألوان وأيقونات تلقائية — كل تصنيف بياخد أيقونة ولون تلقائيًا حسب اسمه (عربي أو إنجليزي)، فالتصنيفات الجديدة بتظهر مظبوطة من غير تعديل كود.",
-      "🛒 سلة بتحديث تفاؤلي — تغيير الكمية أو الحذف بيظهر فورًا وبيتزامن مع السيرفر بعدها، ولو الاستدعاء فشل بيترجع لحالته الأصلية مع رسالة خطأ.",
-      "🧾 دمج تلقائي للعناصر المتكررة — إضافة نفس المنتج بنفس المقاس واللون بتزوّد كمية السطر الموجود بدل ما تعمل سطر جديد.",
-      "📋 شيك أوت من 4 خطوات — بيانات العميل ← عنوان الشحن ← طريقة الدفع ← مراجعة نهائية، مع مؤشر تقدّم وحفظ البيانات بين الخطوات.",
-      "⚡ ملء تلقائي لبيانات الشيك أوت — البيانات بتتجاب من حساب المستخدم، والعنوان من العنوان الافتراضي المحفوظ في SQLite وبيتقسّم تلقائيًا لعنوان ومدينة.",
-      "🗺 اختيار العنوان على الخريطة — تحديد موقع التوصيل على OpenStreetMap بالضغط على الخريطة أو البحث عن مكان، وتحويل الإحداثيات لعنوان مقروء بـ reverse geocoding.",
-      "📍 تحديد الموقع الحالي — زرار بيجيب موقع المستخدم بـ geolocator مع إدارة صلاحيات الموقع ويحرّك الخريطة عليه.",
-      "🏠 دفتر عناوين محلي — العناوين بتتحفظ في SQLite بإحداثياتها ومسمّى («البيت»، «الشغل»)، مع عنوان افتراضي واحد مضمون عن طريق transaction.",
-      "🔐 مصادقة JWT مع تجديد تلقائي — تسجيل دخول وإنشاء حساب، وتجديد التوكن قبل انتهائه بدون ما المستخدم يحس، مع طابور للريكويستات المتزامنة.",
-      "🔒 تخزين آمن للتوكنات — التوكنات في `flutter_secure_storage` (Keystore على أندرويد / Keychain على iOS) مش في تخزين عادي.",
-      "🚪 حماية الصفحات وتسجيل دخول تلقائي — redirect مركزي في go_router بيمنع الوصول للشيك أوت والدفع والطلبات بدون توكن، مع استرجاع الجلسة عند فتح التطبيق.",
-      "👤 تصفّح كضيف — الرئيسية والبحث وتفاصيل المنتج مفتوحين بدون تسجيل دخول، والسلة والمفضلة بيظهروا شاشة «محتاج تسجيل دخول» بدل ما التطبيق يقفل في وش الزائر.",
-      "💳 دفع بالكارت عبر Stripe — إنشاء PaymentIntent وتأكيد الدفع بحقول كارت أصلية، وإنشاء الأوردر بعد نجاح الدفع (وضع اختبار)، بالإضافة لمسار الدفع عند الاستلام.",
-      "🖥 تخطيط ديسكتوب منفصل — تمان شاشات ليها تخطيط مكتوب مخصوص للشاشات الكبيرة (grid متعدد الأعمدة، عمودين، side navigation) بيتم اختياره وقت التشغيل."
+      "التعريفات العامة والصلاحيات — المواد، والسنين الدراسية، والمدرّسين، وأنواع الامتحانات، والمجموعات (السعة، وعدد الحصص، ونموذج تسعير مزدوج شهري/بالحصة)، وحسابات المستخدمين بـ 15 صلاحية تفصيلية ودور Master بيتخطّاها كلها.",
+      "الطلاب — تسجيل بأكواد تتولّد تلقائياً، وفحص لحظي لسعة المجموعة، وخصومات مقسّمة (جزء المدرّس / جزء السنتر)، ونقل بين المجموعات مع إمكانية ترحيل سجل الحضور والمدفوعات، وحظر قابل للتراجع، وحذف متسلسل.",
+      "الحضور بالباركود — أكتر من حصة مفتوحة في نفس الوقت كـ tabs؛ إضافة الطالب بمسح الباركود أو البحث بالاسم؛ لكل صف: الحضور والمطلوب والدفع والواجب وإعفاء المدرّس والملاحظات؛ طلاب من برّه (\"خارجي\")؛ تحصيل جماعي بـ «دفع الكل»؛ قفل الحصة واستعادتها؛ وحصص التعويض.",
+      "الامتحانات — إنشاء الامتحان من ثلاث مصادر للطلاب (حاضري الحصة / المجموعة كلها / استيراد Excel)، وتسجيل الدرجات بالجملة مع أدوات لصق، وتقرير نجاح/رسوب (النجاح = 50% من الدرجة العظمى فأكتر).",
+      "التقارير — كشوف حضور بالحصة وبالشهر، وتقارير لكل الطلاب وللمجموعات، مع طباعة PDF بمقاس A4.",
+      "الحسابات — مدفوعات الطلاب بتقسيم مدرّس/سنتر لكل فاتورة، ومستحقات المجموعات، والسحوبات، ومحاسبة المدرّسين وصرف مستحقاتهم، والمصروفات بقائمة بنود مُدارة، وتقارير مالية ملخصة ومفصلة.",
+      "مزامنة لحظية — حصص الحضور بتتحدّث لحظياً بين الأجهزة عبر Server-Sent Events، فكذا جهاز على شبكة السنتر بيشوفوا نفس الحصة وهي بتتملي.",
+      "تكامل واتساب — إرسال رسائل لولي الأمر فردي أو بالجملة (الدرجات، الغياب، المستحقات) من داخل التقارير مباشرة.",
+      "النسخ الاحتياطي والاستعادة — نسخ احتياطي مجدول لقاعدة البيانات واستعادتها من جوّه البرنامج."
     ],
     techGroups: [
       {
-        label: "UI",
-        labelAr: "الواجهة",
-        items: ["Flutter 3.44", "Material 3", "Custom design system", "cached_network_image", "persistent_bottom_nav_bar", "flutter_native_splash"]
+        label: "Desktop",
+        labelAr: "الديسكتوب",
+        items: ["Flutter", "Dart", "Material 3", "Arabic RTL", "flutter_svg", "Dio", "intl", "shared_preferences", "printing + pdf (A4)", "url_launcher", "MSIX"]
       },
       {
-        label: "State & routing",
-        labelAr: "إدارة الحالة والتوجيه",
-        items: ["flutter_bloc (13 Cubits)", "equatable", "freezed_annotation", "go_router (22 routes)", "get_it"]
+        label: "Backend",
+        labelAr: "الـ Backend",
+        items: ["Node.js", "Express", "MongoDB", "Mongoose", "JWT (access + refresh)", "RBAC", "Joi", "bcrypt", "Helmet", "express-rate-limit", "Server-Sent Events"]
       },
       {
-        label: "Networking & auth",
-        labelAr: "الشبكة والمصادقة",
-        items: ["dio", "Custom token-refresh interceptor", "jwt_decoder", "flutter_secure_storage", "flutter_dotenv"]
+        label: "Testing & tooling",
+        labelAr: "الاختبارات والأدوات",
+        items: ["Jest", "Supertest", "mongodb-memory-server", "Flutter golden tests", "ESLint", "esbuild", "Node SEA"]
       },
       {
-        label: "Maps & payments",
-        labelAr: "الخرايط والدفع",
-        items: ["flutter_map (OpenStreetMap)", "latlong2", "geolocator", "geocoding", "permission_handler", "flutter_stripe"]
-      },
-      {
-        label: "Storage",
-        labelAr: "التخزين",
-        items: ["sqflite", "shared_preferences", "path_provider", "intl"]
-      },
-      {
-        label: "Back end (third party)",
-        labelAr: "الباك اند (طرف تاني)",
-        items: ["Django", "Django REST Framework", "JWT"]
-      }
-    ],
-    challenges:
-      "The hardest part was refreshing the JWT without double-refreshing. On resume the app fires five calls at once (profile, addresses, orders, coupons, wishlist); if the access token has expired they would all trigger a refresh and only the first could succeed, because the refresh token rotates. The fix was an interceptor that checks expiry *before* the request goes out — via `jwt_decoder`, not by waiting for a 401 — and queues concurrent requests behind a `Completer`, replaying them with the new token once the refresh lands, or rejecting the whole queue and wiping local auth if it fails.\n\nThe second challenge was the responsive work. A large screen is not a stretched phone, so each of the eight screens has two genuinely different layouts driven by the same cubit, selected at runtime by a `LayoutBuilder` on the available width (<600 mobile, 600–1023 tablet, ≥1024 desktop) rather than on raw screen size. Home on mobile is a `CustomScrollView` of slivers with a horizontal carousel; on desktop it is a category tab bar, a 380px-wide hero and a four-column grid — both reading from the same `ProductCubit` and `CategoryCubit` with no duplicated logic.",
-    challengesAr:
-      "أصعب جزء كان تجديد الـ JWT من غير refresh مكرر. لما التطبيق بيرجع من الخلفية بينده على 5 استدعاءات مع بعض (الملف الشخصي، العناوين، الطلبات، الكوبونات، المفضلة). لو التوكن منتهي، الخمسة هيبعتوا refresh في نفس اللحظة وواحد بس هينجح لأن الـ refresh token بيتغيّر. الحل: interceptor بيتأكد من انتهاء التوكن قبل إرسال الريكويست بـ `jwt_decoder` (مش بانتظار 401)، وأي ريكويست تاني بيجي والـ refresh شغال بيتحط في طابور مع `Completer` وبيتعلّق. لما الـ refresh ينجح الطابور كله بيتنفّذ بالتوكن الجديد، ولو فشل بيترفض كله وتتمسح البيانات المحلية.\n\nالتحدي التاني: الـ responsive. القرار إن الشاشة الكبيرة مش نسخة متمدّدة من الموبايل، فكل شاشة من التمانية ليها تخطيطين مختلفين تمامًا بيقروا من نفس الـ Cubit، بيتم اختيارهم وقت التشغيل بـ `LayoutBuilder` على العرض المتاح (أقل من 600 موبايل، 600–1023 تابلت، 1024 وأكتر ديسكتوب) مش على مقاس الشاشة الخام — الرئيسية موبايل `CustomScrollView` بـ slivers وكاروسيل أفقي، والديسكتوب tab bar للتصنيفات وhero بعرض 380px وgrid 4 أعمدة، والاتنين على نفس `ProductCubit` و`CategoryCubit` بدون أي منطق مكرر."
-  },
-  {
-    title: "Beitna — Household Expense Manager Built with Flutter",
-    titleAr: "بيتنا — تطبيق إدارة مصروفات المنزل",
-    shortTitle: "Beitna",
-    shortTitleAr: "بيتنا",
-    slug: "beitna",
-    description:
-      "A Flutter app for managing household expenses — expense tracking, a monthly budget, savings goals and financial analytics. It works fully offline with its data stored locally on the device, and is bilingual (Arabic/English) with complete RTL support.",
-    descriptionAr:
-      "تطبيق Flutter لإدارة مصروفات المنزل — تتبّع المصروفات، ميزانية شهرية، أهداف ادخار، وتحليلات مالية. يشتغل أوفلاين بالكامل وبياناته مخزّنة محليًا على الجهاز، ثنائي اللغة (عربي/إنجليزي) مع دعم كامل لـ RTL.",
-    techStack: ["Flutter", "Bloc/Cubit", "SQLite", "Local-first", "RTL", "PDF & CSV"],
-    images: ["/images/beitna/beitna.png"],
-    gallery: [
-      {
-        src: "/images/beitna/01-onboarding.webp",
-        caption_ar: "شاشة الترحيب — أول تشغيل",
-        caption_en: "Onboarding screen",
-        orientation: "portrait"
-      },
-      {
-        src: "/images/beitna/02-dashboard-top.webp",
-        caption_ar: "اللوحة الرئيسية — إجمالي الشهر والإحصائيات السريعة",
-        caption_en: "Dashboard — monthly total & quick stats",
-        orientation: "portrait"
-      },
-      {
-        src: "/images/beitna/03-dashboard-mid.webp",
-        caption_ar: "اللوحة الرئيسية — الميزانية والأهداف والفئات",
-        caption_en: "Dashboard — budget, goals & categories",
-        orientation: "portrait"
-      },
-      {
-        src: "/images/beitna/04-dashboard-bottom.webp",
-        caption_ar: "اللوحة الرئيسية — آخر المعاملات وبطاقات المعلومات",
-        caption_en: "Dashboard — recent transactions",
-        orientation: "portrait"
-      },
-      {
-        src: "/images/beitna/05-expenses-list.webp",
-        caption_ar: "قائمة المصروفات مع البحث والفلاتر",
-        caption_en: "Expenses list with search & filters",
-        orientation: "portrait"
-      },
-      {
-        src: "/images/beitna/06-expenses-scrolled.webp",
-        caption_ar: "قائمة المصروفات — سجل كامل بالفئات",
-        caption_en: "Expenses — full transaction history",
-        orientation: "portrait"
-      },
-      {
-        src: "/images/beitna/07-expenses-filter-week.webp",
-        caption_ar: "فلترة المصروفات حسب الفترة الزمنية",
-        caption_en: "Filtering expenses by period",
-        orientation: "portrait"
-      },
-      {
-        src: "/images/beitna/08-add-expense.webp",
-        caption_ar: "إضافة مصروف — المبلغ واختيار الفئة",
-        caption_en: "Add expense — amount & category",
-        orientation: "portrait"
-      },
-      {
-        src: "/images/beitna/09-add-expense-filled.webp",
-        caption_ar: "إضافة مصروف — بعد إدخال البيانات",
-        caption_en: "Add expense — filled form",
-        orientation: "portrait"
-      },
-      {
-        src: "/images/beitna/10-add-expense-receipt-save.webp",
-        caption_ar: "إرفاق صورة إيصال وحفظ المصروف",
-        caption_en: "Attach receipt & save",
-        orientation: "portrait"
-      },
-      {
-        src: "/images/beitna/11-analytics-top.webp",
-        caption_ar: "التحليلات — أعلى/أقل إنفاق و insight",
-        caption_en: "Analytics — highlights & insights",
-        orientation: "portrait"
-      },
-      {
-        src: "/images/beitna/12-analytics-trend.webp",
-        caption_ar: "التحليلات — اتجاه الإنفاق وتوزيع الفئات",
-        caption_en: "Analytics — spending trend & category split",
-        orientation: "portrait"
-      },
-      {
-        src: "/images/beitna/13-analytics-breakdown.webp",
-        caption_ar: "التحليلات — التفصيل الكامل لكل فئة",
-        caption_en: "Analytics — full category breakdown",
-        orientation: "portrait"
-      },
-      {
-        src: "/images/beitna/14-analytics-period-picker.webp",
-        caption_ar: "اختيار الفترة الزمنية للتحليلات",
-        caption_en: "Analytics period picker",
-        orientation: "portrait"
-      },
-      {
-        src: "/images/beitna/15-budget-overview.webp",
-        caption_ar: "الميزانية الشهرية — تنبيه 89% ودليل الإنفاق اليومي",
-        caption_en: "Monthly budget — 89% alert & daily guide",
-        orientation: "portrait"
-      },
-      {
-        src: "/images/beitna/16-budget-set-sheet.webp",
-        caption_ar: "تعديل الميزانية بمبالغ سريعة",
-        caption_en: "Set budget sheet",
-        orientation: "portrait"
-      },
-      {
-        src: "/images/beitna/17-goals-overview.webp",
-        caption_ar: "أهداف الادخار — الملخّص وبطاقات الأهداف",
-        caption_en: "Savings goals — summary & cards",
-        orientation: "portrait"
-      },
-      {
-        src: "/images/beitna/18-goals-list.webp",
-        caption_ar: "أهداف الادخار — حالات مختلفة (قريب/نشط/مكتمل)",
-        caption_en: "Goals — active, almost done & completed",
-        orientation: "portrait"
-      },
-      {
-        src: "/images/beitna/19-goal-add-amount-sheet.webp",
-        caption_ar: "إضافة مبلغ لهدف ادخار",
-        caption_en: "Add amount to a goal",
-        orientation: "portrait"
-      },
-      {
-        src: "/images/beitna/20-goal-create-sheet.webp",
-        caption_ar: "إنشاء هدف جديد باختيار أيقونة ومبلغ وموعد",
-        caption_en: "Create a new savings goal",
-        orientation: "portrait"
-      },
-      {
-        src: "/images/beitna/21-settings-top.webp",
-        caption_ar: "الإعدادات — التفضيلات واللغة والعملة",
-        caption_en: "Settings — preferences",
-        orientation: "portrait"
-      },
-      {
-        src: "/images/beitna/22-settings-data.webp",
-        caption_ar: "الإعدادات — تصدير البيانات ومسحها",
-        caption_en: "Settings — data management",
-        orientation: "portrait"
-      },
-      {
-        src: "/images/beitna/23-currency-picker.webp",
-        caption_ar: "اختيار العملة — 21 عملة مع بحث",
-        caption_en: "Currency picker — 21 currencies",
-        orientation: "portrait"
-      },
-      {
-        src: "/images/beitna/24-export-sheet.webp",
-        caption_ar: "تصدير البيانات — CSV أو PDF مع اختيار الفترة",
-        caption_en: "Export data — CSV or PDF",
-        orientation: "portrait"
-      },
-      {
-        src: "/images/beitna/25-privacy-policy.webp",
-        caption_ar: "سياسة الخصوصية",
-        caption_en: "Privacy policy",
-        orientation: "portrait"
-      },
-      {
-        src: "/images/beitna/26-terms-of-service.webp",
-        caption_ar: "شروط الخدمة",
-        caption_en: "Terms of service",
-        orientation: "portrait"
-      },
-      {
-        src: "/images/beitna/27-settings-en.webp",
-        caption_ar: "الإعدادات بالإنجليزية — LTR",
-        caption_en: "Settings in English (LTR)",
-        orientation: "portrait"
-      },
-      {
-        src: "/images/beitna/28-dashboard-en.webp",
-        caption_ar: "اللوحة الرئيسية بالإنجليزية",
-        caption_en: "Dashboard in English",
-        orientation: "portrait"
-      },
-      {
-        src: "/images/beitna/29-analytics-en.webp",
-        caption_ar: "التحليلات بالإنجليزية",
-        caption_en: "Analytics in English",
-        orientation: "portrait"
-      },
-      {
-        src: "/images/beitna/30-analytics-en-breakdown.webp",
-        caption_ar: "تفصيل الفئات بالإنجليزية",
-        caption_en: "Category breakdown in English",
-        orientation: "portrait"
-      }
-    ],
-    githubUrl: "https://github.com/taha2901/beitna",
-    apkUrl: "https://drive.google.com/file/d/1DYdU7K6m5jQjUSZB0tADYTVlJPFasgsM/view?usp=sharing",
-    videoUrl: "https://drive.google.com/file/d/1yp0pQVlhbLIvBMYp3YVhQqGOKp-UuJRG/view",
-    badge: "Local-first",
-    category: "Mobile",
-    role: "Personal project — designed and built entirely from scratch.",
-    roleAr: "مشروع شخصي — تصميم وتنفيذ كامل من الصفر.",
-    status: "Version 1.0.0 — complete and running (APK ready).",
-    statusAr: "إصدار 1.0.0 — مكتمل وشغّال (APK جاهز).",
-    overview:
-      "Beitna is a Flutter app for managing household expenses: expense tracking, a monthly budget, savings goals and financial analytics. It runs fully offline, with everything kept in a local SQLite database on the device, and it is bilingual (Arabic/English) with complete RTL support.\n\nThe app is built feature-first — every feature is separated into `data / logic / ui`, state is handled by seven independent cubits (Expense, Dashboard, Analytics, Budget, Goal, Settings, Export) over a repository layer and a service locator, and every screen is broken down into small reusable widgets. All of the charts are drawn by hand with `CustomPainter`, with no external chart package.",
-    overviewAr:
-      "بيتنا تطبيق Flutter لإدارة مصروفات المنزل: تتبّع المصروفات، وميزانية شهرية، وأهداف ادخار، وتحليلات مالية. بيشتغل أوفلاين بالكامل وكل البيانات في قاعدة بيانات SQLite محلية على الجهاز، وثنائي اللغة (عربي/إنجليزي) مع دعم كامل لـ RTL.\n\nالتطبيق مبني بمعمارية Feature-First — كل feature منفصل بـ `data / logic / ui`، وإدارة الحالة بسبع كيوبتس مستقلة (Expense, Dashboard, Analytics, Budget, Goal, Settings, Export) فوق طبقة repositories و service locator، وكل شاشة متقسّمة لويدجتس صغيرة قابلة لإعادة الاستخدام. وكل الرسوم البيانية مرسومة يدويًا بـ CustomPainter من غير أي مكتبة charts خارجية.",
-    problemSolved:
-      "Most expense-tracking apps either ask you to create an account and sign in, uploading your financial records to a server, or they were never designed for an Arabic user in the first place — no real RTL, no Arabic currencies, no proper typography.\n\nBeitna was built to solve both: zero sign-in, zero server, zero data sharing — everything lives in a SQLite database on your own device; and at the same time the interface is Arabic natively, with a full RTL design and 21 currencies, most of them Arabic.",
-    problemSolvedAr:
-      "معظم تطبيقات تتبّع المصروفات إما بتطلب حساب وتسجيل دخول وترفع بياناتك المالية على السيرفر، أو مش مصمّمة أصلًا للمستخدم العربي (مفيش RTL حقيقي ولا عملات عربية ولا خطوط مظبوطة).\n\nبيتنا اتعمل عشان يحل الاتنين: صفر تسجيل دخول، صفر سيرفر، صفر مشاركة بيانات — كل حاجة في قاعدة بيانات SQLite على جهازك؛ وفي نفس الوقت الواجهة عربية أصلًا بتصميم RTL كامل و21 عملة أغلبها عربية.",
-    stats: [
-      { label: "Cubits", labelAr: "Cubit", value: "7" },
-      { label: "SQLite tables", labelAr: "جدول SQLite", value: "3" },
-      { label: "Schema version", labelAr: "إصدار الـ schema", value: "v4" },
-      { label: "Expense categories", labelAr: "فئة مصروفات", value: "8" },
-      { label: "Currencies", labelAr: "عملة", value: "21" },
-      { label: "Goal icons", labelAr: "أيقونة هدف", value: "20" },
-      { label: "Languages", labelAr: "لغة", value: "2" },
-      { label: "Chart libraries used", labelAr: "مكتبة charts", value: "0" }
-    ],
-    keyFeatures: [
-      "📊 Dashboard — a monthly expense total with the change against last month, a small chart of the last 7 days of spending, quick stats (weekly spend, transaction count, daily average), quick actions (new expense / analytics / goals / export), summary cards for the budget and goals, a horizontal strip of categories with their top expenses, the latest transactions, and a greeting based on the time of day.",
-      "🧾 Expenses — the full list of transactions with an icon and colour per category, instant search, time filters (today / this week / this month), swipe to delete with confirmation, editing any expense, a loading skeleton and designed empty states.",
-      "➕ Add expense — a large amount field with quick-add chips (+1 / +5 / +10), 8 categories with icons and colours (dining, grocery, travel, housing, utilities, health, fun, other), date selection (today / yesterday / a custom date), optional notes, and attaching a receipt photo from the camera or the gallery.",
-      "📈 Analytics — periods of a month / 3 months / 6 months / a year, cards for the highest and lowest spending category, a smart insight card (spending up or down, compared to last month), a bar chart of the spending trend across months, a donut chart of the category split by percentage, and a full breakdown per category with a progress bar and its share of the total. Every chart is drawn with CustomPainter — no external chart packages.",
-      "💰 Budget — setting a monthly budget with quick amounts, a progress card that changes colour with the state (green / orange at 80% / red once exceeded), an automatic alert on reaching 80% of the budget, a daily spending guide (what is left, the current daily average, and how much can be spent per day to stay inside the budget), and dynamic tips based on the state of the budget.",
-      "🎯 Savings goals — creating a goal with an emoji icon (20 to choose from), a target amount and an optional deadline; a progress ring and completion bar; the amount that has to be saved daily to reach the goal on time and the days remaining; adding amounts with quick values; states (active / almost complete / complete / overdue) with a celebratory dialog when a goal is reached; tabs (all / active / complete) and a total-savings summary.",
-      "⚙️ Settings — switching between Arabic and English instantly along with the interface direction (RTL/LTR), 21 currencies (international + Arabic) with search and flags, applied across every screen and report, turning budget alerts on and off, exporting data as CSV or PDF with a period selector (this month / 3 months / 6 months / the year / all time) and sharing the file, wiping all data with confirmation, and privacy-policy and terms-of-service pages.",
-      "👋 Onboarding — a welcome screen on first launch, plus a custom native splash screen."
-    ],
-    keyFeaturesAr: [
-      "📊 لوحة التحكم — كارت إجمالي مصروفات الشهر مع نسبة التغيّر مقارنة بالشهر الماضي، ورسم بياني صغير لإنفاق آخر 7 أيام، وإحصائيات سريعة (إنفاق الأسبوع، عدد المعاملات، المتوسط اليومي)، وإجراءات سريعة (مصروف جديد / تحليلات / أهداف / تصدير)، وكروت ملخّص للميزانية والأهداف، وشريط أفقي بالفئات وأعلى المصروفات فيها، وآخر المعاملات مع تحية حسب وقت اليوم.",
-      "🧾 المصروفات — قائمة كاملة بالمعاملات مع أيقونة ولون لكل فئة، وبحث فوري، وفلاتر زمنية (اليوم / هذا الأسبوع / هذا الشهر)، وSwipe للحذف مع تأكيد، وتعديل أي مصروف، وLoading skeleton أثناء التحميل وEmpty states مصمّمة.",
-      "➕ إضافة مصروف — حقل مبلغ كبير مع chips للإضافة السريعة (+1 / +5 / +10)، و8 فئات بأيقونات وألوان (مطاعم، بقالة، سفر، سكن، مرافق، صحة، ترفيه، أخرى)، واختيار التاريخ (اليوم / أمس / تاريخ مخصّص)، وملاحظات اختيارية، وإرفاق صورة إيصال من الكاميرا أو المعرض.",
-      "📈 التحليلات — فترات شهر / 3 أشهر / 6 أشهر / سنة، وكروت أعلى وأقل إنفاق حسب الفئة، وبطاقة insight ذكية (الإنفاق ارتفع/انخفض مع المقارنة بالشهر الماضي)، ورسم بياني أعمدة لاتجاه الإنفاق عبر الشهور، وDonut chart لتوزيع الفئات بالنِّسب، وتفصيل كامل لكل فئة بـ progress bar ونسبة من الإجمالي. كل الرسومات مرسومة بـ CustomPainter من غير مكتبات charts خارجية.",
-      "💰 الميزانية — تحديد ميزانية شهرية بمبالغ سريعة، وكارت تقدّم بيغيّر لونه حسب الحالة (أخضر / برتقالي عند 80% / أحمر عند التجاوز)، وتنبيه تلقائي عند الوصول لـ 80% من الميزانية، ودليل إنفاق يومي (كام فاضل، والمتوسط اليومي الحالي، وكام تقدر تصرف يوميًا عشان تفضل داخل الميزانية)، ونصائح ديناميكية حسب حالة الميزانية.",
-      "🎯 أهداف الادخار — إنشاء هدف بأيقونة إيموجي (20 اختيار) ومبلغ مستهدف وموعد نهائي اختياري، ودائرة تقدّم وشريط نسبة إنجاز، وحساب المطلوب ادّخاره يوميًا للوصول للهدف في موعده والأيام المتبقية، وإضافة مبالغ بمبالغ سريعة، وحالات (نشط / قريب من الاكتمال / مكتمل / متأخر) مع dialog احتفالي عند اكتمال الهدف، وتبويبات (الكل / نشطة / مكتملة) وملخّص إجمالي المدخرات.",
-      "⚙️ الإعدادات — تبديل اللغة عربي/إنجليزي فوري مع تغيير اتجاه الواجهة (RTL/LTR)، و21 عملة (دولي + عربي) مع بحث وأعلام بتتطبّق على كل الشاشات والتقارير، وتفعيل/إيقاف تنبيهات الميزانية، وتصدير البيانات CSV أو PDF مع اختيار الفترة (هذا الشهر / 3 أشهر / 6 أشهر / السنة / كل الوقت) ومشاركة الملف، ومسح كل البيانات مع تأكيد، وصفحات سياسة الخصوصية وشروط الخدمة.",
-      "👋 Onboarding — شاشة ترحيب أول تشغيل، وسبلاش سكرين ناتيف مخصّص."
-    ],
-    techGroups: [
-      {
-        label: "UI",
-        labelAr: "الواجهة",
-        items: ["Flutter 3", "Dart 3.3+", "Material 3", "Cairo font", "Shared design system", "flutter_launcher_icons", "flutter_native_splash"]
-      },
-      {
-        label: "State & architecture",
-        labelAr: "إدارة الحالة والمعمارية",
-        items: ["flutter_bloc + Cubit (7 cubits)", "equatable", "Repository pattern", "Service Locator (DI)", "Feature-First (data / logic / ui)"]
-      },
-      {
-        label: "Storage",
-        labelAr: "التخزين",
-        items: ["sqflite (local SQLite)", "3 tables", "Schema versioning + migrations to v4", "shared_preferences"]
-      },
-      {
-        label: "Localization",
-        labelAr: "الترجمة",
-        items: ["Custom AppLocalizations (no ARB)", "flutter_localizations (ar/en + RTL)", "intl"]
-      },
-      {
-        label: "Reports & media",
-        labelAr: "التقارير والوسائط",
-        items: ["pdf (embedded Cairo font)", "csv", "share_plus", "path_provider", "image_picker"]
-      },
-      {
-        label: "Charts",
-        labelAr: "الرسوم البيانية",
-        items: ["CustomPainter (no chart packages)"]
+        label: "DevOps",
+        labelAr: "DevOps",
+        items: ["GitHub Actions", "Inno Setup", "Vercel (live demo)"]
       }
     ],
     techHighlights: [
       {
-        title: "Offline-first / privacy-first",
-        titleAr: "Offline-first / Privacy-first",
-        body: "There is no backend and no API — all the data is local and never leaves the device.",
-        bodyAr: "مفيش أي backend ولا API — البيانات كلها محلية وما بتغادرش الجهاز."
+        title: "FIFO invoice settlement engine",
+        titleAr: "محرّك تسوية الفواتير FIFO",
+        body: "Teacher/center revenue splitting derived from per-group pricing, deferred-balance carrying, and transactional writes with a graceful fallback.",
+        bodyAr: "تقسيم الإيراد بين المدرّس والسنتر حسب تسعيرة كل مجموعة، وترحيل الأرصدة الآجلة، وكتابة داخل transactions مع fallback آمن."
       },
       {
-        title: "Real RTL",
-        titleAr: "RTL حقيقي",
-        body: "The app is built Arabic-first rather than translated; direction, numbers, dates and currency all flip correctly.",
-        bodyAr: "التطبيق مبني عربي أولًا مش مترجم؛ الاتجاه والأرقام والتواريخ والعملة كلها بتتقلب صح."
+        title: "Real-time layer over SSE",
+        titleAr: "طبقة لحظية فوق SSE",
+        body: "A custom stream parser and a reconnecting client-side coordinator that merges live server events into the open attendance session without losing local edits.",
+        bodyAr: "محلّل stream مخصص ومنسّق على جهة العميل بيعيد الاتصال تلقائياً ويدمج أحداث السيرفر اللحظية في الحصة المفتوحة من غير ما يضيّع تعديلات المستخدم المحلية."
       },
       {
-        title: "Clean architecture",
-        titleAr: "معمارية نضيفة",
-        body: "A clear separation between data, logic and UI, with every screen split into small reusable widgets.",
-        bodyAr: "فصل واضح بين الـ data و الـ logic و الـ UI، وكل شاشة متقسّمة لويدجتس صغيرة قابلة لإعادة الاستخدام."
+        title: "Golden-image visual regression testing",
+        titleAr: "اختبارات الانحدار البصري بالصور المرجعية",
+        body: "Every one of the 26 screens is rendered with real fonts and diffed against a committed baseline image, catching layout and glyph regressions that a compile check or a unit test cannot.",
+        bodyAr: "كل شاشة من الـ 26 شاشة بتترسم بالخطوط الحقيقية وتتقارن بصورة مرجعية متسجّلة في المستودع، عشان تمسك مشاكل التخطيط والحروف اللي الـ compile أو الـ unit test مش هيمسكوها."
       },
       {
-        title: "Charts from scratch",
-        titleAr: "رسومات من الصفر",
-        body: "Every chart is drawn by hand with CustomPainter — full control over the look, better performance and a smaller app size.",
-        bodyAr: "كل الشارتس مرسومة يدويًا بـ CustomPainter — تحكّم كامل في الشكل وأداء أفضل وحجم تطبيق أقل."
+        title: "RBAC + JWT security",
+        titleAr: "الأمان: RBAC + JWT",
+        body: "Access and refresh tokens, 15 permission slugs enforced in middleware, Joi validation on every endpoint, bcrypt hashing, Helmet, rate limiting, Mongo-injection sanitizing and HPP protection.",
+        bodyAr: "توكن وصول وتوكن تجديد، و15 صلاحية بتتفرض في الـ middleware، وتحقق بـ Joi على كل endpoint، وتشفير bcrypt، وHelmet، وتحديد معدل الطلبات، وتنظيف حقن Mongo، وحماية HPP."
       },
       {
-        title: "Arabic PDF reports",
-        titleAr: "تقارير PDF عربية",
-        body: "The Cairo font is embedded inside the PDF so the Arabic text comes out correctly in the report.",
-        bodyAr: "دمج خط Cairo داخل الـ PDF عشان النص العربي يطلع صح في التقرير."
+        title: "Layered backend architecture",
+        titleAr: "معمارية Backend بطبقات",
+        body: "Thin controllers, all business logic in services, a shared CRUD factory for the master-data resources, soft-delete via a Mongoose base plugin, and one uniform response envelope.",
+        bodyAr: "Controllers خفيفة، وكل منطق العمل في الـ services، ومصنع CRUD مشترك لموارد التعريفات العامة، وحذف ناعم عبر plugin أساسي في Mongoose، وشكل رد موحّد لكل الـ API."
+      },
+      {
+        title: "Windows distribution pipeline",
+        titleAr: "خط تجهيز نسخ الويندوز",
+        body: "An MSIX package plus two Inno Setup installers: an all-in-one installer bundling the app, the API server and MongoDB for a single-PC center, and a client-only installer for LAN workstations. The Node backend is compiled to a standalone .exe (esbuild + Node SEA + postject) so the client site never installs Node, and the whole Windows build runs on GitHub Actions — no local Visual Studio needed.",
+        bodyAr: "باكدج MSIX بالإضافة لاتنين installer بـ Inno Setup: واحد شامل بيجمع البرنامج والسيرفر وMongoDB لسنتر بجهاز واحد، وواحد للعميل بس لأجهزة الشبكة. الـ Backend بيتحوّل لملف .exe مستقل (esbuild + Node SEA + postject) عشان مكان العميل ميحتاجش يثبّت Node، وبناء الويندوز كله شغّال على GitHub Actions من غير Visual Studio محلي."
       }
     ],
-    challenges: "Designing an offline-first database schema in Sqflite that handles complex relations (expenses, budgets, savings goals) cleanly. Generating well-formatted, localized PDF and CSV invoices/reports directly on mobile devices was another major technical hurdle.",
-    challengesAr: "تصميم نموذج قاعدة بيانات محلي قوي ومتكامل باستخدام SQLite (Sqflite) يتعامل مع العلاقات المعقدة بين المصروفات والميزانيات وتوفير الأهداف بسلاسة. بالإضافة إلى معالجة وتصدير تقارير PDF و CSV منسقة تدعم اللغتين العربية والإنجليزية مباشرة من الهاتف."
+    challenges: "The hardest and most interesting part is the money engine. Student payments settle outstanding invoices FIFO (oldest first); every collection splits into a teacher share and a center share derived from the group's own pricing model (each price can be an absolute amount or a percentage); teacher settlements are clamped to the remaining balance with anything unpaid carried as deferred debt owed by the center; and monthly rollover regenerates invoices per group. All money-touching writes run inside MongoDB transactions where the deployment supports them, with an automatic non-transactional fallback for standalone Mongo installs.",
+    challengesAr: "أصعب جزء وأهمه هو محرّك الحسابات: مدفوعات الطالب بتسدّد الفواتير المتأخرة الأقدم فالأقدم (FIFO)، وكل تحصيل بينقسم بين المدرّس والسنتر حسب تسعيرة المجموعة نفسها (قيمة ثابتة أو نسبة)، ومحاسبة المدرّس محكومة بالمتبقي مع ترحيل أي باقي كـ «آجل على السنتر»، وفتح الشهر الجديد بيولّد الفواتير من جديد. كل العمليات المالية بتشتغل جوه MongoDB transactions مع fallback تلقائي لو السيرفر standalone."
   },
   {
     title: "LearnFlow — Flutter + Supabase E-Learning Platform",
@@ -1793,77 +1616,207 @@ export const projects: Project[] = [
     challengesAr: "إدارة التوافر الفعلي للحجوزات في الوقت الحقيقي لمنع الحجز المزدوج لنفس الحصة التدريبية، باستخدام معماري MVVM."
   },
   {
-    title: "Management Stocks",
-    slug: "management-stocks",
-    description: "Shopping system with cart, authentication, and order tracking.",
-    techStack: ["Flutter", "API"],
-    images: ["/images/pos_mockup.png"],
-    apkUrl: "https://drive.google.com/file/d/1NMJjVptbIkzTFJixuu85F7pooYblovpK/view",
-    videoUrl: "https://drive.google.com/file/d/1rNMoGTE7pqAsTfGJJO5Q1brqA1RRD9PJ/view",
-    category: "Mobile",
-    problemSolved: "Provides a compact system for shop managers to keep track of their stock levels, process sales and trace incoming orders dynamically.",
-    problemSolvedAr: "توفير نظام مصغر لأصحاب المحلات لمتابعة كميات البضائع، ومعالجة المبيعات وتتبع حالة الطلبات الواردة ديناميكياً.",
+    title: "POS System — Point of Sale for Retail",
+    titleAr: "نظام نقاط البيع — POS System",
+    shortTitle: "POS System",
+    shortTitleAr: "نظام نقاط البيع",
+    slug: "pos-system",
+    description:
+      "A complete Arabic point-of-sale system for sales, inventory, branches and reporting — built with Flutter for Windows desktop on a Feature-First architecture, with 20 independent modules and automated test coverage.",
+    descriptionAr:
+      "نظام نقاط بيع متكامل بالعربي لإدارة المبيعات والمخزون والفروع والتقارير — مبني بـ Flutter لسطح المكتب على Windows، بمعمارية Feature-First و20 وحدة مستقلة وتغطية اختبارات آلية.",
+    detailDescription:
+      "A full sales-management system for shops, supermarkets and pharmacies — entirely Arabic (RTL) and running as a Windows desktop application. It covers the whole working day, from opening the cashier's shift in the morning to closing it and reconciling the drawer, with 6 analytical reports and multi-branch inventory management.",
+    detailDescriptionAr:
+      "نظام إدارة مبيعات متكامل للمحلات والسوبر ماركت والصيدليات، عربي بالكامل (RTL)، بيشتغل كتطبيق سطح مكتب على Windows. بيغطي دورة العمل كاملة من فتح وردية الكاشير الصبح لحد إغلاقها وحساب عجز الدرج، مع 6 تقارير تحليلية وإدارة مخزون متعددة الفروع.",
+    techStack: ["Flutter", "Dart", "Windows Desktop", "Provider", "go_router", "fl_chart", "RTL"],
+    images: [
+      "/images/pos-system/01-pos-cover.png",
+      "/images/pos-system/02-dashboard.png",
+      "/images/pos-system/03-payment.png",
+      "/images/pos-system/04-invoice-tabs.png",
+      "/images/pos-system/15-returns.png",
+      "/images/pos-system/05-inventory.png",
+      "/images/pos-system/10-purchases.png",
+      "/images/pos-system/06-reports.png",
+      "/images/pos-system/13-reports-profit.png",
+      "/images/pos-system/07-products.png",
+      "/images/pos-system/08-permissions.png",
+      "/images/pos-system/09-loyalty.png",
+      "/images/pos-system/11-customers.png",
+      "/images/pos-system/12-expenses.png",
+      "/images/pos-system/16-branches.png",
+      "/images/pos-system/14-settings.png"
+    ],
+    imageCaptions: [
+      "Point of sale — catalog, cart and running total",
+      "Dashboard — KPIs, sales trend and payment methods",
+      "Payment dialog — four methods with instant change calculation",
+      "Parallel invoice tabs with held invoices",
+      "Returns — refunding items from a previous invoice",
+      "Inventory — per-item stock split across branches",
+      "Purchases — partially receiving a purchase order",
+      "Sales report — charts and daily breakdown",
+      "Profit & margin report per item",
+      "Product catalog — search, filters and sorting",
+      "Role permission matrix",
+      "Loyalty program and customer tiers",
+      "Customers and credit accounts",
+      "Expenses and the approval cycle",
+      "Branch management",
+      "Invoice settings and receipt preview"
+    ],
+    imageCaptionsAr: [
+      "شاشة نقطة البيع — الكتالوج والسلة وحساب الإجمالي",
+      "لوحة التحكم — المؤشرات واتجاه المبيعات وطرق الدفع",
+      "نافذة الدفع — أربع طرق وحساب فوري للباقي",
+      "فواتير متعددة بالتوازي مع الفواتير المعلّقة",
+      "المرتجعات — استرجاع من فاتورة سابقة",
+      "المخزون — أرصدة كل صنف موزّعة على الفروع",
+      "المشتريات — استلام أمر شراء جزئي",
+      "تقرير المبيعات — رسوم وتفصيل يومي",
+      "تقرير الأرباح والهوامش لكل صنف",
+      "كتالوج المنتجات — بحث وفلاتر وترتيب",
+      "مصفوفة صلاحيات الأدوار",
+      "برنامج الولاء وفئات العملاء",
+      "العملاء والحسابات الآجلة",
+      "المصروفات ودورة الاعتماد",
+      "إدارة الفروع",
+      "إعدادات الفاتورة ومعاينة الإيصال"
+    ],
+    liveDemoUrl: "https://pos-prototype-omega.vercel.app/",
+    liveDemoLabel: "Live Demo",
+    liveDemoLabelAr: "جرّب الديمو",
+    liveDemoCtaLabel: "Try the live demo",
+    liveDemoCtaLabelAr: "جرّب الديمو المباشر",
+    demoNote:
+      "The demo needs no sign-in — every screen is interactive with Arabic sample data, and you can add, edit and delete freely; everything is saved in your own browser.",
+    demoNoteAr:
+      "الديمو شغال من غير تسجيل دخول — كل الشاشات تفاعلية ببيانات تجريبية عربية، وتقدر تضيف وتعدّل وتحذف وكل حاجة بتتحفظ في متصفحك.",
+    // TODO: fill these in — the repository URL and the Windows release download.
+    // githubUrl: "https://github.com/taha2901/<repo>",
+    // windowsReleaseUrl: "https://github.com/taha2901/<repo>/releases/latest",
+    role: "Full-stack developer — I designed the design system from scratch (colors, typography, spacing, shadows), built the entire UI on a Feature-First architecture, wrote 53 automated tests, and set up a CI/CD pipeline on GitHub Actions that builds the Windows release automatically. The backend (REST API + database) is currently in development, by me as well.",
+    roleAr: "مطوّر Full-Stack — صمّمت نظام التصميم من الصفر (ألوان، تايبوجرافي، مسافات، ظلال) وبنيت الواجهة كاملة بمعمارية Feature-First، وكتبت 53 اختبار آلي، وظبّطت خط إنتاج CI/CD على GitHub Actions بيبني نسخة Windows تلقائيًا. الباك اند (REST API + قاعدة بيانات) قيد التطوير حاليًا بنفس يدي.",
+    status: "Personal project — available to try online.",
+    statusAr: "مشروع شخصي — متاح للتجربة أونلاين",
+    badge: "Live Demo",
+    category: "Desktop",
+    overview:
+      "POS System is a point-of-sale system built with Flutter for Windows desktop, entirely Arabic and right-to-left by design rather than a translated English interface. It is built on a Feature-First architecture of 20 independent modules — each with its own screens, widgets, models and controllers — over a shared `core` layer for the recurring elements.\n\nThe system manages sales, inventory, purchasing, customers, suppliers, employees, expenses and branches, and produces 6 analytical reports with period and branch filters. The most important screen — the cashier screen — is tuned for speed: a cashier can complete a whole invoice without touching the mouse, and work on several invoices in parallel during rush hour.",
+    overviewAr:
+      "«POS System» نظام نقاط بيع مبني بـ Flutter لسطح المكتب (Windows)، عربي بالكامل من اليمين لليسار مش ترجمة لواجهة إنجليزية. اتبنى بمعمارية Feature-First فيها 20 وحدة مستقلة، كل وحدة ليها الشاشات والويدجتس والموديلز والكونترولرز بتاعتها، مع طبقة `core` مشتركة للعناصر المتكررة.\n\nالنظام بيدير المبيعات والمخزون والمشتريات والعملاء والموردين والموظفين والمصروفات والفروع، وبيطلّع 6 تقارير تحليلية بفلاتر فترة وفرع. الشاشة الأهم — شاشة الكاشير — متظبطة للسرعة: الموظف يقدر يعمل فاتورة كاملة من غير ما يلمس الماوس، ويشتغل على أكتر من فاتورة بالتوازي في وقت الزحمة.",
+    problemSolved:
+      "Most point-of-sale systems out there are either English interfaces with half-finished Arabic bolted on, or web systems that are slow and stall the moment the connection drops, or dated programs that are painful to look at for a cashier sitting in front of them 12 hours a day.\n\nThe bigger problem: during rush hour the cashier is stuck holding one customer's invoice while they dig for their wallet, with the queue backed up behind them. Most systems force the cashier to either void the invoice or wait it out.\n\nThis system solves exactly that: multiple invoices open in parallel as tabs, any invoice can be held and recalled at any time, instant barcode search, and a payment pad that computes the change as you type. All of it in an Arabic interface that is easy on the eyes and designed from scratch for the cashier's screen.",
+    problemSolvedAr:
+      "معظم أنظمة نقاط البيع الموجودة إما واجهات إنجليزية متعرّبة بشكل ناقص، أو أنظمة ويب بطيئة بتقف لما النت يفصل، أو برامج قديمة شكلها متعب للكاشير اللي قاعد قدامها 12 ساعة.\n\nوالمشكلة الأكبر: في وقت الزحمة، الكاشير بيبقى ماسك فاتورة عميل واقف بيدوّر على محفظته، والطابور واقف وراه. أغلب الأنظمة بتجبره يلغي الفاتورة أو يستنى.\n\nالنظام ده بيحل الحتة دي بالتحديد: فواتير متعددة بالتوازي في تبويبات، وتعليق أي فاتورة واسترجاعها في أي وقت، وبحث فوري بالباركود، ولوحة دفع بتحسب الباقي وأنت بتكتب. كل ده في واجهة عربية مريحة للعين ومصمّمة من الصفر لشاشة الكاشير.",
+    stats: [
+      { label: "Independent features", labelAr: "Feature مستقلة", value: "20" },
+      { label: "Screens", labelAr: "شاشة", value: "30" },
+      { label: "Dart source files", labelAr: "ملف Dart", value: "472" },
+      { label: "Lines of code", labelAr: "سطر كود", value: "32,692" },
+      { label: "Widgets", labelAr: "Widget", value: "361" },
+      { label: "Automated tests", labelAr: "اختبار آلي", value: "53" },
+      { label: "Controllers", labelAr: "Controller", value: "28" },
+      { label: "Analytical reports", labelAr: "تقارير تحليلية", value: "6" }
+    ],
     keyFeatures: [
-      "Real-time inventory levels tracking",
-      "Order status monitoring",
-      "Auth and roles manager"
+      "🛒 Fast cashier screen — instant search by name, code or barcode, a catalog split by category, and keyboard shortcuts (F2 to search, F4 to pay).",
+      "🗂 Parallel invoices — independent tabs let you serve more than one customer at the same time without voiding anything.",
+      "⏸ Hold & recall invoices — the customer leaves their cart and comes back, and the invoice returns exactly as it was, with its items, discount and customer.",
+      "🏷 Flexible discounts — a fixed amount or a percentage, with a live preview of the total before applying, and the percentage recalculating itself as the cart grows.",
+      "💵 Multi-method payment — cash, card, e-wallet and credit, via a number pad or straight from the keyboard, with instant change calculation.",
+      "📦 Multi-branch inventory — separate stock per branch, transfers between branches, and stock-taking that computes variances and their value at cost.",
+      "⚠️ Low-stock alerts — a minimum level per item, with suggested reorder quantities, their cost, and creating a purchase order straight from them.",
+      "🚚 Purchasing — purchase orders to suppliers, with full or partial receiving that updates inventory automatically and tracks the received percentage.",
+      "↩️ Returns — refunding items from a previous invoice as cash, as store credit, or by reversing the card transaction, with quantities returned to stock.",
+      "👥 Customers & credit accounts — a profile per customer with their purchase history, balance, points and progress toward the next loyalty tier.",
+      "🏅 Loyalty program — three tiers (Silver / Gold / Platinum) with points, perks, and redeeming points as a discount.",
+      "🤝 Suppliers — tracking payables, recording payments, and linking every supplier to their purchase orders.",
+      "🛡 Granular permissions — a permission matrix per role: 19 permissions across 5 groups (sales, inventory, purchasing, finance, administration).",
+      "🕐 Cashier shifts — opening with a float, and closing by comparing the counted cash against the expected amount to compute the shortage or surplus.",
+      "🧾 Expenses — operating items with an approval cycle, plus analysis by item and by branch.",
+      "📊 6 analytical reports — sales, profit and margins, product performance, inventory, payment methods and employee performance — all with period and branch filters.",
+      "🎁 Offers & discounts — three types: percentage, buy-and-get, and quantity discount — with start and end dates.",
+      "⚙️ Full settings — store details, tax rate, receipt layout with a live preview, and connected hardware."
     ],
     keyFeaturesAr: [
-      "تتبع مستويات المخازن والمنتجات لحظياً",
-      "مراقبة تقدم وتاريخ الطلبيات",
-      "إدارة الصلاحيات والمستخدمين"
+      "🛒 شاشة كاشير سريعة — بحث فوري بالاسم أو الكود أو الباركود، كتالوج مقسّم بالفئات، ومختصرات كيبورد (F2 للبحث، F4 للدفع).",
+      "🗂 فواتير متعددة بالتوازي — تبويبات مستقلة تخليك تشتغل على أكتر من عميل في نفس الوقت من غير ما تلغي أي فاتورة.",
+      "⏸ تعليق الفواتير واسترجاعها — العميل يسيب عربيته ويرجع، والفاتورة بأصنافها وخصمها وعميلها بترجع زي ما هي.",
+      "🏷 خصم مرن — بمبلغ ثابت أو نسبة مئوية، مع معاينة حيّة للإجمالي قبل التطبيق، والنسبة بتتحدّث لوحدها لو السلة كبرت.",
+      "💵 دفع متعدد الطرق — كاش وبطاقة ومحفظة إلكترونية وآجل، بلوحة أرقام أو كتابة مباشرة من الكيبورد، وحساب فوري للباقي.",
+      "📦 مخزون متعدد الفروع — أرصدة منفصلة لكل فرع، تحويلات بين الفروع، وجرد بحساب الفروقات وقيمتها بالتكلفة.",
+      "⚠️ تنبيهات نقص المخزون — حد أدنى لكل صنف، مع اقتراح كميات إعادة الطلب وتكلفتها وإنشاء أمر شراء منها مباشرة.",
+      "🚚 المشتريات — أوامر شراء للموردين، واستلام كلي أو جزئي بيحدّث المخزون تلقائيًا ويحسب نسبة الاستلام.",
+      "↩️ المرتجعات — استرجاع أصناف من فاتورة سابقة بردّ كاش أو رصيد للعميل أو عكس عملية البطاقة، مع إرجاع الكميات للمخزون.",
+      "👥 العملاء والحسابات الآجلة — ملف لكل عميل بتاريخ مشترياته ورصيده ونقاطه وتقدّمه لفئة الولاء التالية.",
+      "🏅 برنامج ولاء — ثلاث فئات (فضي / ذهبي / بلاتيني) بنقاط ومزايا واستبدال النقاط كخصم.",
+      "🤝 الموردين — متابعة المستحقات وتسجيل السداد وربط كل مورد بأوامر الشراء بتاعته.",
+      "🛡 صلاحيات دقيقة — مصفوفة صلاحيات لكل دور: 19 صلاحية موزّعة على 5 مجموعات (مبيعات، مخزون، مشتريات، مالية، إدارة).",
+      "🕐 ورديات الكاشير — فتح بالرصيد الافتتاحي، وإغلاق بمقارنة العدّ الفعلي بالمتوقع وحساب العجز أو الزيادة.",
+      "🧾 المصروفات — بنود تشغيل بدورة اعتماد، مع تحليل بالبند وبالفرع.",
+      "📊 6 تقارير تحليلية — مبيعات، أرباح وهوامش، أداء المنتجات، المخزون، طرق الدفع، أداء الموظفين — كلها بفلاتر فترة وفرع.",
+      "🎁 العروض والخصومات — ثلاث أنواع: نسبة مئوية، اشترِ واحصل، وخصم كمية — بمواعيد بداية ونهاية.",
+      "⚙️ إعدادات كاملة — بيانات المتجر، نسبة الضريبة، شكل الإيصال ومعاينته الحيّة، والأجهزة المتصلة."
     ],
-    challenges: "Designing high-frequency API syncing for inventory updates, ensuring stock levels are consistent.",
-    challengesAr: "إعداد عمليات مزامنة البيانات بتردد عالٍ مع الـ APIs لضمان دقة وتطابق كميات البضائع المعروضة."
+    techGroups: [
+      {
+        label: "UI",
+        labelAr: "الواجهة",
+        items: ["Flutter", "Dart 3.12", "Material 3", "Arabic RTL", "Cairo Font"]
+      },
+      {
+        label: "State & routing",
+        labelAr: "إدارة الحالة والتوجيه",
+        items: ["Provider", "ChangeNotifier", "go_router"]
+      },
+      {
+        label: "Libraries & tooling",
+        labelAr: "المكتبات والأدوات",
+        items: ["fl_chart", "data_table_2", "google_fonts", "intl", "flutter_test"]
+      },
+      {
+        label: "Backend (in progress)",
+        labelAr: "الباك اند (قيد التطوير)",
+        items: ["REST API", "Repository Pattern", "Relational DB"]
+      },
+      {
+        label: "DevOps",
+        labelAr: "DEVOPS",
+        items: ["GitHub Actions", "Windows Release Build", "Vercel (demo)"]
+      }
+    ],
+    challenges:
+      "Keeping 20 independent features from turning into 20 different-looking apps was the real work. Every shared element — buttons, tables, KPI tiles, dialogs, empty states — lives in a `core` layer, so a spacing or shadow decision is made once and holds across all 30 screens. The 53 automated tests exist for the same reason: they pin down the calculations that must never drift (tax, discounts, change, stock deduction, shift variance) so a refactor in one feature cannot quietly break another.\n\nThe cashier screen was the hardest piece: several invoices alive at once, each with its own items, customer and discount, plus held invoices that can be recalled at any moment — all while the whole layout is right-to-left and has to stay driveable from the keyboard alone.",
+    challengesAr:
+      "أصعب حاجة كانت إن الـ 20 وحدة المستقلة ما تتحوّلش لـ 20 برنامج شكلهم مختلف. كل عنصر متكرر — الأزرار والجداول وكروت المؤشرات والنوافذ وحالات الفراغ — قاعد في طبقة `core`، فأي قرار في المسافات أو الظلال بيتاخد مرة واحدة وبيمشي على الـ 30 شاشة كلها. والـ 53 اختبار آلي موجودين لنفس السبب: بيثبّتوا الحسابات اللي مينفعش تغلط أبدًا (الضريبة، الخصومات، الباقي، خصم المخزون، فرق الوردية) عشان أي refactor في وحدة ما يكسرش وحدة تانية من ورا ضهري.\n\nشاشة الكاشير كانت أصعب جزء: أكتر من فاتورة عايشة في نفس الوقت، كل واحدة بأصنافها وعميلها وخصمها، وكمان فواتير معلّقة ممكن ترجع في أي لحظة — وكل ده والتخطيط كله من اليمين للشمال ولازم يفضل ينفع يتساق من الكيبورد لوحده."
   },
   {
-    title: "Daily Challenges Diabetes",
-    slug: "diabetes-challenges",
-    description: "Healthcare app for tracking diabetes and appointments.",
-    techStack: ["Flutter", "Bloc"],
-    images: ["/images/challenge_diabetis.png"],
-    githubUrl: "https://github.com/taha2901/Diaily-Challenge-Diabetis",
-    apkUrl: "https://drive.google.com/file/d/1oGVjf7TefQNExTtQwuE-KxnAr-jap9DR/view",
-    videoUrl: "https://drive.google.com/file/d/1DdwR92_YnzFSgl7GA8wNAz8OF04CzYz7/view",
-    category: "Mobile",
-    problemSolved: "Helping diabetic patients monitor their daily health targets, schedule clinical appointments and track medication schedules.",
-    problemSolvedAr: "مساعدة مرضى السكري في متابعة أهدافهم الصحية اليومية، وتنظيم وحجز مواعيد العيادات، وتتبع جدول جرعات الأدوية.",
+    title: "Market Neurons",
+    slug: "market-neurons",
+    description: "Business website providing detailed information for analysts to purchase fertilizers like urea, with an articles section.",
+    techStack: ["Next.js", "React", "Web"],
+    githubUrl: "https://market-neurons.vercel.app/",
+    images: ["/images/market_neurons.png"],
+    badge: "Live",
+    category: "Web",
+    problemSolved: "Enables analysts and global buyers to track fertilizer specs (e.g. Urea), read research publications, and directly request bulk orders.",
+    problemSolvedAr: "تمكين المحللين والمشترين من متابعة مواصفات الأسمدة، وقراءة مقالات البحوث، وتقديم طلبات الشراء الكبيرة مباشرة.",
     keyFeatures: [
-      "Interactive daily health checklist",
-      "Appointment scheduler",
-      "Detailed glucose chart visualizer"
+      "Premium responsive landing page design",
+      "SEO optimized Next.js setup",
+      "Bulk order requests forms",
+      "Dynamic articles blog system"
     ],
     keyFeaturesAr: [
-      "قائمة تفاعلية بالأنشطة اليومية والوجبات",
-      "مجدول ذكي لمواعيد الطبيب",
-      "مخططات ورسوم بيانية لتسجيل مستويات السكر"
+      "واجهة هبوط احترافية ومتجاوبة بالكامل",
+      "أداء وسيو ممتازين باستخدام Next.js",
+      "نموذج طلب شراء كميات كبيرة",
+      "مدونة مقالات وأخبار ديناميكية"
     ],
-    challenges: "Providing local alarm notifications that trigger reliably even when the mobile app is in the background or killed.",
-    challengesAr: "تشغيل التنبيهات والإشعارات المحلية بمواعيد الأنسولين بدقة حتى عند إغلاق التطبيق تماماً أو وجوده بالخلفية."
-  },
-  {
-    title: "Home Services App",
-    slug: "home-services",
-    description: "Home services booking app.",
-    techStack: ["Flutter"],
-    images: ["/images/unnamed.png"],
-    apkUrl: "https://drive.google.com/file/d/1YEvF58aSRMssaZ3kkkfUiMiS49TOVO4x/view",
-    videoUrl: "https://drive.google.com/file/d/1e-G3_eP47xVgK1lDIvwDRE-WzpZELnjJ/view",
-    category: "Mobile",
-    problemSolved: "Connecting house owners with verified handymen and maintenance specialists for plumbing, electricity, and cleaning services.",
-    problemSolvedAr: "ربط أصحاب المنازل بالحرفيين والفنيين المعتمدين لأعمال السباكة والكهرباء والدهانات والتنظيف.",
-    keyFeatures: [
-      "Service providers list and profiles",
-      "Booking request system",
-      "Rating and review system"
-    ],
-    keyFeaturesAr: [
-      "تصفح قوائم الفنيين المتاحين وتقييماتهم",
-      "نظام حجز طلبات الخدمات المنزلية",
-      "نظام تقييمات متبادل لضمان الجودة"
-    ],
-    challenges: "Implementing filters to query providers based on proximity, ratings, and active status.",
-    challengesAr: "بناء فلاتر متطورة لفرز مزودي الخدمة بناءً على القرب الجغرافي، التقييمات، والنشاط الحالي."
+    challenges: "Implementing SEO metrics and pre-rendering strategies to rank fertilizer keywords high in search indices.",
+    challengesAr: "إعداد معايير الـ SEO المتكاملة واستراتيجيات الرندرة المسبقة لتصدر محركات البحث في مجال الأسمدة."
   },
   {
     title: "Loyalty App",
@@ -1917,28 +1870,29 @@ export const projects: Project[] = [
     challengesAr: "إدارة وحساب تعارضات المواعيد وجدول الأطباء بدقة ومزامنتها عبر الـ Cubits."
   },
   {
-    title: "WatchTube App",
-    slug: "watchtube",
-    description: "Minimal YouTube player.",
-    techStack: ["Flutter"],
-    images: ["/images/watch_tube.png"],
-    apkUrl: "https://drive.google.com/file/d/11goTwnRtpcin1eK_kGi75b9JnBwldOXB/view",
-    videoUrl: "https://drive.google.com/file/d/1ctSmD6_bjr5lTCjCX8jwQPo6BzGoTg9t/view",
+    title: "Daily Challenges Diabetes",
+    slug: "diabetes-challenges",
+    description: "Healthcare app for tracking diabetes and appointments.",
+    techStack: ["Flutter", "Bloc"],
+    images: ["/images/challenge_diabetis.png"],
+    githubUrl: "https://github.com/taha2901/Diaily-Challenge-Diabetis",
+    apkUrl: "https://drive.google.com/file/d/1oGVjf7TefQNExTtQwuE-KxnAr-jap9DR/view",
+    videoUrl: "https://drive.google.com/file/d/1DdwR92_YnzFSgl7GA8wNAz8OF04CzYz7/view",
     category: "Mobile",
-    problemSolved: "A light, minimal client wrapper for YouTube that removes heavy bloatware and lists videos cleanly.",
-    problemSolvedAr: "واجهة مستعرض خفيفة وبسيطة لفيديوهات اليوتيوب تزيل الإعلانات والتعقيدات غير الضرورية.",
+    problemSolved: "Helping diabetic patients monitor their daily health targets, schedule clinical appointments and track medication schedules.",
+    problemSolvedAr: "مساعدة مرضى السكري في متابعة أهدافهم الصحية اليومية، وتنظيم وحجز مواعيد العيادات، وتتبع جدول جرعات الأدوية.",
     keyFeatures: [
-      "Ad-free clean feed view",
-      "Sleek mini-player picture-in-picture style",
-      "Custom playlists and history tracker"
+      "Interactive daily health checklist",
+      "Appointment scheduler",
+      "Detailed glucose chart visualizer"
     ],
     keyFeaturesAr: [
-      "واجهة تصفح نظيفة خالية من التشتيت",
-      "مشغل فيديو مصغر (Picture-in-Picture) مميز",
-      "قوائم تشغيل وسجل مشاهدات خاص بالمستخدم"
+      "قائمة تفاعلية بالأنشطة اليومية والوجبات",
+      "مجدول ذكي لمواعيد الطبيب",
+      "مخططات ورسوم بيانية لتسجيل مستويات السكر"
     ],
-    challenges: "Handling background audio playback and parsing video streams directly with minimum latency.",
-    challengesAr: "تنسيق تشغيل الصوت بالخلفية وسحب روابط تشغيل الفيديو المباشرة بأقل زمن استجابة."
+    challenges: "Providing local alarm notifications that trigger reliably even when the mobile app is in the background or killed.",
+    challengesAr: "تشغيل التنبيهات والإشعارات المحلية بمواعيد الأنسولين بدقة حتى عند إغلاق التطبيق تماماً أو وجوده بالخلفية."
   },
   {
     title: "Management Stocks (Desktop)",
@@ -2012,6 +1966,78 @@ export const projects: Project[] = [
     challengesAr: "تحسين عمليات الاستعلام في SQLite وخصم الكميات من المخزون خلال أجزاء من الثانية أثناء البيع السريع."
   },
   {
+    title: "Management Stocks",
+    slug: "management-stocks",
+    description: "Shopping system with cart, authentication, and order tracking.",
+    techStack: ["Flutter", "API"],
+    images: ["/images/pos_mockup.png"],
+    apkUrl: "https://drive.google.com/file/d/1NMJjVptbIkzTFJixuu85F7pooYblovpK/view",
+    videoUrl: "https://drive.google.com/file/d/1rNMoGTE7pqAsTfGJJO5Q1brqA1RRD9PJ/view",
+    category: "Mobile",
+    problemSolved: "Provides a compact system for shop managers to keep track of their stock levels, process sales and trace incoming orders dynamically.",
+    problemSolvedAr: "توفير نظام مصغر لأصحاب المحلات لمتابعة كميات البضائع، ومعالجة المبيعات وتتبع حالة الطلبات الواردة ديناميكياً.",
+    keyFeatures: [
+      "Real-time inventory levels tracking",
+      "Order status monitoring",
+      "Auth and roles manager"
+    ],
+    keyFeaturesAr: [
+      "تتبع مستويات المخازن والمنتجات لحظياً",
+      "مراقبة تقدم وتاريخ الطلبيات",
+      "إدارة الصلاحيات والمستخدمين"
+    ],
+    challenges: "Designing high-frequency API syncing for inventory updates, ensuring stock levels are consistent.",
+    challengesAr: "إعداد عمليات مزامنة البيانات بتردد عالٍ مع الـ APIs لضمان دقة وتطابق كميات البضائع المعروضة."
+  },
+  {
+    title: "Home Services App",
+    slug: "home-services",
+    description: "Home services booking app.",
+    techStack: ["Flutter"],
+    images: ["/images/unnamed.png"],
+    apkUrl: "https://drive.google.com/file/d/1YEvF58aSRMssaZ3kkkfUiMiS49TOVO4x/view",
+    videoUrl: "https://drive.google.com/file/d/1e-G3_eP47xVgK1lDIvwDRE-WzpZELnjJ/view",
+    category: "Mobile",
+    problemSolved: "Connecting house owners with verified handymen and maintenance specialists for plumbing, electricity, and cleaning services.",
+    problemSolvedAr: "ربط أصحاب المنازل بالحرفيين والفنيين المعتمدين لأعمال السباكة والكهرباء والدهانات والتنظيف.",
+    keyFeatures: [
+      "Service providers list and profiles",
+      "Booking request system",
+      "Rating and review system"
+    ],
+    keyFeaturesAr: [
+      "تصفح قوائم الفنيين المتاحين وتقييماتهم",
+      "نظام حجز طلبات الخدمات المنزلية",
+      "نظام تقييمات متبادل لضمان الجودة"
+    ],
+    challenges: "Implementing filters to query providers based on proximity, ratings, and active status.",
+    challengesAr: "بناء فلاتر متطورة لفرز مزودي الخدمة بناءً على القرب الجغرافي، التقييمات، والنشاط الحالي."
+  },
+  {
+    title: "WatchTube App",
+    slug: "watchtube",
+    description: "Minimal YouTube player.",
+    techStack: ["Flutter"],
+    images: ["/images/watch_tube.png"],
+    apkUrl: "https://drive.google.com/file/d/11goTwnRtpcin1eK_kGi75b9JnBwldOXB/view",
+    videoUrl: "https://drive.google.com/file/d/1ctSmD6_bjr5lTCjCX8jwQPo6BzGoTg9t/view",
+    category: "Mobile",
+    problemSolved: "A light, minimal client wrapper for YouTube that removes heavy bloatware and lists videos cleanly.",
+    problemSolvedAr: "واجهة مستعرض خفيفة وبسيطة لفيديوهات اليوتيوب تزيل الإعلانات والتعقيدات غير الضرورية.",
+    keyFeatures: [
+      "Ad-free clean feed view",
+      "Sleek mini-player picture-in-picture style",
+      "Custom playlists and history tracker"
+    ],
+    keyFeaturesAr: [
+      "واجهة تصفح نظيفة خالية من التشتيت",
+      "مشغل فيديو مصغر (Picture-in-Picture) مميز",
+      "قوائم تشغيل وسجل مشاهدات خاص بالمستخدم"
+    ],
+    challenges: "Handling background audio playback and parsing video streams directly with minimum latency.",
+    challengesAr: "تنسيق تشغيل الصوت بالخلفية وسحب روابط تشغيل الفيديو المباشرة بأقل زمن استجابة."
+  },
+  {
     title: "EduGate (School Management)",
     slug: "edugate",
     description: "School management system.",
@@ -2034,31 +2060,5 @@ export const projects: Project[] = [
     ],
     challenges: "Structuring complex layouts that present dense datasets without layout shifting or readability issues.",
     challengesAr: "هيكلة تخطيطات واجهات مستخدم معقدة تعرض بيانات كثيفة بوضوح تام دون تداخل."
-  },
-  {
-    title: "Market Neurons",
-    slug: "market-neurons",
-    description: "Business website providing detailed information for analysts to purchase fertilizers like urea, with an articles section.",
-    techStack: ["Next.js", "React", "Web"],
-    githubUrl: "https://market-neurons.vercel.app/",
-    images: ["/images/market_neurons.png"],
-    badge: "Live",
-    category: "Web",
-    problemSolved: "Enables analysts and global buyers to track fertilizer specs (e.g. Urea), read research publications, and directly request bulk orders.",
-    problemSolvedAr: "تمكين المحللين والمشترين من متابعة مواصفات الأسمدة، وقراءة مقالات البحوث، وتقديم طلبات الشراء الكبيرة مباشرة.",
-    keyFeatures: [
-      "Premium responsive landing page design",
-      "SEO optimized Next.js setup",
-      "Bulk order requests forms",
-      "Dynamic articles blog system"
-    ],
-    keyFeaturesAr: [
-      "واجهة هبوط احترافية ومتجاوبة بالكامل",
-      "أداء وسيو ممتازين باستخدام Next.js",
-      "نموذج طلب شراء كميات كبيرة",
-      "مدونة مقالات وأخبار ديناميكية"
-    ],
-    challenges: "Implementing SEO metrics and pre-rendering strategies to rank fertilizer keywords high in search indices.",
-    challengesAr: "إعداد معايير الـ SEO المتكاملة واستراتيجيات الرندرة المسبقة لتصدر محركات البحث في مجال الأسمدة."
   }
 ];
