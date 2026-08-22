@@ -8,14 +8,15 @@ import {
   Linkedin,
   Sparkles,
 } from "lucide-react";
-import { personalInfo } from "@/data/constants";
+import { personalInfo, totalProjects, downloadableBuilds } from "@/data/constants";
 import { useLanguage } from "@/hooks/useLanguage";
 
 const techStack = ["Flutter", "Dart", "Firebase", "Supabase", "REST APIs"];
 
+// Derived from the project list so the hero can never drift out of sync with the About section.
 const stats = [
-  { value: "15+", label: "Projects", labelAr: "مشروع" },
-  { value: "1+", label: "Years Exp.", labelAr: "سنوات خبرة" },
+  { value: `${totalProjects}`, label: "Projects", labelAr: "مشروع" },
+  { value: `${downloadableBuilds}`, label: "Installable", labelAr: "نسخة للتثبيت" },
 ];
 
 const socialLinks = [

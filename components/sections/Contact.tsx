@@ -110,14 +110,13 @@ export default function Contact() {
             />
 
             <div className="relative z-10">
-              <div className="mb-3 text-4xl sm:mb-4 sm:text-5xl">🚀</div>
               <h3 className="font-display mb-2 text-xl font-bold text-slate-900 dark:text-white sm:mb-3 sm:text-2xl">
-                {isAr ? "لنبني شيئاً رائعاً معاً" : "Let's Build Something Amazing"}
+                {isAr ? "عندك مشروع؟" : "Got a project in mind?"}
               </h3>
               <p className="mx-auto mb-6 max-w-sm text-sm text-slate-500 dark:text-slate-400 sm:mb-8 sm:text-base">
                 {isAr
-                  ? "لديك فكرة؟ أنا هنا لأحولها إلى تطبيق موبايل احترافي"
-                  : "Have an idea? I'm here to turn it into a professional mobile app"}
+                  ? "ابعتلي تفاصيله وأرد عليك خلال يوم."
+                  : "Send me the details and I'll get back to you within a day."}
               </p>
 
               <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:justify-center">

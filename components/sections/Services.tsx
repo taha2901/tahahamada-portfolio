@@ -2,8 +2,17 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { Smartphone, Lightbulb, Webhook, Palette, CloudUpload, type LucideIcon } from "lucide-react";
 import { services } from "@/data/constants";
 import { useLanguage } from "@/hooks/useLanguage";
+
+const serviceIcons: Record<string, LucideIcon> = {
+  mobile: Smartphone,
+  idea: Lightbulb,
+  api: Webhook,
+  ui: Palette,
+  deployment: CloudUpload,
+};
 
 export default function Services() {
   const { isAr } = useLanguage();
@@ -63,13 +72,12 @@ dark:hover:shadow-none
 "
             >
               {/* Icon */}
-              <motion.div
-                className="text-4xl mb-5 block"
-                animate={{ rotate: [0, -5, 5, 0] }}
-                transition={{ duration: 3, repeat: Infinity, delay: i * 0.5 }}
-              >
-                {service.icon}
-              </motion.div>
+              <div className="mb-5 flex h-11 w-11 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 text-slate-500 transition-colors duration-300 group-hover:border-brand-400/40 group-hover:text-brand-400 dark:border-white/10 dark:bg-white/5 dark:text-slate-400">
+                {(() => {
+                  const Icon = serviceIcons[service.icon];
+                  return Icon ? <Icon size={20} strokeWidth={1.75} /> : null;
+                })()}
+              </div>
 
               <h3 className="font-display text-xl font-bold text-slate-900 dark:text-white mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                 {isAr ? service.titleAr : service.title}

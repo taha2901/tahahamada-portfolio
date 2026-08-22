@@ -1,38 +1,41 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { GraduationCap, Briefcase, Code2, Star } from "lucide-react";
-import { personalInfo, yearsOfExperience, totalProjects } from "@/data/constants";
+import { GraduationCap, Briefcase, Code2, Download, Github } from "lucide-react";
+import {
+  personalInfo,
+  yearsOfExperience,
+  totalProjects,
+  downloadableBuilds,
+  openSourceProjects,
+} from "@/data/constants";
 import { useLanguage } from "@/hooks/useLanguage";
 
+// Every figure here is countable from the project list — no rounded-up or unverifiable claims.
 const stats = [
   {
     icon: <Briefcase size={20} />,
-    value: `${yearsOfExperience}+`,
-    label: "Years Experience",
-    labelAr: "سنوات الخبرة",
-    color: "#0ea5e9",
+    value: `${yearsOfExperience}`,
+    label: "Year Experience",
+    labelAr: "سنة خبرة",
   },
   {
     icon: <Code2 size={20} />,
-    value: `${totalProjects}+`,
+    value: `${totalProjects}`,
     label: "Projects Built",
     labelAr: "مشروع منجز",
-    color: "#8b5cf6",
   },
   {
-    icon: <Star size={20} />,
-    value: "100%",
-    label: "Client Satisfaction",
-    labelAr: "رضا العملاء",
-    color: "#06b6d4",
+    icon: <Download size={20} />,
+    value: `${downloadableBuilds}`,
+    label: "Installable Builds",
+    labelAr: "نسخة قابلة للتثبيت",
   },
   {
-    icon: <GraduationCap size={20} />,
-    value: "B.Sc.",
-    label: "Computer Science",
-    labelAr: "علوم الحاسب",
-    color: "#ec4899",
+    icon: <Github size={20} />,
+    value: `${openSourceProjects}`,
+    label: "Open Source",
+    labelAr: "مفتوح المصدر",
   },
 ];
 
@@ -73,24 +76,10 @@ export default function About() {
             transition={{ duration: 0.7 }}
             className="space-y-6"
           >
-            {/* Avatar */}
-            <div className="relative w-24 h-24 mb-8">
-              <div
-                className="w-full h-full rounded-2xl flex items-center justify-center text-4xl blob"
-                style={{
-                  background: "linear-gradient(135deg, rgba(14,165,233,0.2), rgba(139,92,246,0.2))",
-                  border: "1px solid rgba(14,165,233,0.3)",
-                }}
-              >
-                👨‍💻
-              </div>
-              <div className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-green-400 border-2 border-white dark:border-slate-900 animate-pulse" />
-            </div>
-
             <h3 className="font-display text-2xl font-semibold text-slate-900 dark:text-white">
               {isAr
                 ? "مطور Flutter متخصص في تطبيقات الموبايل"
-                : "Flutter developer about mobile experiences"}
+                : "Flutter developer focused on mobile apps"}
             </h3>
 
             <p className="text-slate-600 dark:text-slate-400 text-sm">              {isAr
@@ -141,16 +130,10 @@ dark:border-white/10
 hover:shadow-lg hover:shadow-black/5
 dark:hover:shadow-none
 "              >
-                <div
-                  className="w-10 h-10 rounded-xl flex items-center justify-center mx-auto mb-3 transition-transform group-hover:scale-110"
-                  style={{ background: `${stat.color}20`, color: stat.color, border: `1px solid ${stat.color}30` }}
-                >
+                <div className="w-10 h-10 rounded-xl flex items-center justify-center mx-auto mb-3 border border-slate-200 bg-slate-50 text-slate-400 transition-colors group-hover:text-brand-400 dark:border-white/10 dark:bg-white/5 dark:text-slate-500">
                   {stat.icon}
                 </div>
-                <div
-                  className="font-display text-3xl font-bold mb-1"
-                  style={{ color: stat.color }}
-                >
+                <div className="font-display text-3xl font-bold mb-1 text-slate-900 dark:text-white">
                   {stat.value}
                 </div>
                 <p className="text-slate-500 dark:text-slate-400 text-sm">

@@ -1,8 +1,31 @@
 "use client";
 
 import { motion } from "framer-motion";
+import {
+  Smartphone, Code2, Flame, Database, Webhook, Server, Workflow, GitBranch,
+  MonitorSmartphone, Bell, CreditCard, MapPin, Film, CloudUpload, Boxes,
+  type LucideIcon,
+} from "lucide-react";
 import { skills } from "@/data/constants";
 import { useLanguage } from "@/hooks/useLanguage";
+
+const skillIcons: Record<string, LucideIcon> = {
+  flutter: Smartphone,
+  dart: Code2,
+  firebase: Flame,
+  sqlite: Database,
+  api: Webhook,
+  dotnet: Server,
+  state: Workflow,
+  git: GitBranch,
+  responsive: MonitorSmartphone,
+  notifications: Bell,
+  payments: CreditCard,
+  maps: MapPin,
+  animations: Film,
+  deployment: CloudUpload,
+  supabase: Boxes,
+};
 
 export default function Skills() {
   const { isAr } = useLanguage();
@@ -45,8 +68,11 @@ export default function Skills() {
             >
               <div className="relative h-full rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-white/5 backdrop-blur-md px-3 py-3 sm:px-4 sm:py-3 flex flex-col items-center justify-center gap-2 text-center transition-all duration-300 hover:border-brand-400/40 hover:bg-slate-100 dark:hover:bg-white/10 shadow-sm dark:shadow-none">
                 {/* Icon */}
-                <div className="text-xl sm:text-2xl transition-transform duration-300 group-hover:scale-110">
-                  {skill.icon}
+                <div className="text-slate-400 dark:text-slate-500 transition-colors duration-300 group-hover:text-brand-400">
+                  {(() => {
+                    const Icon = skillIcons[skill.icon];
+                    return Icon ? <Icon size={20} strokeWidth={1.75} /> : null;
+                  })()}
                 </div>
 
                 {/* Name */}
