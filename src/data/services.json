@@ -1,0 +1,37 @@
+[
+ {
+  "icon": "mobile",
+  "title": "Flutter App Development",
+  "titleAr": "تطوير تطبيقات Flutter",
+  "description": "One Flutter codebase for Android and iOS, with a separate desktop layout where the screen needs it.",
+  "descriptionAr": "كود Flutter واحد لأندرويد وiOS، وتخطيط ديسكتوب منفصل للشاشات اللي محتاجة كده."
+ },
+ {
+  "icon": "idea",
+  "title": "Idea to Product",
+  "titleAr": "من الفكرة إلى المنتج",
+  "description": "I take a concept through screens, state, and a signed build you can hand to real users.",
+  "descriptionAr": "آخد الفكرة من الشاشات لإدارة الحالة لنسخة موقّعة تقدر تديها لمستخدمين حقيقيين."
+ },
+ {
+  "icon": "api",
+  "title": "API Integration",
+  "titleAr": "تكامل الـ API",
+  "description": "REST integration, JWT auth with token refresh, and offline caching in SQLite.",
+  "descriptionAr": "ربط REST، ومصادقة JWT مع تجديد التوكن، وتخزين محلي في SQLite للعمل بدون إنترنت."
+ },
+ {
+  "icon": "ui",
+  "title": "UI Implementation",
+  "titleAr": "تنفيذ الواجهات",
+  "description": "Turning a Figma file into Flutter widgets that hold up in Arabic RTL and English LTR.",
+  "descriptionAr": "تحويل ملف Figma لويدجت Flutter تشتغل صح بالعربي RTL والإنجليزي LTR."
+ },
+ {
+  "icon": "deployment",
+  "title": "Release & Deployment",
+  "titleAr": "الإصدار والنشر",
+  "description": "Release builds, app signing, and publishing to Google Play.",
+  "descriptionAr": "بناء نسخ الإصدار، وتوقيع التطبيق، والنشر على Google Play."
+ }
+]
