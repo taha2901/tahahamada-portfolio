@@ -283,7 +283,7 @@
    "PDF & CSV"
   ],
   "images": [
-   "/images/beitna/beitna.png"
+   "/images/beitna/beitna.webp"
   ],
   "gallery": [
    {
@@ -1061,7 +1061,7 @@
    "Provider"
   ],
   "images": [
-   "/images/sofrety/soferty.png",
+   "/images/sofrety/soferty.webp",
    "/images/sofrety/01-home.webp",
    "/images/sofrety/02-restaurant.webp",
    "/images/sofrety/03-restaurant-menu.webp",
@@ -1544,7 +1544,7 @@
    "PDF"
   ],
   "images": [
-   "/images/learnflow/e_learning.png"
+   "/images/learnflow/e_learning.webp"
   ],
   "phoneFrame": true,
   "gallery": [
@@ -2212,7 +2212,7 @@
    "Bloc"
   ],
   "images": [
-   "/images/product-overview.png"
+   "/images/product-overview.webp"
   ],
   "githubUrl": "https://github.com/taha2901/DoctorDocApp",
   "apkUrl": "https://drive.google.com/file/d/1VwhMaGUsjLUM1h508_FhAXRxMdfWPEzM/view",
@@ -2242,7 +2242,7 @@
    "Bloc"
   ],
   "images": [
-   "/images/challenge_diabetis.png"
+   "/images/challenge_diabetis.webp"
   ],
   "githubUrl": "https://github.com/taha2901/Diaily-Challenge-Diabetis",
   "apkUrl": "https://drive.google.com/file/d/1oGVjf7TefQNExTtQwuE-KxnAr-jap9DR/view",
@@ -2272,7 +2272,7 @@
    "Desktop"
   ],
   "images": [
-   "/images/screenshot-2026-01-16-030944.png"
+   "/images/screenshot-2026-01-16-030944.webp"
   ],
   "videoUrl": "https://drive.google.com/file/d/1DH1TtyXv8l5f7sLBO0dw8BoCBXPnJKTj/view",
   "category": "Desktop",
@@ -2300,7 +2300,7 @@
    "SQLite"
   ],
   "images": [
-   "/images/gym_manager.png"
+   "/images/gym_manager.webp"
   ],
   "videoUrl": "https://drive.google.com/file/d/1Pi4W4iKZGFf1arMaVdthMv0xMQlJLE_I/view",
   "badge": "Offline",
@@ -2329,7 +2329,7 @@
    "SQLite"
   ],
   "images": [
-   "/images/mockap-stoks-sqlite.png"
+   "/images/mockap-stoks-sqlite.webp"
   ],
   "videoUrl": "https://drive.google.com/file/d/13R36k2unKcR6YIgrvHGA2D7IJk58XZcp/view",
   "badge": "Offline",
@@ -2358,7 +2358,7 @@
    "API"
   ],
   "images": [
-   "/images/pos_mockup.png"
+   "/images/pos_mockup.webp"
   ],
   "apkUrl": "https://drive.google.com/file/d/1NMJjVptbIkzTFJixuu85F7pooYblovpK/view",
   "videoUrl": "https://drive.google.com/file/d/1rNMoGTE7pqAsTfGJJO5Q1brqA1RRD9PJ/view",
@@ -2386,7 +2386,7 @@
    "Flutter"
   ],
   "images": [
-   "/images/unnamed.png"
+   "/images/unnamed.webp"
   ],
   "apkUrl": "https://drive.google.com/file/d/1YEvF58aSRMssaZ3kkkfUiMiS49TOVO4x/view",
   "videoUrl": "https://drive.google.com/file/d/1e-G3_eP47xVgK1lDIvwDRE-WzpZELnjJ/view",
